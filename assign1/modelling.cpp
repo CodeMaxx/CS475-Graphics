@@ -1,5 +1,10 @@
 #include "gl_framework.hpp"
 #include "shader_util.hpp"
+#include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
+#include "glm/mat4x4.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 std::vector<float> points;
 
@@ -8,6 +13,11 @@ GLFWwindow* window;
 GLuint shaderProgram;
 GLuint vbo, vao;
 state st;
+GLuint transMatrix;
+glm::mat4 rotation_matrix;
+glm::mat4 ortho_matrix;
+glm::mat4 modelview_matrix;
+GLfloat xrot=0.0,yrot=0.0,zrot=0.0;
 
 void initShadersGL(void)
 {
@@ -40,6 +50,8 @@ void initVertexBufferGL(void)
   //This the layout of our first vertex buffer
   //"0" means define the layout for attribute number 0. "3" means that the variables are vec3 made from every 3 floats
   glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+  transMatrix = glGetUniformLocation( shaderProgram, "transMatrix");
 }
 
 void renderGL(void)
@@ -64,6 +76,16 @@ void renderGL(void)
     std::cout << "ddd" << points[points.size()-3] << " " << points[points.size()-2] <<std::endl;
     glBufferData (GL_ARRAY_BUFFER, points.size() * sizeof (float), &points[0], GL_STATIC_DRAW);
   }
+
+  rotation_matrix = glm::rotate(glm::mat4(1.0f), xrot, glm::vec3(1.0f,0.0f,0.0f));
+  rotation_matrix = glm::rotate(rotation_matrix, yrot, glm::vec3(0.0f,1.0f,0.0f));
+  rotation_matrix = glm::rotate(rotation_matrix, zrot, glm::vec3(0.0f,0.0f,1.0f));
+  ortho_matrix = glm::ortho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0);
+
+  modelview_matrix = ortho_matrix * rotation_matrix;
+
+  glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
+
   glPointSize(10);
   glVertexPointer(3, GL_FLOAT, 0, NULL);
   glDrawArrays(GL_POINTS, 0, points.size()/3);
