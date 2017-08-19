@@ -15,9 +15,10 @@ GLuint vbo, vao;
 state st;
 GLuint transMatrix;
 glm::mat4 rotation_matrix;
-glm::mat4 ortho_matrix;
+glm::mat4 translation_matrix;
 glm::mat4 modelview_matrix;
-GLfloat xrot=0.0,yrot=0.0,zrot=0.0;
+GLfloat xpos=0.5,ypos=0.5,zpos=0.0;
+GLfloat xrot=0.0,yrot=1.5708,zrot=0.0;
 
 void initShadersGL(void)
 {
@@ -77,12 +78,12 @@ void renderGL(void)
     glBufferData (GL_ARRAY_BUFFER, points.size() * sizeof (float), &points[0], GL_STATIC_DRAW);
   }
 
-  rotation_matrix = glm::rotate(glm::mat4(1.0f), xrot, glm::vec3(1.0f,0.0f,0.0f));
+  translation_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(xpos,ypos,zpos));
+  rotation_matrix = glm::rotate(translation_matrix, xrot, glm::vec3(1.0f,0.0f,0.0f));
   rotation_matrix = glm::rotate(rotation_matrix, yrot, glm::vec3(0.0f,1.0f,0.0f));
   rotation_matrix = glm::rotate(rotation_matrix, zrot, glm::vec3(0.0f,0.0f,1.0f));
-  ortho_matrix = glm::ortho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0);
 
-  modelview_matrix = ortho_matrix * rotation_matrix;
+  modelview_matrix = rotation_matrix;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
@@ -155,7 +156,6 @@ int main(int argc, char** argv)
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
     {
-
       // Render here
       renderGL();
       st.new_point = 0;
