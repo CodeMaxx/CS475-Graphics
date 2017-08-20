@@ -6,8 +6,6 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-std::vector<float> points;
-
 //! The pointer to the GLFW window
 GLFWwindow* window;
 GLuint shaderProgram;
@@ -46,7 +44,7 @@ void initVertexBufferGL(void)
   //Set it as the current buffer to be used by binding it
   glBindBuffer (GL_ARRAY_BUFFER, vbo);
   //Copy the points into the current buffer - 9 float values, start pointer and static data
-  glBufferData (GL_ARRAY_BUFFER, points.size() * sizeof (float), &points[0], GL_STATIC_DRAW);
+  glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float), &st.pts[0], GL_STATIC_DRAW);
 
   //Ask GL for a Vertex Array Object (vao)
   glGenVertexArrays (1, &vao);
@@ -91,10 +89,10 @@ void renderGL(void)
 
   glPointSize(5);
   glVertexPointer(3, GL_FLOAT, 0, NULL);
-  glDrawArrays(GL_POINTS, 0, points.size()/3);
+  glDrawArrays(GL_POINTS, 0, st.pts.size()/3);
   // Draw points 0-3 from the currently bound VAO with current in-use shader
   if(st.mode == 'I')
-    glDrawArrays(GL_TRIANGLES, 0, points.size()/3);
+    glDrawArrays(GL_TRIANGLES, 0, st.pts.size()/3);
 }
 
 int main(int argc, char** argv)
@@ -157,9 +155,6 @@ int main(int argc, char** argv)
   initVertexBufferGL();
 
   std::cout << "Inspection Mode" << std::endl;
-
-  // Set initial state
-  st.pts = &points;
 
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)

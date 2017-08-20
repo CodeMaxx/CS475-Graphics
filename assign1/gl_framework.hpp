@@ -10,7 +10,7 @@
 struct state
 {
   char mode;
-  std::vector<float> *pts;
+  std::vector<float> pts;
   int xtheta, ytheta, ztheta;
   int xtrans, ytrans, ztrans;
   glm::vec3 centroid;

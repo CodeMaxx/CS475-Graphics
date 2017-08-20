@@ -59,8 +59,8 @@ namespace cse
       }
       else if(key == GLFW_KEY_C) {
         // Clear everything
-        while(st->pts->size() > 0)
-          st->pts->pop_back();
+        while(st->pts.size() > 0)
+          st->pts.pop_back();
       }
       else if(st->mode == 'I') {
         switch(key) {
@@ -69,13 +69,13 @@ namespace cse
                             break;
           case GLFW_KEY_S:  st->ytrans --;
                             break;
-          case GLFW_KEY_A:  st->xtrans ++;
+          case GLFW_KEY_A:  st->xtrans --;
                             break;
-          case GLFW_KEY_D:  st->xtrans --;
+          case GLFW_KEY_D:  st->xtrans ++;
                             break;
-          case GLFW_KEY_Z:  st->ztrans ++;
+          case GLFW_KEY_Z:  st->ztrans --;
                             break;
-          case GLFW_KEY_X:  st->ztrans --;
+          case GLFW_KEY_X:  st->ztrans ++;
                             break;
           // Rotation about X, Y, Z respectively
           case GLFW_KEY_UP: st->xtheta ++;
@@ -103,10 +103,10 @@ namespace cse
 
     // Shift + left click (Remove point)
     if(mods == GLFW_MOD_SHIFT && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-      if(st->pts->size() > 0) {
-        int num = st->pts->size() > 9 ? 9 : 3;
+      if(st->pts.size() > 0) {
+        int num = st->pts.size() > 9 ? 9 : 3;
         for(int i = 0; i < num; i++)
-          st->pts->pop_back();
+          st->pts.pop_back();
       }
     }
     // Left click(Add point)
@@ -116,19 +116,19 @@ namespace cse
       glfwGetCursorPos(window, &xpos, &ypos);
       if(st->mode == 'I')
         return;
-      if(st->pts->size() >= 9) {
+      if(st->pts.size() >= 9) {
         for(int i=0;i<6;i++)
-          st->pts->push_back(st->pts[0][st->pts->size()-6]);
+          st->pts.push_back(st->pts[st->pts.size()-6]);
       }
 
       // Scale click location to vertex co-ordinates
       int height = 0, width = 0;
       glfwGetWindowSize(window, &width, &height);
-      st->pts->push_back(xpos*2/width - 1);
-      st->pts->push_back(-(ypos*2/height - 1));
-      st->pts->push_back(0.0f);
+      st->pts.push_back(xpos*2/width - 1);
+      st->pts.push_back(-(ypos*2/height - 1));
+      st->pts.push_back(0.0f);
 
-      glBufferData (GL_ARRAY_BUFFER, st->pts->size() * sizeof (float), &(st->pts[0])[0], GL_STATIC_DRAW);
+      glBufferData (GL_ARRAY_BUFFER, st->pts.size() * sizeof (float), &(st->pts[0]), GL_STATIC_DRAW);
       // std::cout << "DEBUG: " << xpos << " " << ypos << std::endl;
     }
   }
