@@ -12,12 +12,19 @@ std::vector<float> points;
 GLFWwindow* window;
 GLuint shaderProgram;
 GLuint vbo, vao;
+
+//! State variable passed to GLFW
 state st;
+
+//! Tranformation matrices
 GLuint transMatrix;
 glm::mat4 rotation_matrix;
-glm::mat4 ortho_matrix;
+glm::mat4 translation_matrix;
 glm::mat4 modelview_matrix;
-GLfloat xrot=0.0,yrot=0.0,zrot=0.0;
+
+//! Scale how much translation or rotation is required per key press
+float trans_factor = 0.01;
+float rot_factor = 0.1;
 
 void initShadersGL(void)
 {
@@ -62,35 +69,32 @@ void renderGL(void)
 
   glBindVertexArray (vao);
 
-  if(st.new_point == 1){
-    if(points.size() >= 9){
-      for(int i=0;i<6;i++)
-        points.push_back(points[points.size()-6]);
-    }
-    int height = 0, width = 0;
-    glfwGetWindowSize(window, &width, &height);
-    points.push_back(st.xpos*2/width - 1);
-    points.push_back(-(st.ypos*2/height - 1));
-    points.push_back(0.0f);
-    std::cout << "DEB" << st.xpos << " " << st.ypos << std::endl;
-    std::cout << "ddd" << points[points.size()-3] << " " << points[points.size()-2] <<std::endl;
-    glBufferData (GL_ARRAY_BUFFER, points.size() * sizeof (float), &points[0], GL_STATIC_DRAW);
-  }
+  glm::mat4 id(1.0f);
 
-  rotation_matrix = glm::rotate(glm::mat4(1.0f), xrot, glm::vec3(1.0f,0.0f,0.0f));
-  rotation_matrix = glm::rotate(rotation_matrix, yrot, glm::vec3(0.0f,1.0f,0.0f));
-  rotation_matrix = glm::rotate(rotation_matrix, zrot, glm::vec3(0.0f,0.0f,1.0f));
-  ortho_matrix = glm::ortho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0);
+  //! Prepare translation matrix
+  glm::vec3 translation_amt(st.xtrans*trans_factor,st.ytrans*trans_factor,st.ztrans*trans_factor);
+  translation_matrix = glm::translate(id, translation_amt);
 
-  modelview_matrix = ortho_matrix * rotation_matrix;
+
+  //! Prepare rotation matrix
+  glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
+  to_centroid = glm::translate(id, -st.centroid);
+  xrot = glm::rotate(id, st.xtheta*rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+  yrot = glm::rotate(id, st.ytheta*rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+  zrot = glm::rotate(id, st.ztheta*rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+  back_centroid = glm::translate(id, st.centroid);
+  rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
+
+  modelview_matrix = translation_matrix * rotation_matrix;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
-  glPointSize(10);
+  glPointSize(5);
   glVertexPointer(3, GL_FLOAT, 0, NULL);
   glDrawArrays(GL_POINTS, 0, points.size()/3);
   // Draw points 0-3 from the currently bound VAO with current in-use shader
-  glDrawArrays(GL_TRIANGLES, 0, points.size()/3);
+  if(st.mode == 'I')
+    glDrawArrays(GL_TRIANGLES, 0, points.size()/3);
 }
 
 int main(int argc, char** argv)
@@ -152,13 +156,17 @@ int main(int argc, char** argv)
   initShadersGL();
   initVertexBufferGL();
 
+  std::cout << "Inspection Mode" << std::endl;
+
+  // Set initial state
+  st.pts = &points;
+
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
     {
-
       // Render here
       renderGL();
-      st.new_point = 0;
+
       // Swap front and back buffers
       glfwSwapBuffers(window);
 
