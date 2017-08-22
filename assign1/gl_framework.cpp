@@ -165,6 +165,9 @@ namespace cse
           st->pts.pop_back();
           st->color.pop_back();
         }
+        glBufferData (GL_ARRAY_BUFFER, st->pts.size() * sizeof (float) + st->color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+        glBufferSubData( GL_ARRAY_BUFFER, 0, st->pts.size() * sizeof (float), &st->pts[0] );
+        glBufferSubData( GL_ARRAY_BUFFER, st->pts.size() * sizeof (float),st->color.size() * sizeof (float), &st->color[0] );
       }
     }
     // Left click(Add point)
