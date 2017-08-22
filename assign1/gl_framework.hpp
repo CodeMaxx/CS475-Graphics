@@ -17,7 +17,6 @@ struct state
   int xtheta, ytheta, ztheta;
   int xtrans, ytrans, ztrans;
   glm::vec3 centroid;
-  glm::vec3 origin;
   int num_vertex;
   float zpos;
   //! Scale how much translation or rotation is required per key press
