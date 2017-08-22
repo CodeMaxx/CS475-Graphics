@@ -1,4 +1,6 @@
 #include "gl_framework.hpp"
+#include <fstream>
+#include <sstream>
 
 namespace cse
 {
@@ -53,14 +55,53 @@ namespace cse
       }
       else if(key == GLFW_KEY_K) {
         // Save to file
+        std::ofstream file;
+        std::cout << "Enter the file name for writing: ";
+        std::string filename;
+        std::cin >> filename;
+        const char* tmp = filename.c_str();
+        file.open(tmp);
+        for(int i=0;i<st->pts.size();i=i+3){
+          file << st->pts[i] << " " << st->pts[i+1] << " " << st->pts[i+2] << " " << st->color[i] << " " << st->color[i+1] << " " << st->color[i+2] <<std::endl;
+        }
+        file.close();
       }
       else if(key == GLFW_KEY_L) {
         // Load from file
+        std::ifstream source;
+        std::cout << "Enter the file name for reading: ";
+        std::string filename;
+        std::cin >> filename;
+        const char* tmp = filename.c_str();
+        source.open(tmp);
+
+        for(std::string line; std::getline(source, line);) {
+          std::istringstream in(line);
+          float x,y,z;
+          in >> x >> y >> z;
+          st->pts.push_back(x);
+          st->pts.push_back(y);
+          st->pts.push_back(z);
+          float r,g,b;
+          in >> r >> g >> b;
+          st->color.push_back(r);
+          st->color.push_back(g);
+          st->color.push_back(b);
+
+          glBufferData (GL_ARRAY_BUFFER, st->pts.size() * sizeof (float) + st->color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+          glBufferSubData( GL_ARRAY_BUFFER, 0, st->pts.size() * sizeof (float), &st->pts[0] );
+          glBufferSubData( GL_ARRAY_BUFFER, st->pts.size() * sizeof (float),st->color.size() * sizeof (float), &st->color[0] );
+        }
       }
       else if(key == GLFW_KEY_C) {
         // Clear everything
-        while(st->pts.size() > 0)
+        while(st->pts.size() > 0){
           st->pts.pop_back();
+          st->color.pop_back();
+        }
+      }
+      else if(key == GLFW_KEY_R) {
+        // recenter origin to centroid
       }
       else if(st->mode == 'I') {
         switch(key) {
@@ -69,13 +110,13 @@ namespace cse
                             break;
           case GLFW_KEY_S:  st->ytrans --;
                             break;
-          case GLFW_KEY_A:  st->xtrans --;
+          case GLFW_KEY_A:  st->xtrans ++;
                             break;
-          case GLFW_KEY_D:  st->xtrans ++;
+          case GLFW_KEY_D:  st->xtrans --;
                             break;
-          case GLFW_KEY_Z:  st->ztrans --;
+          case GLFW_KEY_Z:  st->ztrans ++;
                             break;
-          case GLFW_KEY_X:  st->ztrans ++;
+          case GLFW_KEY_X:  st->ztrans --;
                             break;
           // Rotation about X, Y, Z respectively
           case GLFW_KEY_UP: st->xtheta ++;
@@ -117,10 +158,13 @@ namespace cse
 
     // Shift + left click (Remove point)
     if(mods == GLFW_MOD_SHIFT && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+      if(st->mode == 'I')
+        return;
       if(st->pts.size() > 0) {
-        int num = st->pts.size() > 9 ? 9 : 3;
-        for(int i = 0; i < num; i++)
+        for(int i = 0; i < 3; i++){
           st->pts.pop_back();
+          st->color.pop_back();
+        }
       }
     }
     // Left click(Add point)
@@ -131,14 +175,10 @@ namespace cse
       if(st->mode == 'I')
         return;
 
-      if(st->pts.size() >= 9) {
-        for(int i=0;i<6;i++)
-          st->pts.push_back(st->pts[st->pts.size()-6]);
-      }
-
       // Scale click location to vertex co-ordinates
       int height = 0, width = 0;
       glfwGetWindowSize(window, &width, &height);
+
       xpos = xpos*2/width - 1;
       ypos = -(ypos*2/height - 1);
       st->centroid.x = (st->centroid.x*st->num_vertex + xpos)/(st->num_vertex + 1);
@@ -149,7 +189,14 @@ namespace cse
       st->pts.push_back(ypos);
       st->pts.push_back(st->zpos);
 
-      glBufferData (GL_ARRAY_BUFFER, st->pts.size() * sizeof (float), &(st->pts[0]), GL_STATIC_DRAW);
+      st->color.push_back(1.0f);
+      st->color.push_back(0.0f);
+      st->color.push_back(0.0f);
+      // std::cout<<st->color[st->color.size()-1]<<" "<<st->color[st->color.size()-2]<<" "<<st->color[st->color.size()-3]<<std::endl;
+      glBufferData (GL_ARRAY_BUFFER, st->pts.size() * sizeof (float) + st->color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+      glBufferSubData( GL_ARRAY_BUFFER, 0, st->pts.size() * sizeof (float), &st->pts[0] );
+      glBufferSubData( GL_ARRAY_BUFFER, st->pts.size() * sizeof (float),st->color.size() * sizeof (float), &st->color[0] );
+
       // std::cout << "DEBUG: " << xpos << " " << ypos << std::endl;
     }
   }

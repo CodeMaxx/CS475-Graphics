@@ -40,7 +40,10 @@ void initVertexBufferGL(void)
   //Set it as the current buffer to be used by binding it
   glBindBuffer (GL_ARRAY_BUFFER, vbo);
   //Copy the points into the current buffer - 9 float values, start pointer and static data
-  glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float), &st.pts[0], GL_STATIC_DRAW);
+  // glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float), &st.pts[0], GL_STATIC_DRAW);
+  glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float) + st.color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+  glBufferSubData( GL_ARRAY_BUFFER, 0, st.pts.size() * sizeof (float), &st.pts[0] );
+  glBufferSubData( GL_ARRAY_BUFFER, st.pts.size() * sizeof (float),st.color.size() * sizeof (float), &st.color[0] );
 
   //Ask GL for a Vertex Array Object (vao)
   glGenVertexArrays (1, &vao);
@@ -88,11 +91,19 @@ void renderGL(void)
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
   glPointSize(5);
-  glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+  GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
+  glEnableVertexAttribArray( vPosition );
+  glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+  
+  GLuint vColor = glGetAttribLocation( shaderProgram, "vColor" ); 
+  glEnableVertexAttribArray( vColor );
+  glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(st.pts.size()*sizeof(float)) );
+
   glDrawArrays(GL_POINTS, 0, st.pts.size()/3);
   // Draw points 0-3 from the currently bound VAO with current in-use shader
   if(st.mode == 'I')
-    glDrawArrays(GL_TRIANGLES, 0, st.pts.size()/3);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, st.pts.size()/3);
 }
 
 int main(int argc, char** argv)
