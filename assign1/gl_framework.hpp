@@ -7,10 +7,13 @@
 #include <iostream>
 #include "glm/vec3.hpp"
 
+#define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
+
 struct state
 {
   char mode;
   std::vector<float> pts;
+  std::vector<float> color;
   int xtheta, ytheta, ztheta;
   int xtrans, ytrans, ztrans;
   glm::vec3 centroid;
