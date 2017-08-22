@@ -74,7 +74,10 @@ namespace cse
         std::cin >> filename;
         const char* tmp = filename.c_str();
         source.open(tmp);
-
+        st->pts.clear();
+        st->color.clear();
+        st->num_vertex = 0;
+        st->centroid = glm::vec3(0.0f, 0.0f, 0.0f);
         for(std::string line; std::getline(source, line);) {
           std::istringstream in(line);
           float x,y,z;
@@ -82,6 +85,10 @@ namespace cse
           st->pts.push_back(x);
           st->pts.push_back(y);
           st->pts.push_back(z);
+          st->centroid.x = (st->centroid.x*st->num_vertex + x)/(st->num_vertex + 1);
+          st->centroid.y = (st->centroid.y*st->num_vertex + y)/(st->num_vertex + 1);
+          st->centroid.z = (st->centroid.z*st->num_vertex + z)/(st->num_vertex + 1);
+          st->num_vertex++;
           float r,g,b;
           in >> r >> g >> b;
           st->color.push_back(r);
@@ -95,10 +102,8 @@ namespace cse
       }
       else if(key == GLFW_KEY_C) {
         // Clear everything
-        while(st->pts.size() > 0){
-          st->pts.pop_back();
-          st->color.pop_back();
-        }
+        st->pts.clear();
+        st->color.clear();
       }
       else if(st->mode == 'I') {
         switch(key) {
