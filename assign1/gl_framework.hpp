@@ -3,20 +3,21 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
+#include <vector>
 #include <iostream>
+#include "glm/vec3.hpp"
 
 struct state
 {
   char mode;
-  float xpos;
-  float ypos;
-  int new_point;
+  std::vector<float> pts;
+  int xtheta, ytheta, ztheta;
+  int xtrans, ytrans, ztrans;
+  glm::vec3 centroid;
 
-  state() {
+  state(): centroid(0.0f, 0.0f, 0.0f) {
     mode = 'I';
-    xpos = ypos = 0;
-    new_point = 0;
+    xtheta = ytheta = ztheta = 0;
   }
 };
 

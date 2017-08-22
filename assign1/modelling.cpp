@@ -6,19 +6,23 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-std::vector<float> points;
-
 //! The pointer to the GLFW window
 GLFWwindow* window;
 GLuint shaderProgram;
 GLuint vbo, vao;
+
+//! State variable passed to GLFW
 state st;
+
+//! Tranformation matrices
 GLuint transMatrix;
 glm::mat4 rotation_matrix;
 glm::mat4 translation_matrix;
 glm::mat4 modelview_matrix;
-GLfloat xpos=0.5,ypos=0.5,zpos=0.0;
-GLfloat xrot=0.0,yrot=1.5708,zrot=0.0;
+
+//! Scale how much translation or rotation is required per key press
+float trans_factor = 0.01;
+float rot_factor = 0.1;
 
 void initShadersGL(void)
 {
@@ -40,7 +44,10 @@ void initVertexBufferGL(void)
   //Set it as the current buffer to be used by binding it
   glBindBuffer (GL_ARRAY_BUFFER, vbo);
   //Copy the points into the current buffer - 9 float values, start pointer and static data
-  glBufferData (GL_ARRAY_BUFFER, points.size() * sizeof (float), &points[0], GL_STATIC_DRAW);
+  // glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float), &st.pts[0], GL_STATIC_DRAW);
+  glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float) + st.color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+  glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(st.pts), &st.pts[0] );
+  glBufferSubData( GL_ARRAY_BUFFER, sizeof(st.pts), sizeof(st.color), &st.color[0] );
 
   //Ask GL for a Vertex Array Object (vao)
   glGenVertexArrays (1, &vao);
@@ -63,35 +70,40 @@ void renderGL(void)
 
   glBindVertexArray (vao);
 
-  if(st.new_point == 1){
-    if(points.size() >= 9){
-      for(int i=0;i<6;i++)
-        points.push_back(points[points.size()-6]);
-    }
-    int height = 0, width = 0;
-    glfwGetWindowSize(window, &width, &height);
-    points.push_back(st.xpos*2/width - 1);
-    points.push_back(-(st.ypos*2/height - 1));
-    points.push_back(0.0f);
-    std::cout << "DEB" << st.xpos << " " << st.ypos << std::endl;
-    std::cout << "ddd" << points[points.size()-3] << " " << points[points.size()-2] <<std::endl;
-    glBufferData (GL_ARRAY_BUFFER, points.size() * sizeof (float), &points[0], GL_STATIC_DRAW);
-  }
+  glm::mat4 id(1.0f);
 
-  translation_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(xpos,ypos,zpos));
-  rotation_matrix = glm::rotate(translation_matrix, xrot, glm::vec3(1.0f,0.0f,0.0f));
-  rotation_matrix = glm::rotate(rotation_matrix, yrot, glm::vec3(0.0f,1.0f,0.0f));
-  rotation_matrix = glm::rotate(rotation_matrix, zrot, glm::vec3(0.0f,0.0f,1.0f));
+  //! Prepare translation matrix
+  glm::vec3 translation_amt(st.xtrans*trans_factor,st.ytrans*trans_factor,st.ztrans*trans_factor);
+  translation_matrix = glm::translate(id, translation_amt);
 
-  modelview_matrix = rotation_matrix;
+
+  //! Prepare rotation matrix
+  glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
+  to_centroid = glm::translate(id, -st.centroid);
+  xrot = glm::rotate(id, st.xtheta*rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+  yrot = glm::rotate(id, st.ytheta*rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+  zrot = glm::rotate(id, st.ztheta*rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+  back_centroid = glm::translate(id, st.centroid);
+  rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
+
+  modelview_matrix = translation_matrix * rotation_matrix;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
-  glPointSize(10);
-  glVertexPointer(3, GL_FLOAT, 0, NULL);
-  glDrawArrays(GL_POINTS, 0, points.size()/3);
+  glPointSize(5);
+
+  GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
+  glEnableVertexAttribArray( vPosition );
+  glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+  
+  GLuint vColor = glGetAttribLocation( shaderProgram, "vColor" ); 
+  glEnableVertexAttribArray( vColor );
+  glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(st.pts)) );
+
+  glDrawArrays(GL_POINTS, 0, st.pts.size()/3);
   // Draw points 0-3 from the currently bound VAO with current in-use shader
-  glDrawArrays(GL_TRIANGLES, 0, points.size()/3);
+  if(st.mode == 'I')
+    glDrawArrays(GL_TRIANGLES, 0, st.pts.size()/3);
 }
 
 int main(int argc, char** argv)
@@ -153,12 +165,14 @@ int main(int argc, char** argv)
   initShadersGL();
   initVertexBufferGL();
 
+  std::cout << "Inspection Mode" << std::endl;
+
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
     {
       // Render here
       renderGL();
-      st.new_point = 0;
+
       // Swap front and back buffers
       glfwSwapBuffers(window);
 

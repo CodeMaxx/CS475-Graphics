@@ -14,14 +14,14 @@ namespace cse
     shaderFile.close();
 
     try
-      {
-	return CreateShaderGL(eShaderType, shaderData.str());
-      }
+    {
+       return CreateShaderGL(eShaderType, shaderData.str());
+    }
     catch(std::exception &e)
-      {
-	std::cerr<<e.what()<<std::endl;
-	throw;
-      }
+    {
+    	std::cerr<<e.what()<<std::endl;
+    	throw;
+    }
   }
 
   GLuint CreateShaderGL(GLenum eShaderType, const std::string &strShaderFile)
@@ -35,24 +35,24 @@ namespace cse
     GLint status;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
     if (status == GL_FALSE)
-      {
-	GLint infoLogLength;
-	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
+    {
+    	GLint infoLogLength;
+    	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
 
-	GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-	glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
+    	GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+    	glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
 
-	const char *strShaderType = NULL;
-	switch(eShaderType)
-	  {
-	  case GL_VERTEX_SHADER: strShaderType = "vertex"; break;
-	  case GL_GEOMETRY_SHADER: strShaderType = "geometry"; break;
-	  case GL_FRAGMENT_SHADER: strShaderType = "fragment"; break;
-	  }
+    	const char *strShaderType = NULL;
+    	switch(eShaderType)
+    	  {
+    	  case GL_VERTEX_SHADER: strShaderType = "vertex"; break;
+    	  case GL_GEOMETRY_SHADER: strShaderType = "geometry"; break;
+    	  case GL_FRAGMENT_SHADER: strShaderType = "fragment"; break;
+    	  }
 
-	std::cerr<<"Compile failure in "<<strShaderType<<" shader:"<<std::endl<<strInfoLog<<std::endl;
-	delete[] strInfoLog;
-      }
+    	std::cerr<<"Compile failure in "<<strShaderType<<" shader:"<<std::endl<<strInfoLog<<std::endl;
+    	delete[] strInfoLog;
+    }
 
     return shader;
   }
@@ -69,15 +69,15 @@ namespace cse
     GLint status;
     glGetProgramiv (program, GL_LINK_STATUS, &status);
     if (status == GL_FALSE)
-      {
-	GLint infoLogLength;
-	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
+    {
+      GLint infoLogLength;
+      glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
 
-	GLchar *strInfoLog = new GLchar[infoLogLength + 1];
-	glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
-	std::cerr<<"GLSL Linker failure: "<<strInfoLog<<std::endl;
-	delete[] strInfoLog;
-      }
+      GLchar *strInfoLog = new GLchar[infoLogLength + 1];
+      glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
+      std::cerr<<"GLSL Linker failure: "<<strInfoLog<<std::endl;
+      delete[] strInfoLog;
+    }
 
     for(size_t iLoop = 0; iLoop < shaderList.size(); iLoop++)
       glDetachShader(program, shaderList[iLoop]);
