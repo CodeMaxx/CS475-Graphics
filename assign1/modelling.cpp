@@ -20,10 +20,6 @@ glm::mat4 rotation_matrix;
 glm::mat4 translation_matrix;
 glm::mat4 modelview_matrix;
 
-//! Scale how much translation or rotation is required per key press
-float trans_factor = 0.01;
-float rot_factor = 0.1;
-
 void initShadersGL(void)
 {
   std::string vertex_shader_file("simple_vs.glsl");
@@ -70,20 +66,24 @@ void renderGL(void)
   glm::mat4 id(1.0f);
 
   //! Prepare translation matrix
-  glm::vec3 translation_amt(st.xtrans*trans_factor,st.ytrans*trans_factor,st.ztrans*trans_factor);
+  glm::vec3 translation_amt(st.xtrans*st.trans_factor,st.ytrans*st.trans_factor,st.ztrans*st.trans_factor);
   translation_matrix = glm::translate(id, translation_amt);
 
 
   //! Prepare rotation matrix
   glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
   to_centroid = glm::translate(id, -st.centroid);
-  xrot = glm::rotate(id, st.xtheta*rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
-  yrot = glm::rotate(id, st.ytheta*rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
-  zrot = glm::rotate(id, st.ztheta*rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+  xrot = glm::rotate(id, st.xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+  yrot = glm::rotate(id, st.ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+  zrot = glm::rotate(id, st.ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
   back_centroid = glm::translate(id, st.centroid);
   rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
 
   modelview_matrix = translation_matrix * rotation_matrix;
+
+  // Bring back normal drawing when coming back to Modelling mode
+  if(st.mode == 'M')
+    modelview_matrix = id;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 

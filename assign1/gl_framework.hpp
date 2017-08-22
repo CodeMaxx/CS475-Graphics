@@ -14,10 +14,19 @@ struct state
   int xtheta, ytheta, ztheta;
   int xtrans, ytrans, ztrans;
   glm::vec3 centroid;
+  glm::vec3 origin;
+  int num_vertex;
+  float zpos;
+  //! Scale how much translation or rotation is required per key press
+  float trans_factor;
+  float rot_factor;
 
   state(): centroid(0.0f, 0.0f, 0.0f) {
     mode = 'I';
-    xtheta = ytheta = ztheta = 0;
+    xtheta = ytheta = ztheta = num_vertex = 0;
+    zpos = 0;
+    trans_factor = 0.01;
+    rot_factor = 0.1;
   }
 };
 

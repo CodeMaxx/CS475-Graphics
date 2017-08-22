@@ -90,6 +90,10 @@ namespace cse
                             break;
           case GLFW_KEY_PAGE_DOWN: st->ztheta --;
                             break;
+          case GLFW_KEY_R: st->xtrans = -st->centroid.x/st->trans_factor;
+                            st->ytrans = -st->centroid.y/st->trans_factor;
+                            st->ztrans = -st->centroid.z/st->trans_factor;
+                            break;
           // Default case
           default: std::cout << "Key not recognised in this mode." << std::endl;
         }
@@ -116,6 +120,7 @@ namespace cse
       glfwGetCursorPos(window, &xpos, &ypos);
       if(st->mode == 'I')
         return;
+
       if(st->pts.size() >= 9) {
         for(int i=0;i<6;i++)
           st->pts.push_back(st->pts[st->pts.size()-6]);
@@ -124,9 +129,15 @@ namespace cse
       // Scale click location to vertex co-ordinates
       int height = 0, width = 0;
       glfwGetWindowSize(window, &width, &height);
-      st->pts.push_back(xpos*2/width - 1);
-      st->pts.push_back(-(ypos*2/height - 1));
-      st->pts.push_back(0.0f);
+      xpos = xpos*2/width - 1;
+      ypos = -(ypos*2/height - 1);
+      st->centroid.x = (st->centroid.x*st->num_vertex + xpos)/(st->num_vertex + 1);
+      st->centroid.y = (st->centroid.y*st->num_vertex + ypos)/(st->num_vertex + 1);
+      st->centroid.z = (st->centroid.z*st->num_vertex + st->zpos)/(st->num_vertex + 1);
+      st->num_vertex++;
+      st->pts.push_back(xpos);
+      st->pts.push_back(ypos);
+      st->pts.push_back(st->zpos);
 
       glBufferData (GL_ARRAY_BUFFER, st->pts.size() * sizeof (float), &(st->pts[0]), GL_STATIC_DRAW);
       // std::cout << "DEBUG: " << xpos << " " << ypos << std::endl;
