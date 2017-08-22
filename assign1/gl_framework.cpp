@@ -100,9 +100,6 @@ namespace cse
           st->color.pop_back();
         }
       }
-      else if(key == GLFW_KEY_R) {
-        // recenter origin to centroid
-      }
       else if(st->mode == 'I') {
         switch(key) {
           // Translation along positive Y, X, Z respectively
