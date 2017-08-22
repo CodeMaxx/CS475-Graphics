@@ -98,6 +98,16 @@ namespace cse
           default: std::cout << "Key not recognised in this mode." << std::endl;
         }
       }
+      else if(st->mode == 'M') {
+        switch(key) {
+          // Move in z-coordinate while modelling
+          case GLFW_KEY_UP: st->zpos = st->zpos < 1.0 ? st->zpos += 0.01 : st->zpos;
+                            break;
+          case GLFW_KEY_DOWN: st->zpos = st->zpos > -1.0 ? st->zpos -= 0.01 : st->zpos;
+                            break;
+          default: std::cout << "Key not recognised in this mode." << std::endl;
+        }
+      }
     }
   }
 
