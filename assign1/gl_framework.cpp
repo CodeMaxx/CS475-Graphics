@@ -104,6 +104,8 @@ namespace cse
         // Clear everything
         st->pts.clear();
         st->color.clear();
+        st->num_vertex = 0;
+        st->centroid = glm::vec3(0.0f, 0.0f, 0.0f);
       }
       else if(st->mode == 'I') {
         switch(key) {
