@@ -50,10 +50,10 @@ void initVertexBufferGL(void)
   //Set it as the current array to be used by binding it
   glBindVertexArray (vao);
   //Enable the vertex attribute
-  glEnableVertexAttribArray (0);
+  glEnableVertexAttribArray (vao);
   //This the layout of our first vertex buffer
   //"0" means define the layout for attribute number 0. "3" means that the variables are vec3 made from every 3 floats
-  glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+  glVertexAttribPointer (vao, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
   transMatrix = glGetUniformLocation( shaderProgram, "transMatrix");
 }
