@@ -35,6 +35,8 @@ struct state
   float rot_factor;
   float scale_factor;
   Model model[3];
+  std::vector<float> axis_pts;
+  std::vector<float> axis_color;
 
   // frustum variables
   float L,R,T,B,N,F;

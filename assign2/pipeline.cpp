@@ -10,6 +10,7 @@
 GLFWwindow* window;
 GLuint shaderProgram;
 GLuint vbo[3], vao;
+GLuint axis_vbo;
 GLuint frustum_vbo, frustum_vao;
 
 //! State variable passed to GLFW
@@ -59,6 +60,7 @@ void parser(void)
         st.model[filenumber].color.push_back(r);
         st.model[filenumber].color.push_back(g);
         st.model[filenumber].color.push_back(b);
+
         //push in VBO
         glBindBuffer(GL_ARRAY_BUFFER,vbo[filenumber]);
         glBufferData (GL_ARRAY_BUFFER, st.model[filenumber].pts.size() * sizeof (float) + st.model[filenumber].color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
@@ -84,6 +86,14 @@ void parser(void)
         input_state=0;
     }
     else if(input_state==4){
+      float pts[] = {0,0,0,1,1,1,0,0,0,0,0.2,0,0,0,0,0,0,0.2};
+      float colors[] = {0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1};
+      st.axis_pts.insert(st.axis_pts.end(), pts, pts + sizeof(pts)/sizeof(*pts));
+      st.axis_color.insert(st.axis_color.end(), colors, colors + sizeof(colors)/sizeof(*colors));
+      glBindBuffer(GL_ARRAY_BUFFER, axis_vbo);
+      glBufferData (GL_ARRAY_BUFFER, st.axis_pts.size() * sizeof (float) + st.axis_color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+      glBufferSubData( GL_ARRAY_BUFFER, 0, st.axis_pts.size() * sizeof (float), &st.axis_pts[0] );
+      glBufferSubData( GL_ARRAY_BUFFER, st.axis_pts.size() * sizeof (float),st.axis_color.size() * sizeof (float), &st.axis_color[0] );
       float x,y,z;
       in >> x >> y >> z;
       st.eye = glm::vec3(x,y,z);
@@ -228,13 +238,10 @@ void renderGL(void)
 
 
     //! Prepare rotation matrix
-    glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
-    to_centroid = glm::translate(id, -st.model[i].centroid);
+    glm::mat4 xrot, yrot, zrot;
     xrot = glm::rotate(id, st.g_xtheta*st.rot_factor + glm::radians(st.model[i].xtheta), glm::vec3(1.0f, 0.0f, 0.0f));
     yrot = glm::rotate(id, st.g_ytheta*st.rot_factor + glm::radians(st.model[i].ytheta), glm::vec3(0.0f, 1.0f, 0.0f));
     zrot = glm::rotate(id, st.g_ztheta*st.rot_factor + glm::radians(st.model[i].ztheta), glm::vec3(0.0f, 0.0f, 1.0f));
-    back_centroid = glm::translate(id, st.model[i].centroid);
-    rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
     rotation_matrix = xrot * yrot * zrot;
 
     //prepare scaling matrix
@@ -256,28 +263,25 @@ void renderGL(void)
     glDrawArrays(GL_TRIANGLE_STRIP, 0, st.model[i].pts.size()/3);
   }
 
-  glBindVertexArray (frustum_vao);
-  glBindBuffer(GL_ARRAY_BUFFER, frustum_vbo);
-
+  // Draw Axis
+  glBindVertexArray(vao);
+  glBindBuffer(GL_ARRAY_BUFFER, axis_vbo);
+  glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
   glm::vec3 translation_amt(st.g_xtrans*st.trans_factor, st.g_ytrans*st.trans_factor, st.g_ztrans*st.trans_factor);
   translation_matrix = glm::translate(id, translation_amt);
 
-  glm::vec3 frustum_centroid_wcs(wcs_to_vcs_inverse * glm::vec4(st.frustum_centroid, 1));
   //! Prepare rotation matrix
-  glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
-  to_centroid = glm::translate(id, -frustum_centroid_wcs);
+  glm::mat4 xrot, yrot, zrot;
   xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
   yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
   zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
-  back_centroid = glm::translate(id, frustum_centroid_wcs);
-  rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
   rotation_matrix = xrot * yrot * zrot;
 
   //prepare scaling matrix
   glm::vec3 scale_amt(st.g_scale*st.scale_factor, st.g_scale*st.scale_factor, st.g_scale*st.scale_factor);
   scale_matrix = glm::scale(id, scale_amt);
 
-  modelview_matrix = translation_matrix * rotation_matrix * scale_matrix * wcs_to_vcs_inverse;
+  modelview_matrix = translation_matrix * rotation_matrix * scale_matrix;
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
   GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
@@ -286,10 +290,31 @@ void renderGL(void)
 
   GLuint vColor = glGetAttribLocation( shaderProgram, "vColor" );
   glEnableVertexAttribArray( vColor );
+  glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(st.axis_pts.size()*sizeof(float)) );
+
+  glDrawArrays(GL_LINES, 0, st.axis_pts.size()/3);
+
+
+// Draw Frustum
+
+  glBindVertexArray (frustum_vao);
+  glBindBuffer(GL_ARRAY_BUFFER, frustum_vbo);
+
+
+  modelview_matrix = translation_matrix * rotation_matrix * scale_matrix * wcs_to_vcs_inverse;
+  glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
+
+  vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
+  glEnableVertexAttribArray( vPosition );
+  glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+
+  vColor = glGetAttribLocation( shaderProgram, "vColor" );
+  glEnableVertexAttribArray( vColor );
   glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(st.frustum_pts.size()*sizeof(float)) );
 
   glDrawArrays(GL_LINES, 0, st.frustum_pts.size()/3-1);
   glDrawArrays(GL_POINTS, st.frustum_pts.size()/3-1, st.frustum_pts.size()/3);
+
 }
 
 int main(int argc, char** argv)
