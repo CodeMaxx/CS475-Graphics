@@ -86,8 +86,8 @@ void parser(void)
         input_state=0;
     }
     else if(input_state==4){
-      float pts[] = {0,0,0,0.2,0,0,0,0,0,0,0.2,0,0,0,0,0,0,0.2};
-      float colors[] = {0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1};
+      float pts[] = {0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1};
+      float colors[] = {1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1};
       st.axis_pts.insert(st.axis_pts.end(), pts, pts + sizeof(pts)/sizeof(*pts));
       st.axis_color.insert(st.axis_color.end(), colors, colors + sizeof(colors)/sizeof(*colors));
       glBindBuffer(GL_ARRAY_BUFFER, axis_vbo);
@@ -186,8 +186,6 @@ void initVertexBufferGL(void)
 
   st.frustum_pts.insert(st.frustum_pts.end(), arr_pts, arr_pts+sizeof(arr_pts)/sizeof(*arr_pts));
 
-  std::cout << st.frustum_pts.size() << "blablabla" << std::endl;
-
   for(int i = 0; i < 8; i++){
     st.frustum_color.push_back(1);
     st.frustum_color.push_back(0);
@@ -230,11 +228,28 @@ void renderGL(void)
 
   glm::mat4 wcs_to_vcs_inverse = glm::inverse(wcs_to_vcs_matrix);
 
+  // Preparing global translation matrix
+  glm::vec3 translation_amt(st.g_xtrans*st.trans_factor,st.g_ytrans*st.trans_factor,st.g_ztrans*st.trans_factor);
+  translation_matrix = glm::translate(id, translation_amt);
+
+  //! Preparing global rotation matrix
+  glm::mat4 xrot, yrot, zrot;
+  xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+  yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+  zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+  rotation_matrix = xrot * yrot * zrot;
+
+  //! Preparing global scaling matrix
+  glm::vec3 scale_amt(st.g_scale*st.scale_factor,st.g_scale*st.scale_factor,st.g_scale*st.scale_factor);
+  scale_matrix = glm::scale(id, scale_amt);
+
+  glm::mat4 global_matrix = scale_matrix * rotation_matrix * translation_matrix;
+
   for(int i=0;i<3;i++){
     glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
 
     //! Prepare translation matrix
-    glm::vec3 translation_amt(st.g_xtrans*st.trans_factor+st.model[i].xtrans,st.g_ytrans*st.trans_factor+st.model[i].ytrans,st.g_ztrans*st.trans_factor+st.model[i].ztrans);
+    glm::vec3 translation_amt(st.model[i].xtrans, st.model[i].ytrans, st.model[i].ztrans);
     translation_matrix = glm::translate(id, translation_amt);
 
 
@@ -247,20 +262,16 @@ void renderGL(void)
     back_centroid = glm::translate(id, st.model[i].centroid);
     rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
 
-    xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
-    yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
-    zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
-
-    rotation_matrix = xrot * yrot * zrot * rotation_matrix;
-
     //prepare scaling matrix
-    glm::vec3 scale_amt(st.g_scale*st.scale_factor*st.model[i].xscale,st.g_scale*st.scale_factor*st.model[i].yscale,st.g_scale*st.scale_factor*st.model[i].zscale);
+    glm::vec3 scale_amt(st.model[i].xscale,st.model[i].yscale,st.model[i].zscale);
     scale_matrix = glm::scale(id, scale_amt);
-    // std::cout<<st.model[i].xscale<<std::endl;
-    modelview_matrix = translation_matrix * rotation_matrix * scale_matrix;
+
+    glm::mat4 local_matrix = translation_matrix * rotation_matrix * scale_matrix;
+
+    modelview_matrix = global_matrix * local_matrix;
 
     if(st.mode=='1')
-      modelview_matrix = modelview_matrix * wcs_to_vcs_matrix;
+      modelview_matrix = global_matrix * wcs_to_vcs_matrix * local_matrix;
 
     glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
@@ -279,22 +290,8 @@ void renderGL(void)
   glBindVertexArray(vao);
   glBindBuffer(GL_ARRAY_BUFFER, axis_vbo);
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
-  glm::vec3 translation_amt(st.g_xtrans*st.trans_factor, st.g_ytrans*st.trans_factor, st.g_ztrans*st.trans_factor);
-  translation_matrix = glm::translate(id, translation_amt);
 
-  //! Prepare rotation matrix
-  glm::mat4 xrot, yrot, zrot;
-  xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
-  yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
-  zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
-  rotation_matrix = xrot * yrot * zrot;
-
-  //prepare scaling matrix
-  glm::vec3 scale_amt(st.g_scale*st.scale_factor, st.g_scale*st.scale_factor, st.g_scale*st.scale_factor);
-  scale_matrix = glm::scale(id, scale_amt);
-
-
-  modelview_matrix = translation_matrix * rotation_matrix * scale_matrix;
+  modelview_matrix = global_matrix;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
@@ -314,10 +311,11 @@ void renderGL(void)
   glBindVertexArray (frustum_vao);
   glBindBuffer(GL_ARRAY_BUFFER, frustum_vbo);
 
-  if(st.mode=='1')
-      modelview_matrix = modelview_matrix * wcs_to_vcs_matrix;
+  modelview_matrix = global_matrix * wcs_to_vcs_inverse;
 
-  modelview_matrix = translation_matrix * rotation_matrix * scale_matrix * wcs_to_vcs_inverse;
+  if(st.mode=='1')
+      modelview_matrix = global_matrix;
+
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
   vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
@@ -391,8 +389,6 @@ int main(int argc, char** argv)
   cse::initGL();
   initShadersGL();
   initVertexBufferGL();
-
-  std::cout << "Inspection Mode" << std::endl;
 
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
