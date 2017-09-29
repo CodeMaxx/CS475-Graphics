@@ -12,25 +12,48 @@
 struct state
 {
   char mode;
-  std::vector<float> pts;
-  std::vector<float> color;
-  int xtheta, ytheta, ztheta;
-  int xtrans, ytrans, ztrans;
-  glm::vec3 centroid;
-  int num_vertex;
-  float zpos;
+  int g_xtheta, g_ytheta, g_ztheta; //number of clicks
+  int g_xtrans, g_ytrans, g_ztrans;
+  int g_scale;
+  // float zpos;
   //! Scale how much translation or rotation is required per key press
   float trans_factor;
   float rot_factor;
+  float scale_factor;
+  Model model[3]; 
 
-  state(): centroid(0.0f, 0.0f, 0.0f) {
+  //frustum variables
+  float L,R,T,B,N,F;
+
+  //wcs variable
+  glm::vec3 eye;
+  glm::vec3 lookat_pt;
+  glm::vec3 upvec;
+
+  state(){
     mode = 'I';
-    xtheta = ytheta = ztheta = num_vertex = 0;
-    zpos = 0;
+    g_xtheta = g_ytheta = g_ztheta = num_vertex = 0;
+    g_xtrans = g_ytrans = g_ztrans = 0;
+    g_scale = 1;
     trans_factor = 0.01;
     rot_factor = 0.1;
+    scale_factor = 0.1;
   }
 };
+
+struct Model
+{
+  std::vector<float> pts;
+  std::vector<float> color;
+  float xtheta, ytheta, ztheta;
+  float xtrans, ytrans, ztrans; 
+  float xscale, yscale, zscale;
+  glm::vec3 centroid;
+  int num_vertex;
+  Model(): centroid(0.0f, 0.0f, 0.0f) {
+    num_vertex = 0;
+  }
+}
 
 namespace cse
 {
