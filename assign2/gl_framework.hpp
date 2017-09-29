@@ -44,6 +44,8 @@ struct state
   // frustum variables
   float L,R,T,B,N,F;
 
+  float Lw,Rw,Tw,Bw,Nw,Fw;
+
   // frustum coordinates
   std::vector<float> frustum_pts;
   std::vector<float> frustum_color;
@@ -90,6 +92,18 @@ struct state
   // glm::mat4 get_ortho() {
   //   // return glm::lookAt(glm::vec3(0.0,0.0,3.0), glm::vec3(0.0,0.0,0.0), glm::vec3(0.0,1.0,0.0)) * glm::ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
   // }
+
+  glm::mat4 ccs_to_ndcs() {
+    ;
+  }
+
+  glm::mat4 ndcs_to_dcs() {
+    glm::mat4 ret((Rw-Lw)/2, 0, 0, 0,
+                  0, (Tw-Bw)/2, 0, 0,
+                  0, 0, 1/2, 0,
+                  (Rw+Lw)/2, (Tw+Bw)/2, 1/2, 1);
+    return ret;
+  }
 };
 
 namespace cse

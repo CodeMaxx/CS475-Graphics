@@ -250,7 +250,7 @@ void renderGL(void)
   scale_matrix = glm::scale(id, scale_amt);
 
   glm::mat4 projection_matrix = glm::ortho(-5.0, 5.0, -5.0, 5.0, -5000.0, 5000.0);
-  glm::mat4 lookat_matrix = glm::lookAt(glm::vec3(0,0,-3.0),glm::vec3(0.0),glm::vec3(0,1,0));
+  glm::mat4 lookat_matrix = glm::lookAt(glm::vec3(0,0,-3.0), glm::vec3(0.0), glm::vec3(0,1,0));
   glm::mat4 view_matrix = projection_matrix * lookat_matrix;
 
   glm::mat4 global_matrix = view_matrix * scale_matrix * rotation_matrix * translation_matrix;
