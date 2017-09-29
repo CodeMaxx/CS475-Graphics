@@ -19,6 +19,7 @@ state st;
 GLuint transMatrix;
 glm::mat4 rotation_matrix;
 glm::mat4 translation_matrix;
+glm::mat4 scale_matrix;
 glm::mat4 modelview_matrix;
 
 
@@ -165,34 +166,43 @@ void renderGL(void)
 
   // glBindVertexArray (vao);
 
-  glm::mat4 id(1.0f);
-
-  //! Prepare translation matrix
-  glm::vec3 translation_amt(st.g_xtrans*st.trans_factor,st.g_ytrans*st.trans_factor,st.g_ztrans*st.trans_factor);
-  translation_matrix = glm::translate(id, translation_amt);
-
-
-  //! Prepare rotation matrix
-  glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
-  // to_centroid = glm::translate(id, -st.centroid);
-  xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
-  yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
-  zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
-  // back_centroid = glm::translate(id, st.centroid);
-  // rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
-  rotation_matrix = xrot * yrot * zrot;
-
-  modelview_matrix = translation_matrix * rotation_matrix;
+  
 
   // Bring back normal drawing when coming back to Modelling mode
-  if(st.mode == 'M')
-    modelview_matrix = id;
+  // if(st.mode == 'M')
+  //   modelview_matrix = id;
 
-  glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
-
-  glPointSize(5);
   for(int i=0;i<3;i++){
     glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
+
+    glm::mat4 id(1.0f);
+
+    //! Prepare translation matrix
+    glm::vec3 translation_amt(st.g_xtrans*st.trans_factor+st.model[i].xtrans,st.g_ytrans*st.trans_factor+st.model[i].xtrans,st.g_ztrans*st.trans_factor+st.model[i].xtrans);
+    translation_matrix = glm::translate(id, translation_amt);
+
+
+    //! Prepare rotation matrix
+    glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
+    to_centroid = glm::translate(id, -st.model[i].centroid);
+    xrot = glm::rotate(id, st.g_xtheta*st.rot_factor + glm::radians(st.model[i].xtheta), glm::vec3(1.0f, 0.0f, 0.0f));
+    yrot = glm::rotate(id, st.g_ytheta*st.rot_factor + glm::radians(st.model[i].ytheta), glm::vec3(0.0f, 1.0f, 0.0f));
+    zrot = glm::rotate(id, st.g_ztheta*st.rot_factor + glm::radians(st.model[i].ztheta), glm::vec3(0.0f, 0.0f, 1.0f));
+    back_centroid = glm::translate(id, st.model[i].centroid);
+    rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
+    rotation_matrix = xrot * yrot * zrot;
+
+    //prepare scaling matrix
+    glm::vec3 scale_amt(st.g_scale*st.scale_factor*st.model[i].xscale,st.g_scale*st.scale_factor*st.model[i].yscale,st.g_scale*st.scale_factor*st.model[i].zscale);
+    scale_matrix = glm::scale(id, scale_amt);
+    // std::cout<<st.model[i].xscale<<std::endl;
+    modelview_matrix = translation_matrix * rotation_matrix * scale_matrix;
+
+    glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
+
+    glPointSize(5);
+
+
     GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
     glEnableVertexAttribArray( vPosition );
     glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );

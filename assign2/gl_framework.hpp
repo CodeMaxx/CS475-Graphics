@@ -48,7 +48,7 @@ struct state
     mode = 'I';
     g_xtheta = g_ytheta = g_ztheta = 0;
     g_xtrans = g_ytrans = g_ztrans = 0;
-    g_scale = 1;
+    g_scale = 10;
     trans_factor = 0.01;
     rot_factor = 0.1;
     scale_factor = 0.1;
