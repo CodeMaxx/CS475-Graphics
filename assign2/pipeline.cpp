@@ -9,10 +9,11 @@
 //! The pointer to the GLFW window
 GLFWwindow* window;
 GLuint shaderProgram;
-GLuint vbo, vao;
+GLuint vbo[3], vao;
+GLuint frustum_vbo, frustum_vao;
 
 //! State variable passed to GLFW
-state st;
+state st[3];
 
 //! Tranformation matrices
 GLuint transMatrix;
@@ -36,7 +37,8 @@ void initShadersGL(void)
 void initVertexBufferGL(void)
 {
   //Ask GL for a Vertex Buffer Object (vbo)
-  glGenBuffers (1, &vbo);
+  glGenBuffers (3, &vbo[0]);
+  glGenBuffers(1,&frustum_vbo);
   //Set it as the current buffer to be used by binding it
   glBindBuffer (GL_ARRAY_BUFFER, vbo);
   //Copy the points into the current buffer - 9 float values, start pointer and static data
@@ -47,13 +49,21 @@ void initVertexBufferGL(void)
 
   //Ask GL for a Vertex Array Object (vao)
   glGenVertexArrays (1, &vao);
+  glGenVertexArrays (1, &frustum_vao);
   //Set it as the current array to be used by binding it
   glBindVertexArray (vao);
   //Enable the vertex attribute
   glEnableVertexAttribArray (0);
   //This the layout of our first vertex buffer
   //"0" means define the layout for attribute number 0. "3" means that the variables are vec3 made from every 3 floats
-  glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+  glVertexAttribPointer (vao, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+  glBindVertexArray (frustum_vao);
+  //Enable the vertex attribute
+  glEnableVertexAttribArray (0);
+  //This the layout of our first vertex buffer
+  //"0" means define the layout for attribute number 0. "3" means that the variables are vec3 made from every 3 floats
+  glVertexAttribPointer (frustum_vao, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
   transMatrix = glGetUniformLocation( shaderProgram, "transMatrix");
 }
