@@ -78,6 +78,18 @@ struct state
                   e.x, e.y, e.z, 1);
     return ret;
   }
+
+  glm::mat4 vcs_to_ccs() {
+    glm::mat4 ret(2*N/(R+L), 0, 0, 0,
+                  0, 2*N/(T+B), 0, 0,
+                  (R-L)/(R+L), (T-B)/(T+B), -(F+N)/(F-N), -1,
+                  0, 0, -2*F*N/(F-N), 0);
+    return ret;
+  }
+
+  // glm::mat4 get_ortho() {
+  //   // return glm::lookAt(glm::vec3(0.0,0.0,3.0), glm::vec3(0.0,0.0,0.0), glm::vec3(0.0,1.0,0.0)) * glm::ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+  // }
 };
 
 namespace cse

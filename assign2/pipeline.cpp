@@ -227,6 +227,7 @@ void renderGL(void)
 
   // glm::mat4 wcs_to_vcs_matrix = glm::lookAt(st.eye, st.lookat_pt, st.upvec);
   glm::mat4 wcs_to_vcs_matrix = st.wcs_to_vcs();
+  glm::mat4 vcs_to_ccs_matrix = st.vcs_to_ccs();
 
   // std::cout<< glm::to_string(wcs_to_vcs_matrix)<<std::endl;
   // std::cout<< glm::to_string(wcs_to_vcs_matrix2)<<std::endl;
@@ -248,7 +249,11 @@ void renderGL(void)
   glm::vec3 scale_amt(st.g_scale*st.scale_factor,st.g_scale*st.scale_factor,st.g_scale*st.scale_factor);
   scale_matrix = glm::scale(id, scale_amt);
 
-  glm::mat4 global_matrix = scale_matrix * rotation_matrix * translation_matrix;
+  glm::mat4 projection_matrix = glm::ortho(-5.0, 5.0, -5.0, 5.0, -5000.0, 5000.0);
+  glm::mat4 lookat_matrix = glm::lookAt(glm::vec3(0,0,-3.0),glm::vec3(0.0),glm::vec3(0,1,0));
+  glm::mat4 view_matrix = projection_matrix * lookat_matrix;
+
+  glm::mat4 global_matrix = view_matrix * scale_matrix * rotation_matrix * translation_matrix;
 
   for(int i=0;i<3;i++){
     glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
@@ -277,6 +282,8 @@ void renderGL(void)
 
     if(st.mode=='1')
       modelview_matrix = global_matrix * wcs_to_vcs_matrix * local_matrix;
+    else if(st.mode == '2')
+      modelview_matrix = global_matrix * vcs_to_ccs_matrix * wcs_to_vcs_matrix * local_matrix;
 
     glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
@@ -319,7 +326,9 @@ void renderGL(void)
   modelview_matrix = global_matrix * wcs_to_vcs_inverse;
 
   if(st.mode=='1')
-      modelview_matrix = global_matrix;
+    modelview_matrix = global_matrix;
+  else if(st.mode=='2')
+    modelview_matrix = global_matrix * vcs_to_ccs_matrix;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
