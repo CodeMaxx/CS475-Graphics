@@ -14,7 +14,7 @@ struct Model
   std::vector<float> pts;
   std::vector<float> color;
   float xtheta, ytheta, ztheta;
-  float xtrans, ytrans, ztrans; 
+  float xtrans, ytrans, ztrans;
   float xscale, yscale, zscale;
   glm::vec3 centroid;
   int num_vertex;
@@ -34,17 +34,24 @@ struct state
   float trans_factor;
   float rot_factor;
   float scale_factor;
-  Model model[3]; 
+  Model model[3];
 
-  //frustum variables
+  // frustum variables
   float L,R,T,B,N,F;
+
+  // frustum coordinates
+  std::vector<float> frustum_pts;
+  std::vector<float> frustum_color;
+  glm::vec3 frustum_centroid;
+  int frustum_vertex_num;
 
   //wcs variable
   glm::vec3 eye;
   glm::vec3 lookat_pt;
   glm::vec3 upvec;
 
-  state(){
+  state()
+  : frustum_centroid(0.0f, 0.0f, 0.0f){
     mode = 'I';
     g_xtheta = g_ytheta = g_ztheta = 0;
     g_xtrans = g_ytrans = g_ztrans = 0;
@@ -52,6 +59,7 @@ struct state
     trans_factor = 0.01;
     rot_factor = 0.1;
     scale_factor = 0.1;
+    frustum_vertex_num = 0;
   }
 };
 
