@@ -135,6 +135,15 @@ namespace cse
                             break;
           case GLFW_KEY_PAGE_DOWN: st->g_ztheta --;
                             break;
+          case GLFW_KEY_1:  // WCS to VCS
+                            break;
+          case GLFW_KEY_2:  // VCS to CCS
+                            break;
+          case GLFW_KEY_3:  // CCS to NDCS
+                            break;
+          case GLFW_KEY_4:  // NDCS to DCS
+                            break;
+
           // case GLFW_KEY_R: st->xtrans = -st->centroid.x/st->trans_factor;
           //                   st->ytrans = -st->centroid.y/st->trans_factor;
           //                   st->ztrans = -st->centroid.z/st->trans_factor;

@@ -262,13 +262,14 @@ void renderGL(void)
   glm::vec3 translation_amt(st.g_xtrans*st.trans_factor, st.g_ytrans*st.trans_factor, st.g_ztrans*st.trans_factor);
   translation_matrix = glm::translate(id, translation_amt);
 
+  glm::vec3 frustum_centroid_wcs(wcs_to_vcs_inverse * glm::vec4(st.frustum_centroid, 1));
   //! Prepare rotation matrix
   glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
-  to_centroid = glm::translate(id, -st.frustum_centroid);
+  to_centroid = glm::translate(id, -frustum_centroid_wcs);
   xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
   yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
   zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
-  back_centroid = glm::translate(id, st.frustum_centroid);
+  back_centroid = glm::translate(id, frustum_centroid_wcs);
   rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
   rotation_matrix = xrot * yrot * zrot;
 
