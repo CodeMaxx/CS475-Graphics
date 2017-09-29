@@ -158,10 +158,9 @@ void initVertexBufferGL(void)
 
   glBindBuffer(GL_ARRAY_BUFFER, frustum_vbo);
 
-  float arr_pts[] = {0,0,0,st.R,st.T,-st.N,0,0,0,-st.L,st.T,-st.N,0,0,0,st.R,-st.B,-st.N,0,0,0,-st.L,-st.B,-st.N,
-    st.R,st.T,-st.N,st.R,-st.B,-st.N,st.R,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,st.T,-st.N,-st.L,st.T,-st.N,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,-st.B,-st.N,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,-st.B,-st.N,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,st.T,-st.N,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F};
+  float arr_pts[] = {0,0,0,st.R,st.T,-st.N,0,0,0,-st.L,st.T,-st.N,0,0,0,st.R,-st.B,-st.N,0,0,0,-st.L,-st.B,-st.N,st.R,st.T,-st.N,st.R,-st.B,-st.N,st.R,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,st.T,-st.N,-st.L,st.T,-st.N,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,-st.B,-st.N,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,-st.B,-st.N,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,st.T,-st.N,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F};
 
-  for(int i = 0; i < sizeof(arr_pts); i++){
+  for(int i = 0; i < sizeof(arr_pts)/sizeof(*arr_pts); i++){
     if(i%3 == 0)
       st.frustum_centroid.x += arr_pts[i];
     else if(i%3 == 1)
@@ -170,13 +169,13 @@ void initVertexBufferGL(void)
       st.frustum_centroid.z += arr_pts[i];
   }
 
-  st.frustum_centroid.x /= sizeof(arr_pts);
-  st.frustum_centroid.y /= sizeof(arr_pts);
-  st.frustum_centroid.z /= sizeof(arr_pts);
+  st.frustum_centroid.x /= (sizeof(arr_pts)/sizeof(*arr_pts)/3);
+  st.frustum_centroid.y /= (sizeof(arr_pts)/sizeof(*arr_pts)/3);
+  st.frustum_centroid.z /= (sizeof(arr_pts)/sizeof(*arr_pts)/3);
 
-  st.frustum_pts.insert(st.frustum_pts.end(), arr_pts, arr_pts+sizeof(arr_pts));
+  st.frustum_pts.insert(st.frustum_pts.end(), arr_pts, arr_pts+sizeof(arr_pts)/sizeof(*arr_pts));
 
-  std::cout << st.frustum_pts.size();
+  std::cout << st.frustum_pts.size() << "blablabla" << std::endl;
 
   for(int i = 0; i < 8; i++){
     st.frustum_color.push_back(1);
