@@ -45,6 +45,7 @@ struct state
   float L,R,T,B,N,F;
 
   float Lw,Rw,Tw,Bw,Nw,Fw;
+  glm::vec3 Ew, Cw, Uw;
 
   // frustum coordinates
   std::vector<float> frustum_pts;
@@ -67,6 +68,16 @@ struct state
     rot_factor = 0.1;
     scale_factor = 0.1;
     frustum_vertex_num = 0;
+    Lw = -5.0;
+    Rw = 5.0;
+    Bw = -5.0;
+    Tw = 5.0;
+    Nw = -5000.0;
+    Fw = 5000.0;
+    Ew = glm::vec3(0.0,0.0,3.0);
+    Cw = glm::vec3(0.0,0.0,0.0);
+    Uw = glm::vec3(0.0,1.0,0.0);
+
   }
 
   glm::mat4 wcs_to_vcs(){
@@ -89,12 +100,8 @@ struct state
     return ret;
   }
 
-  // glm::mat4 get_ortho() {
-  //   // return glm::lookAt(glm::vec3(0.0,0.0,3.0), glm::vec3(0.0,0.0,0.0), glm::vec3(0.0,1.0,0.0)) * glm::ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-  // }
-
-  glm::mat4 ccs_to_ndcs() {
-    ;
+  glm::mat4 view_matrix() {
+    return glm::lookAt(Ew, Cw, Uw) * glm::ortho(Lw,Rw,Bw,Tw,Nw,Fw);
   }
 
   glm::mat4 ndcs_to_dcs() {
