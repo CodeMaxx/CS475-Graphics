@@ -5,6 +5,7 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/string_cast.hpp"
 
 //! The pointer to the GLFW window
 GLFWwindow* window;
@@ -224,7 +225,11 @@ void renderGL(void)
   glPointSize(5);
   glLineWidth(5);
 
-  glm::mat4 wcs_to_vcs_matrix = glm::lookAt(st.eye, st.lookat_pt, st.upvec);
+  // glm::mat4 wcs_to_vcs_matrix = glm::lookAt(st.eye, st.lookat_pt, st.upvec);
+  glm::mat4 wcs_to_vcs_matrix = st.wcs_to_vcs();
+
+  // std::cout<< glm::to_string(wcs_to_vcs_matrix)<<std::endl;
+  // std::cout<< glm::to_string(wcs_to_vcs_matrix2)<<std::endl;
 
   glm::mat4 wcs_to_vcs_inverse = glm::inverse(wcs_to_vcs_matrix);
 
