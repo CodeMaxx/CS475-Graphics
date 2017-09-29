@@ -13,7 +13,7 @@ GLuint vbo[3], vao;
 GLuint frustum_vbo, frustum_vao;
 
 //! State variable passed to GLFW
-state st[3];
+state st;
 
 //! Tranformation matrices
 GLuint transMatrix;
@@ -68,46 +68,47 @@ void parser(void)
     }
     else if(input_state==1){
       in >> st.model[filenumber].xscale >> st.model[filenumber].yscale >> st.model[filenumber].zscale;
-      input_state==2;
+      input_state=2;
     }
     else if(input_state==2){
       in >> st.model[filenumber].xtheta >> st.model[filenumber].ytheta >> st.model[filenumber].ztheta;
-      input_state==3;
+      input_state=3;
     }
     else if(input_state==3){
       in >> st.model[filenumber].xtrans >> st.model[filenumber].ytrans >> st.model[filenumber].ztrans;
       filenumber++;
       if(filenumber==3) //all raw files parsed
-        input_state==4;
+        input_state=4;
       else //next raw file
-        input_state==0;
+        input_state=0;
     }
     else if(input_state==4){
       float x,y,z;
       in >> x >> y >> z;
       st.eye = glm::vec3(x,y,z);
-      input_state==5;
+      input_state=5;
     }
     else if(input_state==5){
       float x,y,z;
       in >> x >> y >> z;
       st.lookat_pt = glm::vec3(x,y,z);
-      input_state==6;
+      input_state=6;
     }
     else if(input_state==6){
       float x,y,z;
       in >> x >> y >> z;
       st.upvec = glm::vec3(x,y,z);
-      input_state==7;
+      input_state=7;
     }
     else if(input_state==7){
       in >> st.L >> st.R >> st.T >> st.B;
-      input_state==8;
+      input_state=8;
     }
     else if(input_state==8){
       in >> st.N >> st.F;
-      input_state==9;
+      input_state=9;
     }
+
   }
 }
 
@@ -162,7 +163,7 @@ void renderGL(void)
 
   glUseProgram(shaderProgram);
 
-  glBindVertexArray (vao);
+  // glBindVertexArray (vao);
 
   glm::mat4 id(1.0f);
 
@@ -173,12 +174,13 @@ void renderGL(void)
 
   //! Prepare rotation matrix
   glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
-  to_centroid = glm::translate(id, -st.centroid);
+  // to_centroid = glm::translate(id, -st.centroid);
   xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
   yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
   zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
-  back_centroid = glm::translate(id, st.centroid);
-  rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
+  // back_centroid = glm::translate(id, st.centroid);
+  // rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
+  rotation_matrix = xrot * yrot * zrot;
 
   modelview_matrix = translation_matrix * rotation_matrix;
 
@@ -189,19 +191,21 @@ void renderGL(void)
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
   glPointSize(5);
+  for(int i=0;i<3;i++){
+    glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
+    GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
+    glEnableVertexAttribArray( vPosition );
+    glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
 
-  GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
-  glEnableVertexAttribArray( vPosition );
-  glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+    GLuint vColor = glGetAttribLocation( shaderProgram, "vColor" );
+    glEnableVertexAttribArray( vColor );
+    glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(st.model[i].pts.size()*sizeof(float)) );
 
-  GLuint vColor = glGetAttribLocation( shaderProgram, "vColor" );
-  glEnableVertexAttribArray( vColor );
-  glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(st.pts.size()*sizeof(float)) );
-
-  glDrawArrays(GL_POINTS, 0, st.pts.size()/3);
-  // Draw points 0-3 from the currently bound VAO with current in-use shader
-  if(st.mode == 'I')
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, st.pts.size()/3);
+    glDrawArrays(GL_POINTS, 0, st.model[i].pts.size()/3);
+    // Draw points 0-3 from the currently bound VAO with current in-use shader
+    if(st.mode == 'I')
+      glDrawArrays(GL_TRIANGLE_STRIP, 0, st.model[i].pts.size()/3);
+  }
 }
 
 int main(int argc, char** argv)
@@ -256,7 +260,7 @@ int main(int argc, char** argv)
   // Ensure we can capture the escape key being pressed below
   glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
   glfwSetWindowUserPointer(window, &st);
-  glfwSetMouseButtonCallback(window, cse::mouse_button_callback);
+  // glfwSetMouseButtonCallback(window, cse::mouse_button_callback);
 
   //Initialize GL state
   cse::initGL();
