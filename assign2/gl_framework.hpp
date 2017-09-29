@@ -9,6 +9,20 @@
 
 #define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
 
+struct Model
+{
+  std::vector<float> pts;
+  std::vector<float> color;
+  float xtheta, ytheta, ztheta;
+  float xtrans, ytrans, ztrans; 
+  float xscale, yscale, zscale;
+  glm::vec3 centroid;
+  int num_vertex;
+  Model(): centroid(0.0f, 0.0f, 0.0f) {
+    num_vertex = 0;
+  }
+};
+
 struct state
 {
   char mode;
@@ -32,7 +46,7 @@ struct state
 
   state(){
     mode = 'I';
-    g_xtheta = g_ytheta = g_ztheta = num_vertex = 0;
+    g_xtheta = g_ytheta = g_ztheta = 0;
     g_xtrans = g_ytrans = g_ztrans = 0;
     g_scale = 1;
     trans_factor = 0.01;
@@ -40,20 +54,6 @@ struct state
     scale_factor = 0.1;
   }
 };
-
-struct Model
-{
-  std::vector<float> pts;
-  std::vector<float> color;
-  float xtheta, ytheta, ztheta;
-  float xtrans, ytrans, ztrans; 
-  float xscale, yscale, zscale;
-  glm::vec3 centroid;
-  int num_vertex;
-  Model(): centroid(0.0f, 0.0f, 0.0f) {
-    num_vertex = 0;
-  }
-}
 
 namespace cse
 {

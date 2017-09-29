@@ -21,6 +21,96 @@ glm::mat4 rotation_matrix;
 glm::mat4 translation_matrix;
 glm::mat4 modelview_matrix;
 
+
+void parser(void)
+{
+  int filenumber = 0;
+
+  std::ifstream source;
+  std::string filename = "myscene.scn";
+  const char* tmp = filename.c_str();
+  source.open(tmp);
+  int input_state=0; //reading file state
+  for(std::string line; std::getline(source, line);) {
+    std::istringstream in(line);
+    if(input_state==0){
+      std::string rawfile;
+      in>>rawfile;
+      //read raw file
+      std::ifstream raw_source;
+      const char* raw_tmp = rawfile.c_str();
+      raw_source.open(raw_tmp);
+      for(std::string raw_line; std::getline(raw_source, raw_line);) {
+            //input coordinate
+        std::istringstream rawin(raw_line);
+        float x,y,z;
+        rawin >> x >> y >> z;
+        st.model[filenumber].pts.push_back(x);
+        st.model[filenumber].pts.push_back(y);
+        st.model[filenumber].pts.push_back(z);
+        st.model[filenumber].centroid.x = (st.model[filenumber].centroid.x*st.model[filenumber].num_vertex + x)/(st.model[filenumber].num_vertex + 1);
+        st.model[filenumber].centroid.y = (st.model[filenumber].centroid.y*st.model[filenumber].num_vertex + y)/(st.model[filenumber].num_vertex + 1);
+        st.model[filenumber].centroid.z = (st.model[filenumber].centroid.z*st.model[filenumber].num_vertex + z)/(st.model[filenumber].num_vertex + 1);
+        st.model[filenumber].num_vertex++;
+        //input color value
+        float r,g,b;
+        rawin >> r >> g >> b;
+        st.model[filenumber].color.push_back(r);
+        st.model[filenumber].color.push_back(g);
+        st.model[filenumber].color.push_back(b);
+        //push in VBO
+        glBindBuffer(GL_ARRAY_BUFFER,vbo[filenumber]);
+        glBufferData (GL_ARRAY_BUFFER, st.model[filenumber].pts.size() * sizeof (float) + st.model[filenumber].color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+        glBufferSubData( GL_ARRAY_BUFFER, 0, st.model[filenumber].pts.size() * sizeof (float), &st.model[filenumber].pts[0] );
+        glBufferSubData( GL_ARRAY_BUFFER, st.model[filenumber].pts.size() * sizeof (float),st.model[filenumber].color.size() * sizeof (float), &st.model[filenumber].color[0] );
+      }
+      input_state=1;
+    }
+    else if(input_state==1){
+      in >> st.model[filenumber].xscale >> st.model[filenumber].yscale >> st.model[filenumber].zscale;
+      input_state==2;
+    }
+    else if(input_state==2){
+      in >> st.model[filenumber].xtheta >> st.model[filenumber].ytheta >> st.model[filenumber].ztheta;
+      input_state==3;
+    }
+    else if(input_state==3){
+      in >> st.model[filenumber].xtrans >> st.model[filenumber].ytrans >> st.model[filenumber].ztrans;
+      filenumber++;
+      if(filenumber==3) //all raw files parsed
+        input_state==4;
+      else //next raw file
+        input_state==0;
+    }
+    else if(input_state==4){
+      float x,y,z;
+      in >> x >> y >> z;
+      st.eye = glm::vec3(x,y,z);
+      input_state==5;
+    }
+    else if(input_state==5){
+      float x,y,z;
+      in >> x >> y >> z;
+      st.lookat_pt = glm::vec3(x,y,z);
+      input_state==6;
+    }
+    else if(input_state==6){
+      float x,y,z;
+      in >> x >> y >> z;
+      st.upvec = glm::vec3(x,y,z);
+      input_state==7;
+    }
+    else if(input_state==7){
+      in >> st.L >> st.R >> st.T >> st.B;
+      input_state==8;
+    }
+    else if(input_state==8){
+      in >> st.N >> st.F;
+      input_state==9;
+    }
+  }
+}
+
 void initShadersGL(void)
 {
   std::string vertex_shader_file("simple_vs.glsl");
@@ -40,12 +130,10 @@ void initVertexBufferGL(void)
   glGenBuffers (3, &vbo[0]);
   glGenBuffers(1,&frustum_vbo);
   //Set it as the current buffer to be used by binding it
-  glBindBuffer (GL_ARRAY_BUFFER, vbo);
+  // glBindBuffer (GL_ARRAY_BUFFER, vbo);
   //Copy the points into the current buffer - 9 float values, start pointer and static data
   // glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float), &st.pts[0], GL_STATIC_DRAW);
-  glBufferData (GL_ARRAY_BUFFER, st.pts.size() * sizeof (float) + st.color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
-  glBufferSubData( GL_ARRAY_BUFFER, 0, st.pts.size() * sizeof (float), &st.pts[0] );
-  glBufferSubData( GL_ARRAY_BUFFER, st.pts.size() * sizeof (float),st.color.size() * sizeof (float), &st.color[0] );
+  parser();
 
   //Ask GL for a Vertex Array Object (vao)
   glGenVertexArrays (1, &vao);
@@ -79,16 +167,16 @@ void renderGL(void)
   glm::mat4 id(1.0f);
 
   //! Prepare translation matrix
-  glm::vec3 translation_amt(st.xtrans*st.trans_factor,st.ytrans*st.trans_factor,st.ztrans*st.trans_factor);
+  glm::vec3 translation_amt(st.g_xtrans*st.trans_factor,st.g_ytrans*st.trans_factor,st.g_ztrans*st.trans_factor);
   translation_matrix = glm::translate(id, translation_amt);
 
 
   //! Prepare rotation matrix
   glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
   to_centroid = glm::translate(id, -st.centroid);
-  xrot = glm::rotate(id, st.xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
-  yrot = glm::rotate(id, st.ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
-  zrot = glm::rotate(id, st.ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+  xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+  yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+  zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
   back_centroid = glm::translate(id, st.centroid);
   rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
 
