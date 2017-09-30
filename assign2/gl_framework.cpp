@@ -82,7 +82,11 @@ namespace cse
           case GLFW_KEY_4:  // NDCS to DCS
                             st->mode='4';
                             break;
-
+          //zoom in/ut
+          case GLFW_KEY_R:  st->Ew.x-=0.1;
+                            break;
+          case GLFW_KEY_T:  st->Ew.x+=0.1;
+                            break;
           // case GLFW_KEY_R: st->xtrans = -st->centroid.x/st->trans_factor;
           //                   st->ytrans = -st->centroid.y/st->trans_factor;
           //                   st->ztrans = -st->centroid.z/st->trans_factor;
