@@ -24,6 +24,64 @@ glm::mat4 translation_matrix;
 glm::mat4 scale_matrix;
 glm::mat4 modelview_matrix;
 
+int xl = 1,yl = 4,xh = 2,yh = 8;
+
+// Get outcode for Cohen-Sutherland Line Clipping algo
+int getoutcode(float x, float y){
+  int code = 0;
+
+  if(y > 1.0) code |= yh;
+  if(y < -1.0) code |= yl;
+  if(x < -1.0) code |= xl;
+  if(x > 1.0) code |= xh;
+
+  return code;
+}
+
+// Change the outer point to the intersection with the plane
+void get_intersection(int outcode1, int outcode2, float &x1, float &y1, float &x2, float &y2) {
+  while(1) {
+    if(outcode1==0 && outcode2==0){
+      break;
+    }
+    else if((outcode1 & outcode2) != 0){
+      x1 = y1 = x2 = y2 = 0;
+      break;
+    }
+    else {
+      int x, y;
+      float slope = (y2-y1)/(x2-x1);
+      int outside;
+      if(outcode1 == 0)
+        outside = outcode2;
+      else
+        outside = outcode1;
+
+      if(outside & yh) {
+          x = x1+ (yh-y1)/slope;
+          y = 1.0;
+        }
+        else if(outside & yl){
+          x = x1 + (-1.0-y1)/slope;
+          y = -1.0;
+        }
+        else if(outside & xl){
+          x = -1.0;
+          y = y1 + slope*(-1.0-x1);
+        }else if(outside & xh){
+          x = 1.0;
+          y = y1 + slope*(1.0-x1);
+        }
+        if(outside == outcode1){
+          x1 = x;
+          y1 = y;
+        }else{
+          x2 = x;
+          y2 = y;
+        }
+      }
+    }
+  }
 
 void parser(void)
 {
@@ -148,7 +206,7 @@ void initVertexBufferGL(void)
   glGenBuffers (3, &vbo[0]);
   glGenBuffers (1, &axis_vbo);
   glGenBuffers(1,&frustum_vbo);
-  
+
   //parse and add points to VBO
   parser();
 
