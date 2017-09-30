@@ -243,6 +243,9 @@ void renderGL(void)
     // std::cout<<st.model[i].xscale<<std::endl;
     modelview_matrix = translation_matrix * rotation_matrix * scale_matrix;
 
+    if(st.mode=='1')
+      modelview_matrix = wcs_to_vcs_matrix * modelview_matrix;
+
     glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
     GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
@@ -278,6 +281,10 @@ void renderGL(void)
   scale_matrix = glm::scale(id, scale_amt);
 
   modelview_matrix = translation_matrix * rotation_matrix * scale_matrix * wcs_to_vcs_inverse;
+
+  if(st.mode=='1')
+      modelview_matrix = wcs_to_vcs_matrix * modelview_matrix;
+    
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
   GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
