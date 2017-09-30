@@ -158,9 +158,9 @@ void initVertexBufferGL(void)
 
   glBindBuffer(GL_ARRAY_BUFFER, frustum_vbo);
 
-  float arr_pts[] = {0,0,0,st.R,st.T,-st.N,0,0,0,-st.L,st.T,-st.N,0,0,0,st.R,-st.B,-st.N,0,0,0,-st.L,-st.B,-st.N,st.R,st.T,-st.N,st.R,-st.B,-st.N,st.R,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,st.T,-st.N,-st.L,st.T,-st.N,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,-st.B,-st.N,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,-st.B,-st.N,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,st.T,-st.N,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F};
+  float arr_pts[] = {0,0,0,st.R,st.T,-st.N,0,0,0,-st.L,st.T,-st.N,0,0,0,st.R,-st.B,-st.N,0,0,0,-st.L,-st.B,-st.N,st.R,st.T,-st.N,st.R,-st.B,-st.N,st.R,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,-st.B,-st.N,-st.L,st.T,-st.N,-st.L,st.T,-st.N,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,st.T,-st.N,st.R*st.F/st.N,st.T*st.F/st.N,-st.F,st.R,-st.B,-st.N,st.R*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,-st.B,-st.N,-st.L*st.F/st.N,-st.B*st.F/st.N,-st.F,-st.L,st.T,-st.N,-st.L*st.F/st.N,st.T*st.F/st.N,-st.F,0,0,0};
 
-  for(int i = 0; i < sizeof(arr_pts)/sizeof(*arr_pts); i++){
+  for(int i = 0; i < sizeof(arr_pts)/sizeof(*arr_pts)-3; i++){
     if(i%3 == 0)
       st.frustum_centroid.x += arr_pts[i];
     else if(i%3 == 1)
@@ -169,9 +169,9 @@ void initVertexBufferGL(void)
       st.frustum_centroid.z += arr_pts[i];
   }
 
-  st.frustum_centroid.x /= (sizeof(arr_pts)/sizeof(*arr_pts)/3);
-  st.frustum_centroid.y /= (sizeof(arr_pts)/sizeof(*arr_pts)/3);
-  st.frustum_centroid.z /= (sizeof(arr_pts)/sizeof(*arr_pts)/3);
+  st.frustum_centroid.x /= (sizeof(arr_pts)/sizeof(*arr_pts)/3-1);
+  st.frustum_centroid.y /= (sizeof(arr_pts)/sizeof(*arr_pts)/3-1);
+  st.frustum_centroid.z /= (sizeof(arr_pts)/sizeof(*arr_pts)/3-1);
 
   st.frustum_pts.insert(st.frustum_pts.end(), arr_pts, arr_pts+sizeof(arr_pts)/sizeof(*arr_pts));
 
@@ -188,6 +188,10 @@ void initVertexBufferGL(void)
     st.frustum_color.push_back(1);
     st.frustum_color.push_back(1);
   }
+  // pushing red for eye
+  st.frustum_color.push_back(1);
+  st.frustum_color.push_back(0);
+  st.frustum_color.push_back(0);
 
   glBufferData (GL_ARRAY_BUFFER, st.frustum_pts.size() * sizeof (float) + st.frustum_color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
   glBufferSubData( GL_ARRAY_BUFFER, 0, st.frustum_pts.size() * sizeof (float), &st.frustum_pts[0] );
@@ -283,7 +287,8 @@ void renderGL(void)
   glEnableVertexAttribArray( vColor );
   glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(st.frustum_pts.size()*sizeof(float)) );
 
-  glDrawArrays(GL_LINES, 0, st.frustum_pts.size()/3);
+  glDrawArrays(GL_LINES, 0, st.frustum_pts.size()/3-1);
+  glDrawArrays(GL_POINTS, st.frustum_pts.size()/3-1, st.frustum_pts.size()/3);
 }
 
 int main(int argc, char** argv)
