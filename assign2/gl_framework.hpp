@@ -31,26 +31,20 @@ struct state
   char mode;
   int g_xtheta, g_ytheta, g_ztheta; //number of clicks
   int g_xtrans, g_ytrans, g_ztrans;
-  int g_scale;
-  // float zpos;
-  //! Scale how much translation or rotation is required per key press
   float trans_factor;
   float rot_factor;
-  float scale_factor;
-  Model model[3];
+  Model model[3]; // storing 3 models
+
+  //for drawing x,y,z axis
   std::vector<float> axis_pts;
   std::vector<float> axis_color;
 
   // frustum variables
   float L,R,T,B,N,F;
 
-  float Lw,Rw,Tw,Bw,Nw,Fw;
-  glm::vec3 Ew, Cw, Uw;
-
   // frustum coordinates
   std::vector<float> frustum_pts;
   std::vector<float> frustum_color;
-  glm::vec3 frustum_centroid;
   int frustum_vertex_num;
 
   //wcs variable
@@ -58,20 +52,21 @@ struct state
   glm::vec3 lookat_pt;
   glm::vec3 upvec;
 
-  state()
-  : frustum_centroid(0.0f, 0.0f, 0.0f){
+  // our frustum variable (window)
+  float Lw,Rw,Tw,Bw,Nw,Fw;
+  glm::vec3 Ew, Cw, Uw;
+
+  state() {
     mode = 'I';
     g_xtheta = g_ytheta = g_ztheta = 0;
     g_xtrans = g_ytrans = g_ztrans = 0;
-    g_scale = 10;
     trans_factor = 0.01;
     rot_factor = 0.1;
-    scale_factor = 0.1;
     frustum_vertex_num = 0;
-    Lw = -5.0;
-    Rw = 5.0;
-    Bw = -5.0;
-    Tw = 5.0;
+    Lw = -3.0;
+    Rw = 3.0;
+    Bw = -3.0;
+    Tw = 3.0;
     Nw = -5000.0;
     Fw = 5000.0;
     Ew = glm::vec3(0.0,0.0,3.0);
@@ -101,7 +96,6 @@ struct state
   }
 
   glm::mat4 view_matrix() {
-    // std::cout<<Ew.z<<std::endl;
     return glm::ortho(Lw,Rw,Bw,Tw,Nw,Fw) * glm::lookAt(Ew, Cw, Uw) ;
   }
 

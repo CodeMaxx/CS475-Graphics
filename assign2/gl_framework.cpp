@@ -94,10 +94,6 @@ namespace cse
                             st->Rw+=0.5;
                             st->Tw+=0.5;
                             break;
-          // case GLFW_KEY_R: st->xtrans = -st->centroid.x/st->trans_factor;
-          //                   st->ytrans = -st->centroid.y/st->trans_factor;
-          //                   st->ztrans = -st->centroid.z/st->trans_factor;
-          //                   break;
           // Default case
           default: std::cout << "Key not recognised in this mode." << std::endl;
         }
