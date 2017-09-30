@@ -18,7 +18,7 @@ GLuint frustum_vbo, frustum_vao;
 state st;
 
 //! Tranformation matrices
-GLuint transMatrix;
+GLuint transMatrix,mode;
 glm::mat4 rotation_matrix;
 glm::mat4 translation_matrix;
 glm::mat4 scale_matrix;
@@ -208,6 +208,7 @@ void initVertexBufferGL(void)
   glBufferSubData( GL_ARRAY_BUFFER, st.frustum_pts.size() * sizeof (float),st.frustum_color.size() * sizeof (float), &st.frustum_color[0] );
 
   transMatrix = glGetUniformLocation( shaderProgram, "transMatrix");
+  mode = glGetUniformLocation( shaderProgram, "mode");
 }
 
 void renderGL(void)
@@ -255,6 +256,12 @@ void renderGL(void)
 
   glm::mat4 global_matrix = view_matrix * scale_matrix * rotation_matrix * translation_matrix;
 
+  //sending mode to shader
+  if(st.mode == '3' || st.mode == '4')
+    glUniform1i(mode, 1);
+  else
+    glUniform1i(mode, 0);
+
   for(int i=0;i<3;i++){
     glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
 
@@ -282,7 +289,7 @@ void renderGL(void)
 
     if(st.mode=='1')
       modelview_matrix = global_matrix * wcs_to_vcs_matrix * local_matrix;
-    else if(st.mode == '2')
+    else if(st.mode == '2' || st.mode == '3')
       modelview_matrix = global_matrix * vcs_to_ccs_matrix * wcs_to_vcs_matrix * local_matrix;
 
     glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
@@ -327,7 +334,7 @@ void renderGL(void)
 
   if(st.mode=='1')
     modelview_matrix = global_matrix;
-  else if(st.mode=='2')
+  else if(st.mode=='2' || st.mode=='3')
     modelview_matrix = global_matrix * vcs_to_ccs_matrix;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
