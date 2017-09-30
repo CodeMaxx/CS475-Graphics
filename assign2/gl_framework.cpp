@@ -83,9 +83,16 @@ namespace cse
                             st->mode='4';
                             break;
           //zoom in/ut
-          case GLFW_KEY_R:  st->Ew.x-=0.1;
+          case GLFW_KEY_R:  //st->Ew.z-=0.1;
+                            st->Lw+=0.5;
+                            st->Bw+=0.5;
+                            st->Rw-=0.5;
+                            st->Tw-=0.5;
                             break;
-          case GLFW_KEY_T:  st->Ew.x+=0.1;
+          case GLFW_KEY_T:  st->Lw-=0.5;
+                            st->Bw-=0.5;
+                            st->Rw+=0.5;
+                            st->Tw+=0.5;
                             break;
           // case GLFW_KEY_R: st->xtrans = -st->centroid.x/st->trans_factor;
           //                   st->ytrans = -st->centroid.y/st->trans_factor;

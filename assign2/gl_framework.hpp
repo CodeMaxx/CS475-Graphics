@@ -101,14 +101,15 @@ struct state
   }
 
   glm::mat4 view_matrix() {
+    std::cout<<Ew.z<<std::endl;
     return glm::ortho(Lw,Rw,Bw,Tw,Nw,Fw) * glm::lookAt(Ew, Cw, Uw) ;
   }
 
   glm::mat4 ndcs_to_dcs() {
-    glm::mat4 ret((Rw-Lw)/2, 0, 0, 0,
-                  0, (Tw-Bw)/2, 0, 0,
+    glm::mat4 ret((R+L)/2, 0, 0, 0,
+                  0, (T+B)/2, 0, 0,
                   0, 0, 1/2, 0,
-                  (Rw+Lw)/2, (Tw+Bw)/2, 1/2, 1);
+                  (R-L)/2, (T-B)/2, 1/2, 1);
     return ret;
   }
 };
