@@ -239,11 +239,19 @@ void renderGL(void)
 
 
     //! Prepare rotation matrix
-    glm::mat4 xrot, yrot, zrot;
-    xrot = glm::rotate(id, st.g_xtheta*st.rot_factor + glm::radians(st.model[i].xtheta), glm::vec3(1.0f, 0.0f, 0.0f));
-    yrot = glm::rotate(id, st.g_ytheta*st.rot_factor + glm::radians(st.model[i].ytheta), glm::vec3(0.0f, 1.0f, 0.0f));
-    zrot = glm::rotate(id, st.g_ztheta*st.rot_factor + glm::radians(st.model[i].ztheta), glm::vec3(0.0f, 0.0f, 1.0f));
-    rotation_matrix = xrot * yrot * zrot;
+    glm::mat4 xrot, yrot, zrot, to_centroid, back_centroid;
+    to_centroid = glm::translate(id, -st.model[i].centroid);
+    xrot = glm::rotate(id, glm::radians(st.model[i].xtheta), glm::vec3(1.0f, 0.0f, 0.0f));
+    yrot = glm::rotate(id, glm::radians(st.model[i].ytheta), glm::vec3(0.0f, 1.0f, 0.0f));
+    zrot = glm::rotate(id, glm::radians(st.model[i].ztheta), glm::vec3(0.0f, 0.0f, 1.0f));
+    back_centroid = glm::translate(id, st.model[i].centroid);
+    rotation_matrix = back_centroid * xrot * yrot * zrot * to_centroid;
+
+    xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+    yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+    zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+
+    rotation_matrix = xrot * yrot * zrot * rotation_matrix;
 
     //prepare scaling matrix
     glm::vec3 scale_amt(st.g_scale*st.scale_factor*st.model[i].xscale,st.g_scale*st.scale_factor*st.model[i].yscale,st.g_scale*st.scale_factor*st.model[i].zscale);
