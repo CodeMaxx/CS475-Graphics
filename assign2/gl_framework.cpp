@@ -82,13 +82,20 @@ namespace cse
           case GLFW_KEY_4:  // NDCS to DCS
                             st->mode='4';
                             break;
-          //zoom in/ut
-          case GLFW_KEY_R:  //st->Ew.z-=0.1;
-                            st->Lw+=0.5;
-                            st->Bw+=0.5;
-                            st->Rw-=0.5;
-                            st->Tw-=0.5;
+          case GLFW_KEY_5:  // Go back to WCS
+                            st->mode = '5';
                             break;
+          //zoom in/ut
+          case GLFW_KEY_R:  if(st->Lw < -0.6) {
+                              st->Lw+=0.5;
+                              st->Bw+=0.5;
+                              st->Rw-=0.5;
+                              st->Tw-=0.5;
+                            }
+                            else
+                              std::cout << "Can't zoom in anymore!" << std::endl;
+                            break;
+
           case GLFW_KEY_T:  st->Lw-=0.5;
                             st->Bw-=0.5;
                             st->Rw+=0.5;

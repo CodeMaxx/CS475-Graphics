@@ -60,13 +60,13 @@ struct state
     mode = 'I';
     g_xtheta = g_ytheta = g_ztheta = 0;
     g_xtrans = g_ytrans = g_ztrans = 0;
-    trans_factor = 0.01;
+    trans_factor = 0.05;
     rot_factor = 0.1;
     frustum_vertex_num = 0;
-    Lw = -3.0;
-    Rw = 3.0;
-    Bw = -3.0;
-    Tw = 3.0;
+    Lw = -2.1;
+    Rw = 2.1;
+    Bw = -2.1;
+    Tw = 2.1;
     Nw = -5000.0;
     Fw = 5000.0;
     Ew = glm::vec3(0.0,0.0,3.0);
@@ -100,10 +100,10 @@ struct state
   }
 
   glm::mat4 ndcs_to_dcs() {
-    glm::mat4 ret((R+L)/2, 0, 0, 0,
-                  0, (T+B)/2, 0, 0,
+    glm::mat4 ret((1+1)/2, 0, 0, 0,
+                  0, (1+1)/2, 0, 0,
                   0, 0, 1/2, 0,
-                  (R-L)/2, (T-B)/2, 1/2, 1);
+                  (1-1)/2, (1-1)/2, 1/2, 1);
     return ret;
   }
 };
