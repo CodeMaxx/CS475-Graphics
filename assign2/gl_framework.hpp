@@ -101,7 +101,7 @@ struct state
   }
 
   glm::mat4 view_matrix() {
-    return glm::lookAt(Ew, Cw, Uw) * glm::ortho(Lw,Rw,Bw,Tw,Nw,Fw);
+    return glm::ortho(Lw,Rw,Bw,Tw,Nw,Fw) * glm::lookAt(Ew, Cw, Uw) ;
   }
 
   glm::mat4 ndcs_to_dcs() {

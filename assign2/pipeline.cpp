@@ -229,6 +229,7 @@ void renderGL(void)
   // glm::mat4 wcs_to_vcs_matrix = glm::lookAt(st.eye, st.lookat_pt, st.upvec);
   glm::mat4 wcs_to_vcs_matrix = st.wcs_to_vcs();
   glm::mat4 vcs_to_ccs_matrix = st.vcs_to_ccs();
+  glm::mat4 ndcs_to_dcs = st.ndcs_to_dcs();
 
   // std::cout<< glm::to_string(wcs_to_vcs_matrix)<<std::endl;
   // std::cout<< glm::to_string(wcs_to_vcs_matrix2)<<std::endl;
@@ -289,6 +290,8 @@ void renderGL(void)
       modelview_matrix = global_matrix * wcs_to_vcs_matrix * local_matrix;
     else if(st.mode == '2' || st.mode == '3')
       modelview_matrix = global_matrix * vcs_to_ccs_matrix * wcs_to_vcs_matrix * local_matrix;
+    else if(st.mode=='4')
+      modelview_matrix = global_matrix * ndcs_to_dcs * vcs_to_ccs_matrix * wcs_to_vcs_matrix * local_matrix;
 
     glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
@@ -334,6 +337,8 @@ void renderGL(void)
     modelview_matrix = global_matrix;
   else if(st.mode=='2' || st.mode=='3')
     modelview_matrix = global_matrix * vcs_to_ccs_matrix;
+  else if(st.mode=='4')
+    modelview_matrix = global_matrix * ndcs_to_dcs * vcs_to_ccs_matrix;
 
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
