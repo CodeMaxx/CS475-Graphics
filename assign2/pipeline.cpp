@@ -86,7 +86,7 @@ void parser(void)
         input_state=0;
     }
     else if(input_state==4){
-      float pts[] = {0,0,0,1,1,1,0,0,0,0,0.2,0,0,0,0,0,0,0.2};
+      float pts[] = {0,0,0,0.2,0,0,0,0,0,0,0.2,0,0,0,0,0,0,0.2};
       float colors[] = {0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1};
       st.axis_pts.insert(st.axis_pts.end(), pts, pts + sizeof(pts)/sizeof(*pts));
       st.axis_color.insert(st.axis_color.end(), colors, colors + sizeof(colors)/sizeof(*colors));
@@ -149,6 +149,7 @@ void initVertexBufferGL(void)
   glVertexAttribPointer (vao, 3, GL_FLOAT, GL_FALSE, 0, NULL);
   //Ask GL for a Vertex Buffer Object (vbo)
   glGenBuffers (3, &vbo[0]);
+  glGenBuffers (1, &axis_vbo);
   glGenBuffers(1,&frustum_vbo);
   //Set it as the current buffer to be used by binding it
   // glBindBuffer (GL_ARRAY_BUFFER, vbo);
@@ -287,9 +288,6 @@ void renderGL(void)
 
   modelview_matrix = translation_matrix * rotation_matrix * scale_matrix;
 
-  if(st.mode=='1')
-      modelview_matrix = modelview_matrix * wcs_to_vcs_matrix;
-
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
 
   GLuint vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
@@ -308,6 +306,8 @@ void renderGL(void)
   glBindVertexArray (frustum_vao);
   glBindBuffer(GL_ARRAY_BUFFER, frustum_vbo);
 
+  if(st.mode=='1')
+      modelview_matrix = modelview_matrix * wcs_to_vcs_matrix;
 
   modelview_matrix = translation_matrix * rotation_matrix * scale_matrix * wcs_to_vcs_inverse;
   glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(modelview_matrix));
