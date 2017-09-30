@@ -6,6 +6,9 @@
 #include <vector>
 #include <iostream>
 #include "glm/vec3.hpp"
+#include "glm/mat4x4.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
 
@@ -62,6 +65,18 @@ struct state
     rot_factor = 0.1;
     scale_factor = 0.1;
     frustum_vertex_num = 0;
+  }
+
+  glm::mat4 wcs_to_vcs(){
+    glm::vec3 n = -(lookat_pt-eye)/glm::length(lookat_pt-eye);
+    glm::vec3 u = glm::cross(upvec,n)/glm::length(glm::cross(upvec,n));
+    glm::vec3 v = glm::cross(n,u);
+    glm::vec3 e(-glm::dot(u,eye),-glm::dot(v,eye),-glm::dot(n,eye));
+    glm::mat4 ret(u.x, v.x, n.x, 0,
+                  u.y, v.y, n.y, 0,
+                  u.z, v.z, n.z, 0,
+                  e.x, e.y, e.z, 1);
+    return ret;
   }
 };
 
