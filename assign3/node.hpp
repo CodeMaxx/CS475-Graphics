@@ -1,3 +1,6 @@
+#ifndef _NODE_HPP_
+#define	_NODE_HPP_
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -41,3 +44,5 @@ class node {
 };
 
 glm::mat4* multiply_stack(std::vector <glm::mat4> );
+
+#endif
