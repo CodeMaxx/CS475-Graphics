@@ -10,13 +10,11 @@
 
 
 #include "gl_framework.hpp"
+#include "model.hpp"
 
 class node {
 	GLuint vao,vbo;
-	GLuint num_vertices;
-
-	std::size_t vertex_buffer_size;
-	std::size_t color_buffer_size;
+	Model model;
 
 	GLfloat tx,ty,tz,rx,ry,rz;
 	glm::mat4 rotation;
@@ -28,7 +26,7 @@ class node {
 	void update_matrices();
 
 	public:
-		node (node*, GLuint, glm::vec3*,  glm::vec3*, std::size_t, std::size_t);
+		node (node*, Model);
 
 		void add_child(node*);
 		void render();

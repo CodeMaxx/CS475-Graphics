@@ -4,11 +4,9 @@
 extern std::vector<glm::mat4> matrixStack;
 extern GLuint vPosition,vColor,transMatrix;
 
-node::node(node* a_parent, GLuint num_v, glm::vec3* a_vertices, glm::vec3* a_colours, std::size_t v_size, std::size_t c_size){
+node::node(node* a_parent, Model m ){
 
-	num_vertices = num_v;
-	vertex_buffer_size = v_size;
-	color_buffer_size = c_size;
+	model = m;
 	// initialize vao and vbo of the object;
 
 
@@ -22,16 +20,16 @@ node::node(node* a_parent, GLuint num_v, glm::vec3* a_vertices, glm::vec3* a_col
 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
 
 	
-	glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, NULL, GL_STATIC_DRAW);
-	glBufferSubData( GL_ARRAY_BUFFER, 0, vertex_buffer_size, a_vertices );
-	glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size, color_buffer_size, a_colours );
+	glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+    glBufferSubData( GL_ARRAY_BUFFER, 0, m.pts.size() * sizeof (float), &m.pts[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float),m.color.size() * sizeof (float), &m.color[0] );
 
 	//setup the vertex array as per the shader
 	glEnableVertexAttribArray( vPosition );
-	glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+	glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
 
 	glEnableVertexAttribArray( vColor );
-	glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size));
+	glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float)));
 
 
 	// set parent
@@ -85,7 +83,7 @@ void node::render(){
 
 	glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
 	glBindVertexArray (vao);
-	glDrawArrays(GL_TRIANGLES, 0, num_vertices);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, model.pts.size()/3);
 
 	// for memory 
 	delete ms_mult;

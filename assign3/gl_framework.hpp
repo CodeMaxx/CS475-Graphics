@@ -12,20 +12,6 @@
 
 #define BUFFER_OFFSET( offset )   ((GLvoid*) (offset))
 
-struct Model
-{
-  std::vector<float> pts;
-  std::vector<float> color;
-  float xtheta, ytheta, ztheta;
-  float xtrans, ytrans, ztrans;
-  float xscale, yscale, zscale;
-  glm::vec3 centroid;
-  int num_vertex;
-  Model(): centroid(0.0f, 0.0f, 0.0f) {
-    num_vertex = 0;
-  }
-};
-
 struct state
 {
   char mode;
@@ -33,7 +19,6 @@ struct state
   int g_xtrans, g_ytrans, g_ztrans;
   float trans_factor;
   float rot_factor;
-  Model model[3]; // storing 3 models
 
   //for drawing x,y,z axis
   std::vector<float> axis_pts;

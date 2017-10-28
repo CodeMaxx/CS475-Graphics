@@ -7,6 +7,7 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/string_cast.hpp"
 #include "node.hpp"
+#include "model.hpp"
 
 //! The pointer to the GLFW window
 GLFWwindow* window;
@@ -93,7 +94,7 @@ void quad(int a, int b, int c, int d)
   v_colors[tri_idx] = colors[a]; v_positions[tri_idx] = positions[a]; tri_idx++;
   v_colors[tri_idx] = colors[c]; v_positions[tri_idx] = positions[c]; tri_idx++;
   v_colors[tri_idx] = colors[d]; v_positions[tri_idx] = positions[d]; tri_idx++;
- }
+}
 
 // generate 12 triangles: 36 vertices and 36 colors
 void colorcube(void)
@@ -128,6 +129,7 @@ void initVertexBufferGL(void)
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
 
   colorcube();
+  Model m = Model.draw_sphere();
 
 
   node1 = new node(NULL,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
