@@ -129,15 +129,16 @@ void initVertexBufferGL(void)
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
 
   colorcube();
-  Model m = Model.draw_sphere();
+
+  Model m = Model::draw_sphere(1,10,10);
 
 
-  node1 = new node(NULL,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  node2 = new node(node1,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  node2->change_parameters(2.0,0.0,0.0,0.0,0.0,0.0);
-  node3 = new node(node2,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  node3->change_parameters(2.0,0.0,0.0,0.0,0.0,0.0);
-  root_node = curr_node = node3;
+  node1 = new node(NULL,m);
+  // node2 = new node(node1,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  // node2->change_parameters(2.0,0.0,0.0,0.0,0.0,0.0);
+  // node3 = new node(node2,num_vertices,v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  // node3->change_parameters(2.0,0.0,0.0,0.0,0.0,0.0);
+  root_node = curr_node = node1;
 }
 
 void renderGL(void)

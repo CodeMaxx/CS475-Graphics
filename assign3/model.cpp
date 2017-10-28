@@ -1,6 +1,8 @@
 #include "model.hpp"
 #include <iostream>
 
+#define PI 3.14159265
+
 Model Model::draw_sphere(double radius, int Lats, int Longs)
 {
   Model m;

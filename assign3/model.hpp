@@ -1,3 +1,6 @@
+#ifndef _MODEL_HPP_
+#define	_MODEL_HPP_
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -18,9 +21,12 @@ struct Model
   std::vector<float> color;
   std::vector<float> normal;
   int num_vertex;
+public:
   static Model draw_sphere(double radius, int Lats, int Longs);
   Model()
   {
     num_vertex=0;
   }
 };
+
+#endif
