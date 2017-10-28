@@ -19,17 +19,17 @@ node::node(node* a_parent, Model m ){
 	glBindVertexArray (vao);
 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
 
-	
+
 	glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
     glBufferSubData( GL_ARRAY_BUFFER, 0, m.pts.size() * sizeof (float), &m.pts[0] );
     glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float),m.color.size() * sizeof (float), &m.color[0] );
 
 	//setup the vertex array as per the shader
 	glEnableVertexAttribArray( vPosition );
-	glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+	glVertexAttribPointer( vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
 
 	glEnableVertexAttribArray( vColor );
-	glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float)));
+	glVertexAttribPointer( vColor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float)));
 
 
 	// set parent
@@ -85,13 +85,13 @@ void node::render(){
 	glBindVertexArray (vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, model.pts.size()/3);
 
-	// for memory 
+	// for memory
 	delete ms_mult;
 
 }
 
 void node::render_tree(){
-	
+
 	matrixStack.push_back(translation);
 	matrixStack.push_back(rotation);
 
@@ -142,7 +142,7 @@ glm::mat4* multiply_stack(std::vector<glm::mat4> matStack){
 
 	for(int i=0;i<matStack.size();i++){
 		*mult = (*mult) * matStack[i];
-	}	
+	}
 
 	return mult;
 }

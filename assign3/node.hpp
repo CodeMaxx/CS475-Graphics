@@ -11,9 +11,9 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-
-#include "gl_framework.hpp"
 #include "model.hpp"
+#include "gl_framework.hpp"
+
 
 class node {
 	GLuint vao,vbo;
