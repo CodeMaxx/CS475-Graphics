@@ -83,7 +83,7 @@ void node::render(){
 
 	glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
 	glBindVertexArray (vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, model.pts.size()/3);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, model.pts.size()/4);
 
 	// for memory 
 	delete ms_mult;

@@ -1,13 +1,12 @@
 #version 400
 
-in vec3 vPosition;
-in vec3 vColor;
+in vec4 vPosition;
+in vec4 vColor;
 out vec4 color;
 uniform mat4 transMatrix;
 
 void main ()
 {
-	gl_Position = vec4 (vPosition, 1.0);
-	gl_Position = transMatrix * gl_Position;
-	color = vec4 (vColor, 1.0);
+	gl_Position = transMatrix * vPosition;
+	color = vColor;
 }

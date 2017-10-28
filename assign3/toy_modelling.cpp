@@ -51,61 +51,6 @@ glm::mat4 modelview_matrix;
 
 GLuint transMatrix;
 
-const int num_vertices = 36;
-
-
-//-----------------------------------------------------------------
-
-//Eight vertices in homogenous coordinates
-//elongated cuboid , basic arm in the hierarchy;
-glm::vec3 positions[8] = {
-  glm::vec3(0.0, -0.25, 0.25),
-  glm::vec3(0.0, 0.25, 0.25),
-  glm::vec3(2.0, 0.25, 0.25),
-  glm::vec3(2.0, -0.25, 0.25),
-  glm::vec3(0.0, -0.25, -0.25),
-  glm::vec3(0.0, 0.25, -0.25),
-  glm::vec3(2.0, 0.25, -0.25),
-  glm::vec3(2.0, -0.25, -0.25)
-};
-
-//RGBA colors
-glm::vec3 colors[8] = {
-  glm::vec3(0.0, 0.0, 0.0),
-  glm::vec3(1.0, 0.0, 0.0),
-  glm::vec3(1.0, 1.0, 0.0),
-  glm::vec3(0.0, 1.0, 0.0),
-  glm::vec3(0.0, 0.0, 1.0),
-  glm::vec3(1.0, 0.0, 1.0),
-  glm::vec3(1.0, 1.0, 1.0),
-  glm::vec3(0.0, 1.0, 1.0)
-};
-
-int tri_idx=0;
-glm::vec3 v_positions[num_vertices];
-glm::vec3 v_colors[num_vertices];
-
-// quad generates two triangles for each face and assigns colors to the vertices
-void quad(int a, int b, int c, int d)
-{
-  v_colors[tri_idx] = colors[a]; v_positions[tri_idx] = positions[a]; tri_idx++;
-  v_colors[tri_idx] = colors[b]; v_positions[tri_idx] = positions[b]; tri_idx++;
-  v_colors[tri_idx] = colors[c]; v_positions[tri_idx] = positions[c]; tri_idx++;
-  v_colors[tri_idx] = colors[a]; v_positions[tri_idx] = positions[a]; tri_idx++;
-  v_colors[tri_idx] = colors[c]; v_positions[tri_idx] = positions[c]; tri_idx++;
-  v_colors[tri_idx] = colors[d]; v_positions[tri_idx] = positions[d]; tri_idx++;
-}
-
-// generate 12 triangles: 36 vertices and 36 colors
-void colorcube(void)
-{
-    quad( 1, 0, 3, 2 );
-    quad( 2, 3, 7, 6 );
-    quad( 3, 0, 4, 7 );
-    quad( 6, 5, 1, 2 );
-    quad( 4, 5, 6, 7 );
-    quad( 5, 4, 0, 1 );
-}
 
 void initShadersGL(void)
 {
@@ -128,9 +73,16 @@ void initVertexBufferGL(void)
   vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
 
-  colorcube();
-
-  Model m = Model::draw_sphere(1,10,10);
+  Model m = Model::draw_cylinder(1,1,20);
+  // Model m;
+  // m.pts.push_back(0.0);m.pts.push_back(0.0);m.pts.push_back(0.0);
+  // m.pts.push_back(1.0);m.pts.push_back(0.0);m.pts.push_back(0.0);
+  // m.pts.push_back(0.0);m.pts.push_back(1.0);m.pts.push_back(0.0);
+  // m.pts.push_back(1.0);m.pts.push_back(1.0);m.pts.push_back(0.0);
+  // m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
+  // m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
+  // m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
+  // m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
 
 
   node1 = new node(NULL,m);

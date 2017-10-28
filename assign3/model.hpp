@@ -23,6 +23,7 @@ struct Model
   int num_vertex;
 public:
   static Model draw_sphere(double radius, int Lats, int Longs);
+  static Model draw_cylinder(double radius, double height, int Lats);
   Model()
   {
     num_vertex=0;
