@@ -6,7 +6,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/string_cast.hpp"
-#include "node.hpp"
+#include "node.cpp"
 
 //! The pointer to the GLFW window
 GLFWwindow* window;

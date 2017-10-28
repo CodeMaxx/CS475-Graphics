@@ -2,6 +2,7 @@
 #include <iostream>
 
 extern std::vector<glm::mat4> matrixStack;
+extern GLuint vPosition,vColor,transMatrix;
 
 node::node(node* a_parent, GLuint num_v, glm::vec3* a_vertices, glm::vec3* a_colours, std::size_t v_size, std::size_t c_size){
 
@@ -82,7 +83,7 @@ void node::render(){
 	//matrixStack multiply
 	glm::mat4* ms_mult = multiply_stack(matrixStack);
 
-	glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
+	glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
 	glBindVertexArray (vao);
 	glDrawArrays(GL_TRIANGLES, 0, num_vertices);
 
