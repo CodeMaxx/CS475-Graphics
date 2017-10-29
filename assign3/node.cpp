@@ -1,7 +1,7 @@
 #include "node.hpp"
 
-extern std::vector<glm::mat4> matrixStack;
 extern GLuint vPosition, vColor, vNormal, uModelViewMatrix, normalMatrix;
+extern int total_nodes;
 
 node::node(node* a_parent, Model m ){
 
@@ -44,7 +44,8 @@ node::node(node* a_parent, Model m ){
 		parent = a_parent;
 		parent->add_child(this);
 	}
-
+	node_number =total_nodes;
+	total_nodes++; 
 	//initial parameters are set to 0;
 
 	tx=ty=tz=rx=ry=rz=0;
@@ -79,10 +80,10 @@ void node::change_parameters(GLfloat atx, GLfloat aty, GLfloat atz, GLfloat arx,
 	update_matrices();
 }
 
-void node::render(){
+void node::render(std::vector<glm::mat4>* matrixStack){
 
 	//matrixStack multiply
-	glm::mat4* ms_mult = multiply_stack(matrixStack);
+	glm::mat4* ms_mult = multiply_stack(*matrixStack);
 
 	glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
 	normal_matrix = glm::transpose (glm::inverse(glm::mat3(*ms_mult)));
@@ -95,17 +96,17 @@ void node::render(){
 
 }
 
-void node::render_tree(){
+void node::render_tree(std::vector<glm::mat4>* matrixStack){
 
-	matrixStack.push_back(translation);
-	matrixStack.push_back(rotation);
+	matrixStack->push_back(translation);
+	matrixStack->push_back(rotation);
 
-	render();
+	render(matrixStack);
 	for(int i=0;i<children.size();i++){
-		children[i]->render_tree();
+		children[i]->render_tree(matrixStack);
 	}
-	matrixStack.pop_back();
-	matrixStack.pop_back();
+	matrixStack->pop_back();
+	matrixStack->pop_back();
 
 }
 

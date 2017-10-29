@@ -18,6 +18,7 @@
 class node {
 	GLuint vao,vbo;
 	Model model;
+	int node_number;
 
 	GLfloat tx,ty,tz,rx,ry,rz;
 	glm::mat4 rotation;
@@ -34,9 +35,9 @@ class node {
 		node (node*, Model);
 
 		void add_child(node*);
-		void render();
+		void render(std::vector<glm::mat4>*);
 		void change_parameters(GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
-		void render_tree();
+		void render_tree(std::vector<glm::mat4>*);
 		void inc_rx();
 		void inc_ry();
 		void inc_rz();

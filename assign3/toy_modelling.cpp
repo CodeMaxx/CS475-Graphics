@@ -139,6 +139,51 @@ void initVertexBufferGL(void)
   woody.push_back(node1);
 
   curr_node = woody[0];
+
+  m = Model::draw_cylinder(0.8,2.3,30);
+  node1 = new node(NULL,m);
+  node1->change_parameters(3.0,0,0.0,90,0.0,0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(0.8,0,2.3,0,60.0,0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(-0.8,0,2.3,0,-60.0,0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(0,0.8,2.3,-60.0,0.0,0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(0,-0.8,2.3,60.0,0,0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(0.8/sqrt(2),0.8/sqrt(2),2.3,-60.0/sqrt(2),60.0/sqrt(2),0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(-0.8/sqrt(2),0.8/sqrt(2),2.3,-60.0/sqrt(2),-60.0/sqrt(2),0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(0.8/sqrt(2),-0.8/sqrt(2),2.3,60.0/sqrt(2),60.0/sqrt(2),0.0);
+  stretch.push_back(node1);
+
+  m = Model::draw_cylinder(0.2,2,30);
+  node1 = new node(stretch[0],m);
+  node1->change_parameters(-0.8/sqrt(2),-0.8/sqrt(2),2.3,60.0/sqrt(2),-60.0/sqrt(2),0.0);
+  stretch.push_back(node1);
 }
 
 void renderGL(void)
@@ -147,7 +192,8 @@ void renderGL(void)
 
   glUseProgram(shaderProgram);
 
-  matrixStack.clear();
+  matrixStack1.clear();
+  matrixStack2.clear();
 
   //Creating the lookat and the up vectors for the camera
   c_rotation_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(c_xrot), glm::vec3(1.0f,0.0f,0.0f));
@@ -174,9 +220,12 @@ void renderGL(void)
 
   glUniformMatrix4fv(viewMatrix, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
-  matrixStack.push_back(view_matrix);
+  matrixStack1.push_back(view_matrix);
+  matrixStack2.push_back(view_matrix);
 
-  woody[0]->render_tree();
+  woody[0]->render_tree(&matrixStack1);
+
+  stretch[0]->render_tree(&matrixStack2);
 
 }
 
