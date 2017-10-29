@@ -54,10 +54,6 @@ std::vector<node*> woody;
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack;
 
-node* root_node;
 node* curr_node;
-node* node1;
-node* node2;
-node* node3;
 
 #endif

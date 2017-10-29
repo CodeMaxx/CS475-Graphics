@@ -23,6 +23,8 @@ void initVertexBufferGL(void)
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
   vNormal = glGetAttribLocation( shaderProgram, "vNormal" );
 
+  node* node1;
+
   //hip 0
   Model m = Model::draw_cuboid(1.0,0.6,0.5);
   node1 = new node(NULL,m);
@@ -136,7 +138,7 @@ void initVertexBufferGL(void)
   node1->change_parameters(0,0.1,2.1,0,0.0,0.0);
   woody.push_back(node1);
 
-  root_node = curr_node = woody[0];
+  curr_node = woody[0];
 }
 
 void renderGL(void)
