@@ -33,67 +33,67 @@ void initVertexBufferGL(void)
   //left leg top 1
   m = Model::draw_cylinder(0.2,2.0,30);
   node1 = new node(woody[0],m);
-  node1->change_parameters(0.3,-0.3,0.0,90.0,0.0,0.0);
+  node1->change_parameters(0.3,0.0,0.0,90.0,0.0,0.0);
   woody.push_back(node1);
 
   //right leg top 2
   m = Model::draw_cylinder(0.2,2.0,30);
   node1 = new node(woody[0],m);
-  node1->change_parameters(-0.3,-0.3,0.0,90.0,0.0,0.0);
+  node1->change_parameters(-0.3,0.0,0.0,90.0,0.0,0.0);
   woody.push_back(node1);
 
   //left leg bottom 3
   m = Model::draw_frustum(0.2,0.25,2.0,30);
   node1 = new node(woody[1],m);
-  node1->change_parameters(0,0,1.5,0,0.0,0.0);
+  node1->change_parameters(0,0,2.0,0,0.0,0.0);
   woody.push_back(node1);
 
   //right leg bottom 4
   m = Model::draw_frustum(0.2,0.25,2.0,30);
   node1 = new node(woody[2],m);
-  node1->change_parameters(0,0.0,1.5,0,0.0,0.0);
+  node1->change_parameters(0,0.0,2.0,0,0.0,0.0);
   woody.push_back(node1);
 
   //torso 5
   m = Model::draw_cuboid(1.0,1.5,0.5);
   node1 = new node(woody[0],m);
-  node1->change_parameters(0,1.05,0,0,0.0,0.0);
+  node1->change_parameters(0,0.6,0,0,0.0,0.0);
   woody.push_back(node1);
 
   //shoulder 6
   m = Model::draw_cuboid(1.2,0.1,0.5);
   node1 = new node(woody[5],m);
-  node1->change_parameters(0,0.8,0,0,0.0,0.0);
+  node1->change_parameters(0,1.5,0,0,0.0,0.0);
   woody.push_back(node1);
 
   //neck 7
   m = Model::draw_cylinder(0.3,0.3,30);
   node1 = new node(woody[6],m);
-  node1->change_parameters(0,0.35,0,90,0.0,0.0);
+  node1->change_parameters(0,0.1,0,-90,0.0,0.0);
   woody.push_back(node1);
 
   //head 8
   m = Model::draw_cylinder(0.5,1.8,30);
   node1 = new node(woody[7],m);
-  node1->change_parameters(0,0,-1.8,0,0.0,0.0);
+  node1->change_parameters(0,0,0.3,0,0.0,0.0);
   woody.push_back(node1);
 
   //hat bottom 9
   m = Model::draw_cylinder(0.8,0.1,30);
   node1 = new node(woody[8],m);
-  node1->change_parameters(0,0,-0.1,0,0.0,0.0);
+  node1->change_parameters(0,0,1.8,0,0.0,0.0);
   woody.push_back(node1);
 
   //hat top 10
   m = Model::draw_cylinder(0.6,0.6,30);
   node1 = new node(woody[9],m);
-  node1->change_parameters(0,0,-0.6,0,0.0,0.0);
+  node1->change_parameters(0,0,0.1,0,0.0,0.0);
   woody.push_back(node1);
 
   //left hand top 11
   m = Model::draw_cylinder(0.2,1.4,30);
   node1 = new node(woody[6],m);
-  node1->change_parameters(0.7,0,0.0,90.0,30.0,0.0);
+  node1->change_parameters(0.6,0.05,0.0,90.0,30.0,0.0);
   woody.push_back(node1);
 
   //left hand bottom 12
@@ -105,7 +105,7 @@ void initVertexBufferGL(void)
   //right hand top 13
   m = Model::draw_cylinder(0.2,1.4,30);
   node1 = new node(woody[6],m);
-  node1->change_parameters(-0.7,0,0.0,90.0,-30.0,0.0);
+  node1->change_parameters(-0.6,0.05,0.0,90.0,-30.0,0.0);
   woody.push_back(node1);
 
   //right hand bottom 14
@@ -115,27 +115,27 @@ void initVertexBufferGL(void)
   woody.push_back(node1);
 
   //left hand palm 15
-  m = Model::draw_cuboid(0.5,0.2,0.5);
+  m = Model::draw_cuboid(0.5,0.5,0.2);
   node1 = new node(woody[12],m);
-  node1->change_parameters(0,0,1.6,0,0.0,0.0);
+  node1->change_parameters(0,0,1.4,90,0.0,0.0);
   woody.push_back(node1);
 
   //right hand palm 16
-  m = Model::draw_cuboid(0.5,0.2,0.5);
+  m = Model::draw_cuboid(0.5,0.5,0.2);
   node1 = new node(woody[14],m);
-  node1->change_parameters(0,0,1.6,0,0.0,0.0);
+  node1->change_parameters(0,0,1.4,90,0.0,0.0);
   woody.push_back(node1);
 
   //left leg foot 17
   m = Model::draw_cuboid(0.5,0.7,0.2);
   node1 = new node(woody[3],m);
-  node1->change_parameters(0,0.1,2.1,0,0.0,0.0);
-  woody.push_back(node1);
+  node1->change_parameters(0,0,2,0,0.0,0.0);
+  woody.push_back(node1); 
 
   //right leg foot 18
   m = Model::draw_cuboid(0.5,0.7,0.2);
   node1 = new node(woody[4],m);
-  node1->change_parameters(0,0.1,2.1,0,0.0,0.0);
+  node1->change_parameters(0,0,2.0,0,0.0,0.0);
   woody.push_back(node1);
 
   curr_node = woody[0];
