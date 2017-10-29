@@ -172,7 +172,7 @@ void renderGL(void)
 
   glUniformMatrix4fv(viewMatrix, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
-  // matrixStack.push_back(view_matrix);
+  matrixStack.push_back(view_matrix);
 
   woody[0]->render_tree();
 

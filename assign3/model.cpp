@@ -50,103 +50,103 @@ Model Model::draw_cuboid(double xlength, double ylength, double zlength)
 
 //1
   m.pts.push_back(-xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //2
   m.pts.push_back(xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(0.5);m.color.push_back(1.0);
   m.num_vertex++;
 
 //3
   m.pts.push_back(-xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
   m.num_vertex++;
 
 //4
   m.pts.push_back(xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //7
   m.pts.push_back(-xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(0.5);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //8
   m.pts.push_back(xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //5
   m.pts.push_back(-xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //6
   m.pts.push_back(xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
   m.num_vertex++;
 
 //1
   m.pts.push_back(-xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
   m.num_vertex++;
 
 //2
   m.pts.push_back(xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.0);m.color.push_back(0.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //6
   m.pts.push_back(xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(0.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //4
   m.pts.push_back(xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //8
   m.pts.push_back(xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //7
   m.pts.push_back(-xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //5
   m.pts.push_back(-xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(-zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
 //3
   m.pts.push_back(-xlength/2);m.pts.push_back(-ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
   m.num_vertex++;
 
 //1
   m.pts.push_back(-xlength/2);m.pts.push_back(ylength/2);m.pts.push_back(zlength/2);m.pts.push_back(1.0);
-  // m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
+  m.normal.push_back(-xlength/2);m.normal.push_back(ylength/2);m.normal.push_back(zlength/2);m.normal.push_back(1.0);
   m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
   m.num_vertex++;
 
