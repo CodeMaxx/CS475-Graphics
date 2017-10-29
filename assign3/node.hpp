@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
+#include <iostream>
 #include <vector>
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
@@ -22,6 +22,8 @@ class node {
 	GLfloat tx,ty,tz,rx,ry,rz;
 	glm::mat4 rotation;
 	glm::mat4 translation;
+
+	glm::mat3 normal_matrix;
 
 	std::vector<node*> children;
 	node* parent;

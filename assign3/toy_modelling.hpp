@@ -34,7 +34,22 @@ bool solid=true;
 //Enable/Disable perspective view
 bool enable_perspective=false;
 //Shader program attribs
-GLuint vPosition,vColor;
+GLuint vPosition,vColor, vNormal;
+GLuint uModelViewMatrix, viewMatrix, normalMatrix;
+
+
+glm::mat4 global_rotation_matrix;
+glm::mat4 global_translation_matrix;
+glm::mat4 projection_matrix;
+glm::mat4 c_rotation_matrix;
+glm::mat4 lookat_matrix;
+
+
+glm::mat4 model_matrix;
+glm::mat4 view_matrix;
+
+// Woody
+std::vector<node*> woody;
 
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack;

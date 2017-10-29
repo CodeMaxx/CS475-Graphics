@@ -1,8 +1,7 @@
 #include "node.hpp"
-#include <iostream>
 
 extern std::vector<glm::mat4> matrixStack;
-extern GLuint vPosition,vColor,transMatrix;
+extern GLuint vPosition, vColor, vNormal, uModelViewMatrix, normalMatrix;
 
 node::node(node* a_parent, Model m ){
 
@@ -20,9 +19,10 @@ node::node(node* a_parent, Model m ){
 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
 
 
-	glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.color.size() * sizeof (float), NULL, GL_STATIC_DRAW);
+	glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.color.size() * sizeof (float) + m.normal.size() * sizeof(float), NULL, GL_STATIC_DRAW);
     glBufferSubData( GL_ARRAY_BUFFER, 0, m.pts.size() * sizeof (float), &m.pts[0] );
-    glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float),m.color.size() * sizeof (float), &m.color[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float), m.color.size() * sizeof (float), &m.color[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.color.size() * sizeof (float), m.normal.size() * sizeof(float), &m.normal[0] );
 
 	//setup the vertex array as per the shader
 	glEnableVertexAttribArray( vPosition );
@@ -30,6 +30,9 @@ node::node(node* a_parent, Model m ){
 
 	glEnableVertexAttribArray( vColor );
 	glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float)));
+
+	glEnableVertexAttribArray( vNormal );
+  	glVertexAttribPointer( vNormal, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float) + m.color.size()*sizeof(float)) );
 
 
 	// set parent
@@ -81,7 +84,9 @@ void node::render(){
 	//matrixStack multiply
 	glm::mat4* ms_mult = multiply_stack(matrixStack);
 
-	glUniformMatrix4fv(transMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
+	glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
+	normal_matrix = glm::transpose (glm::inverse(glm::mat3(*ms_mult)));
+	glUniformMatrix3fv(normalMatrix, 1, GL_FALSE, glm::value_ptr(normal_matrix));
 	glBindVertexArray (vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, model.pts.size()/4);
 
