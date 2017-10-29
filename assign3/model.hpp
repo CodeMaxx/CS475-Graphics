@@ -12,9 +12,6 @@
 #include "glm/gtc/type_ptr.hpp"
 
 
-#include "gl_framework.hpp"
-
-
 struct Model
 {
   std::vector<float> pts;
@@ -24,6 +21,8 @@ struct Model
 public:
   static Model draw_sphere(double radius, int Lats, int Longs);
   static Model draw_cylinder(double radius, double height, int Lats);
+  static Model draw_frustum(double radius1, double radius2, double height, int Lats);
+  static Model draw_cuboid(double xlength, double ylength, double zlength);
   Model()
   {
     num_vertex=0;

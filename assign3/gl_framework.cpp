@@ -1,6 +1,9 @@
 #include "gl_framework.hpp"
+#include "node.hpp"
 #include <fstream>
 #include <sstream>
+
+extern node *node1, *curr_node;
 
 namespace cse
 {
@@ -43,67 +46,85 @@ namespace cse
         // Close window
         glfwSetWindowShouldClose(window, GL_TRUE);
       }
-        switch(key) {
-          // Translation along positive Y, X, Z respectively
-          case GLFW_KEY_W:  st->g_ytrans ++;
-                            break;
-          case GLFW_KEY_S:  st->g_ytrans --;
-                            break;
-          case GLFW_KEY_A:  st->g_xtrans ++;
-                            break;
-          case GLFW_KEY_D:  st->g_xtrans --;
-                            break;
-          case GLFW_KEY_Z:  st->g_ztrans ++;
-                            break;
-          case GLFW_KEY_X:  st->g_ztrans --;
-                            break;
-          // Rotation about X, Y, Z respectively
-          case GLFW_KEY_UP: st->g_xtheta ++;
-                            break;
-          case GLFW_KEY_DOWN: st->g_xtheta --;
-                            break;
-          case GLFW_KEY_LEFT: st->g_ytheta ++;
-                            break;
-          case GLFW_KEY_RIGHT: st->g_ytheta --;
-                            break;
-          case GLFW_KEY_PAGE_UP: st->g_ztheta ++;
-                            break;
-          case GLFW_KEY_PAGE_DOWN: st->g_ztheta --;
-                            break;
-          case GLFW_KEY_1:  // WCS to VCS
-                            st->mode='1';
-                            break;
-          case GLFW_KEY_2:  // VCS to CCS
-                            st->mode='2';
-                            break;
-          case GLFW_KEY_3:  // CCS to NDCS
-                            st->mode='3';
-                            break;
-          case GLFW_KEY_4:  // NDCS to DCS
-                            st->mode='4';
-                            break;
-          case GLFW_KEY_5:  // Go back to WCS
-                            st->mode = '5';
-                            break;
-          //zoom in/ut
-          case GLFW_KEY_R:  if(st->Lw < -0.6) {
-                              st->Lw+=0.5;
-                              st->Bw+=0.5;
-                              st->Rw-=0.5;
-                              st->Tw-=0.5;
-                            }
-                            else
-                              std::cout << "Can't zoom in anymore!" << std::endl;
-                            break;
+        // switch(key) {
+        //   // Translation along positive Y, X, Z respectively
+        //   case GLFW_KEY_W:  st->g_ytrans ++;
+        //                     break;
+        //   case GLFW_KEY_S:  st->g_ytrans --;
+        //                     break;
+        //   case GLFW_KEY_A:  st->g_xtrans ++;
+        //                     break;
+        //   case GLFW_KEY_D:  st->g_xtrans --;
+        //                     break;
+        //   case GLFW_KEY_Z:  st->g_ztrans ++;
+        //                     break;
+        //   case GLFW_KEY_X:  st->g_ztrans --;
+        //                     break;
+        //   // Rotation about X, Y, Z respectively
+        //   case GLFW_KEY_UP: st->g_xtheta ++;
+        //                     break;
+        //   case GLFW_KEY_DOWN: st->g_xtheta --;
+        //                     break;
+        //   case GLFW_KEY_LEFT: st->g_ytheta ++;
+        //                     break;
+        //   case GLFW_KEY_RIGHT: st->g_ytheta --;
+        //                     break;
+        //   case GLFW_KEY_PAGE_UP: st->g_ztheta ++;
+        //                     break;
+        //   case GLFW_KEY_PAGE_DOWN: st->g_ztheta --;
+        //                     break;
+        //   case GLFW_KEY_1:  // WCS to VCS
+        //                     st->mode='1';
+        //                     break;
+        //   case GLFW_KEY_2:  // VCS to CCS
+        //                     st->mode='2';
+        //                     break;
+        //   case GLFW_KEY_3:  // CCS to NDCS
+        //                     st->mode='3';
+        //                     break;
+        //   case GLFW_KEY_4:  // NDCS to DCS
+        //                     st->mode='4';
+        //                     break;
+        //   case GLFW_KEY_5:  // Go back to WCS
+        //                     st->mode = '5';
+        //                     break;
+        //   //zoom in/ut
+        //   case GLFW_KEY_R:  if(st->Lw < -0.6) {
+        //                       st->Lw+=0.5;
+        //                       st->Bw+=0.5;
+        //                       st->Rw-=0.5;
+        //                       st->Tw-=0.5;
+        //                     }
+        //                     else
+        //                       std::cout << "Can't zoom in anymore!" << std::endl;
+        //                     break;
 
-          case GLFW_KEY_T:  st->Lw-=0.5;
-                            st->Bw-=0.5;
-                            st->Rw+=0.5;
-                            st->Tw+=0.5;
+        //   case GLFW_KEY_T:  st->Lw-=0.5;
+        //                     st->Bw-=0.5;
+        //                     st->Rw+=0.5;
+        //                     st->Tw+=0.5;
+        //                     break;
+        //   // Default case
+        //   default: std::cout << "Key not recognised in this mode." << std::endl;
+        // }
+
+      switch(key) {
+        case GLFW_KEY_1: curr_node = node1;
+                          break;
+        case GLFW_KEY_LEFT: curr_node->dec_ry();
                             break;
-          // Default case
-          default: std::cout << "Key not recognised in this mode." << std::endl;
-        }
+        case GLFW_KEY_RIGHT: curr_node->inc_ry();
+                            break;
+        case GLFW_KEY_UP: curr_node->dec_rx();
+                            break;
+        case GLFW_KEY_DOWN: curr_node->inc_rx();
+                            break;
+        case GLFW_KEY_PAGE_UP: curr_node->dec_rz();
+                            break;
+        case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
+                            break;
+        default: std::cout << "Key not recognised in this mode." << std::endl;
+      }
     }
   }
 };
