@@ -1,6 +1,7 @@
 #include "toy_modelling.hpp"
 
 glm::mat4 rotation_matrix;
+glm::mat4 translation_matrix;
 glm::mat4 projection_matrix;
 glm::mat4 c_rotation_matrix;
 glm::mat4 lookat_matrix;
@@ -128,7 +129,11 @@ void renderGL(void)
   else
     projection_matrix = glm::ortho(-7.0, 7.0, -7.0, 7.0, -5.0, 5.0);
 
-  view_matrix = projection_matrix*lookat_matrix;
+  glm::mat4 id = glm::mat4(1.0f);
+  glm::vec3 translation_amt(st.g_xtrans*st.trans_factor,st.g_ytrans*st.trans_factor,st.g_ztrans*st.trans_factor);
+  translation_matrix = glm::translate(id, translation_amt);
+
+  view_matrix = projection_matrix*lookat_matrix*translation_matrix;
 
   matrixStack.push_back(view_matrix);
 
