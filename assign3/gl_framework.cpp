@@ -6,6 +6,7 @@
 extern GLfloat c_xrot,c_yrot,c_zrot;
 extern bool enable_perspective;
 extern node *node1, *curr_node;
+extern std::vector<node*> woody;
 
 namespace cse
 {
@@ -99,7 +100,35 @@ namespace cse
         // }
 
       switch(key) {
-        case GLFW_KEY_1: curr_node = node1;
+        // Woody hip
+        case GLFW_KEY_0: curr_node = woody[0];
+                          break;
+        // Woody left top leg
+        case GLFW_KEY_1: curr_node = woody[1];
+                          break;
+        // Woody right top leg
+        case GLFW_KEY_2: curr_node = woody[2];
+                          break;
+        // Woody left bottom leg
+        case GLFW_KEY_3: curr_node = woody[3];
+                          break;
+        // Woody right bottom leg
+        case GLFW_KEY_4: curr_node = woody[4];
+                          break;
+        // Woody torso
+        case GLFW_KEY_5: curr_node = woody[5];
+                          break;
+        // Woody neck
+        case GLFW_KEY_6: curr_node = woody[7];
+                          break;
+        // Woody head
+        case GLFW_KEY_7: curr_node = woody[8];
+                          break;
+        // Woody left arm top
+        case GLFW_KEY_8: curr_node = woody[11];
+                          break;
+        // Woody right arm top
+        case GLFW_KEY_9: curr_node = woody[12];
                           break;
         case GLFW_KEY_LEFT: curr_node->dec_ry();
                             break;
@@ -144,6 +173,38 @@ namespace cse
 
         // DEFAULT CASE
         default: std::cout << "Key not recognised in this mode." << std::endl;
+      }
+
+      if(mods % 2 == GLFW_MOD_SHIFT) {
+        switch(key) {
+          // Woody left arm bottom
+        case GLFW_KEY_0: curr_node = woody[13];
+                          break;
+        // Woody right arm bottom
+        case GLFW_KEY_1: curr_node = woody[14];
+                          break;
+        // Woody left palm
+        case GLFW_KEY_2: curr_node = woody[15];
+                          break;
+        // Woody right palm
+        case GLFW_KEY_3: curr_node = woody[16];
+                          break;
+        // Woody lef foot
+        case GLFW_KEY_4: curr_node = woody[17];
+                          break;
+        // Woody right foot
+        case GLFW_KEY_5: curr_node = woody[18];
+                          break;
+        // // Woody left top leg
+        // case GLFW_KEY_6: curr_node = woody[16];
+        //                   break;
+        // // Woody left top leg
+        // case GLFW_KEY_7: curr_node = woody[17];
+        //                   break;
+        // // Woody left top leg
+        // case GLFW_KEY_8: curr_node = woody[18];
+        //                   break;
+        }
       }
     }
   }
