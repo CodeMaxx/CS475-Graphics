@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+extern GLfloat c_xrot,c_yrot,c_zrot;
+extern bool enable_perspective;
 extern node *node1, *curr_node;
 
 namespace cse
@@ -48,18 +50,6 @@ namespace cse
       }
         // switch(key) {
         //   // Translation along positive Y, X, Z respectively
-        //   case GLFW_KEY_W:  st->g_ytrans ++;
-        //                     break;
-        //   case GLFW_KEY_S:  st->g_ytrans --;
-        //                     break;
-        //   case GLFW_KEY_A:  st->g_xtrans ++;
-        //                     break;
-        //   case GLFW_KEY_D:  st->g_xtrans --;
-        //                     break;
-        //   case GLFW_KEY_Z:  st->g_ztrans ++;
-        //                     break;
-        //   case GLFW_KEY_X:  st->g_ztrans --;
-        //                     break;
         //   // Rotation about X, Y, Z respectively
         //   case GLFW_KEY_UP: st->g_xtheta ++;
         //                     break;
@@ -123,6 +113,36 @@ namespace cse
                             break;
         case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
                             break;
+        case GLFW_KEY_P: enable_perspective = !enable_perspective;
+                            break;
+        case GLFW_KEY_A: c_yrot -= 1.0;
+                            break;
+        case GLFW_KEY_D: c_yrot += 1.0;
+                            break;
+        case GLFW_KEY_W: c_xrot -= 1.0;
+                            break;
+        case GLFW_KEY_S: c_xrot += 1.0;
+                            break;
+        case GLFW_KEY_Q: c_zrot -= 1.0;
+                            break;
+        case GLFW_KEY_E: c_zrot += 1.0;
+                            break;
+
+        // Translation along positive Y, X, Z respectively
+        case GLFW_KEY_KP_2:  st->g_ytrans ++;
+                            break;
+        case GLFW_KEY_KP_5:  st->g_ytrans --;
+                            break;
+        case GLFW_KEY_KP_1:  st->g_xtrans ++;
+                            break;
+        case GLFW_KEY_KP_3:  st->g_xtrans --;
+                            break;
+        case GLFW_KEY_KP_4:  st->g_ztrans ++;
+                            break;
+        case GLFW_KEY_KP_6:  st->g_ztrans --;
+                            break;
+
+        // DEFAULT CASE
         default: std::cout << "Key not recognised in this mode." << std::endl;
       }
     }
