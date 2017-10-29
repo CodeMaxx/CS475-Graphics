@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include "shader_util.hpp"
 
 namespace cse

@@ -1,22 +1,5 @@
 #include "toy_modelling.hpp"
 
-glm::mat4 rotation_matrix;
-glm::mat4 translation_matrix;
-glm::mat4 projection_matrix;
-glm::mat4 c_rotation_matrix;
-glm::mat4 lookat_matrix;
-
-glm::mat4 model_matrix;
-glm::mat4 view_matrix;
-
-
-glm::mat4 modelview_matrix;
-
-GLuint transMatrix;
-
-std::vector<node*> woody;
-
-
 void initShadersGL(void)
 {
   std::string vertex_shader_file("simple_vs.glsl");
@@ -32,9 +15,13 @@ void initShadersGL(void)
 
 void initVertexBufferGL(void)
 {
-  transMatrix = glGetUniformLocation( shaderProgram, "transMatrix");
+  // getting the attributes from the shader program
+  normalMatrix =  glGetUniformLocation( shaderProgram, "normalMatrix");
+  uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
+  viewMatrix = glGetUniformLocation( shaderProgram, "viewMatrix");
   vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
+  vNormal = glGetAttribLocation( shaderProgram, "vNormal" );
 
   //hip 0
   Model m = Model::draw_cuboid(1.0,0.6,0.5);
@@ -179,11 +166,13 @@ void renderGL(void)
 
   glm::mat4 id = glm::mat4(1.0f);
   glm::vec3 translation_amt(st.g_xtrans*st.trans_factor,st.g_ytrans*st.trans_factor,st.g_ztrans*st.trans_factor);
-  translation_matrix = glm::translate(id, translation_amt);
+  global_translation_matrix = glm::translate(id, translation_amt);
 
-  view_matrix = projection_matrix*lookat_matrix*translation_matrix;
+  view_matrix = projection_matrix*lookat_matrix*global_translation_matrix;
 
-  matrixStack.push_back(view_matrix);
+  glUniformMatrix4fv(viewMatrix, 1, GL_FALSE, glm::value_ptr(view_matrix));
+
+  // matrixStack.push_back(view_matrix);
 
   woody[0]->render_tree();
 

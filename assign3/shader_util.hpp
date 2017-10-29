@@ -9,6 +9,7 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <GL/glew.h>
 
 namespace cse
 {
