@@ -79,7 +79,7 @@ Model Model::draw_cuboid(double xlength, double ylength, double zlength)
     glm::vec4(-xlength, 0, 0, 1.0),
     glm::vec4(0, 0, -zlength, 1.0),
     glm::vec4(xlength, 0,0, 1.0),
-    glm::vec4(0, ylength, 0,-1.0),
+    glm::vec4(0, ylength, 0,1.0),
     glm::vec4(0, -ylength, 0, 1.0),
   };
 
