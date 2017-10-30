@@ -8,8 +8,8 @@ uniform mat4 viewMatrix;
 
 out vec4 frag_color;
 
-in int switch1;
-in int switch2;
+in float s1;
+in float s2;
 
 void main ()
 {
@@ -34,7 +34,7 @@ void main ()
 
     vec3 n = normalize(vec3(normal));
 
-    if(switch1) {
+    if(s1 > 0.5) {
         //Diffuse
         float dotProduct = dot(n, lightDir1);
         float intensity =  max( dotProduct, 0.0);
@@ -52,10 +52,10 @@ void main ()
         color += max((intensity * diffuse  + spec)*COLOR, ambient); // All
     }
 
-    if(switch2) {
+    if(s2 > 0.5) {
         // Adding Second light component
-        dotProduct = dot(n, lightDir2);
-        intensity =  max( dotProduct, 0.0);
+        float dotProduct = dot(n, lightDir2);
+        float intensity =  max( dotProduct, 0.0);
 
         if(intensity > 0.0)
         {

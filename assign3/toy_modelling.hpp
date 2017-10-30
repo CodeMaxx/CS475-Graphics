@@ -49,7 +49,8 @@ glm::mat4 model_matrix;
 glm::mat4 view_matrix;
 
 // Light switches
-GLuint switch1, switch2;
+GLuint SWITCH1, SWITCH2;
+int switch1 = 1, switch2 = 1;
 
 // Woody
 std::vector<node*> woody;

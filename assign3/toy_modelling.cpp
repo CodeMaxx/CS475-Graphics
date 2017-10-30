@@ -22,8 +22,8 @@ void initVertexBufferGL(void)
   vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
   vNormal = glGetAttribLocation( shaderProgram, "vNormal" );
-  switch1 = glGetAttribLocation( shaderProgram, "switch1" );
-  switch2 = glGetAttribLocation( shaderProgram, "switch2" );
+  SWITCH1 = glGetUniformLocation( shaderProgram, "switch1" );
+  SWITCH2 = glGetUniformLocation( shaderProgram, "switch2" );
 
   node* node1;
 
@@ -194,6 +194,16 @@ void renderGL(void)
 
   glUseProgram(shaderProgram);
 
+  if(switch1 > 0)
+    glUniform1f(SWITCH1, 1.0);
+  else
+    glUniform1f(SWITCH1, 0.0);
+  if(switch2 > 0)
+    glUniform1f(SWITCH2, 1.0);
+  else
+    glUniform1f(SWITCH2, 0.0);
+
+  printf("%d %d %d %d\n", SWITCH1, SWITCH2, switch1, switch2);
   matrixStack1.clear();
   matrixStack2.clear();
 

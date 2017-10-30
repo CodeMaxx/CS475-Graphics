@@ -8,6 +8,12 @@ out vec3 normal;
 out vec4 eye;
 out vec4 COLOR;
 
+uniform float switch1;
+uniform float switch2;
+
+out float s1;
+out float s2;
+
 uniform mat4 uModelViewMatrix;
 uniform mat3 normalMatrix;
 uniform mat4 viewMatrix;
@@ -88,4 +94,6 @@ void main (void)
   normal = (normalMatrix * normalize(vNormal));
   eye = - (uModelViewMatrix * gl_Position);
   COLOR = vColor;
+  s1 = switch1;
+  s2 = switch2;
  }

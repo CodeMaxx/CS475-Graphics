@@ -7,6 +7,7 @@ extern GLfloat c_xrot,c_yrot,c_zrot;
 extern bool enable_perspective;
 extern node *node1, *curr_node;
 extern std::vector<node*> woody,stretch;
+extern int switch1, switch2;
 
 namespace cse
 {
@@ -47,6 +48,16 @@ namespace cse
     if (key == GLFW_KEY_ESCAPE){
       // Close window
       glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+
+    if(action == GLFW_PRESS) {
+      switch(key) {
+        // Light switches
+        case GLFW_KEY_I: switch1 = !switch1;
+                            break;
+        case GLFW_KEY_O: switch2 = !switch2;
+                            break;
+      }
     }
 
     switch(key) {
