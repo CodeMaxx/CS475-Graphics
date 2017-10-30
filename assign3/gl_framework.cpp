@@ -133,6 +133,19 @@ namespace cse
                             break;
         case GLFW_KEY_KP_6:  st->g_ztrans --;
                             break;
+        // Rotation about X, Y, Z respectively
+        case GLFW_KEY_KP_8:  st->g_xtheta ++;
+                            break;
+        case GLFW_KEY_KP_DIVIDE:  st->g_xtheta --;
+                            break;
+        case GLFW_KEY_KP_7:  st->g_ytheta ++;
+                            break;
+        case GLFW_KEY_KP_9:  st->g_ytheta --;
+                            break;
+        case GLFW_KEY_KP_MULTIPLY:  st->g_ztheta ++;
+                            break;
+        case GLFW_KEY_KP_SUBTRACT:  st->g_ztheta --;
+                            break;
 
         // DEFAULT CASE
         default: std::cout << "Key not recognised in this mode." << std::endl;

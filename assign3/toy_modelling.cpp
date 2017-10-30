@@ -224,10 +224,18 @@ void renderGL(void)
     projection_matrix = glm::ortho(-7.0, 7.0, -7.0, 7.0, -5.0, 5.0);
 
   glm::mat4 id = glm::mat4(1.0f);
+
+    //! Preparing global rotation matrix
+  glm::mat4 xrot, yrot, zrot;
+  xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+  yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+  zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+  global_rotation_matrix = xrot * yrot * zrot;
+
   glm::vec3 translation_amt(st.g_xtrans*st.trans_factor,st.g_ytrans*st.trans_factor,st.g_ztrans*st.trans_factor);
   global_translation_matrix = glm::translate(id, translation_amt);
 
-  view_matrix = projection_matrix*lookat_matrix*global_translation_matrix;
+  view_matrix = projection_matrix*lookat_matrix*global_rotation_matrix*global_translation_matrix;
 
   glUniformMatrix4fv(viewMatrix, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
