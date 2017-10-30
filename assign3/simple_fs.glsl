@@ -18,10 +18,12 @@ void main ()
 {
     // Defining Materials
     vec4 diffuse = vec4(0.5, 0.0, 0.0, 1.0);
-    vec4 ambient = vec4(0.1, 0.0, 0.0, 1.0);
+    vec4 ambient = vec4(0.0, 0.0, 0.0, 1.0);
     vec4 specular = vec4(1.0, 0.5, 0.5, 1.0);
     float shininess = 10.0;
     vec4 spec = vec4(0.0);
+
+    frag_color = texture2D(texture, tex);
 
     // Defining Light
     vec4 lightPos1 = vec4(1.0, 1.0, 1.0, 0.0);
@@ -52,7 +54,7 @@ void main ()
         spec = specular * pow(intSpec, shininess);
         }
 
-        color += max((intensity * diffuse  + spec)*COLOR, ambient); // All
+        color += max((intensity * diffuse  + spec)*frag_color, ambient); // All
     }
 
     if(s2 > 0.5) {
@@ -68,13 +70,12 @@ void main ()
         spec = specular * pow(intSpec, shininess);
         }
 
-        color += max((intensity * diffuse  + spec)*COLOR, ambient);
+        color += max((intensity * diffuse  + spec)*frag_color, ambient);
     }
 
     //vec4 color = intensity * diffuse; // Only Diffuse
-    //frag_color = color;
+    frag_color = color;
 
-    //if(nodeNum == 0) {
-    	frag_color = texture2D(texture, tex);
-    //}
+    frag_color = texture2D(texture, tex);
+
 }
