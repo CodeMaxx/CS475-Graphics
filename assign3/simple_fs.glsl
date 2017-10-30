@@ -3,9 +3,15 @@
 in vec3 normal;
 in vec4 eye;
 in vec4 COLOR;
+in vec2 tex;
+uniform int nodeNum;
 
 uniform mat4 viewMatrix;
+<<<<<<< HEAD
 in vec4 ecPos;
+=======
+uniform sampler2D texture;
+>>>>>>> bdb320c90a1d7d1224f07db38d098b4472d91104
 
 out vec4 frag_color;
 
@@ -16,10 +22,12 @@ in float s3;
 void main () {
     // Defining Materials
     vec4 diffuse = vec4(0.5, 0.0, 0.0, 1.0);
-    vec4 ambient = vec4(0.1, 0.0, 0.0, 1.0);
+    vec4 ambient = vec4(0.0, 0.0, 0.0, 1.0);
     vec4 specular = vec4(1.0, 0.5, 0.5, 1.0);
     float shininess = 10.0;
     vec4 spec = vec4(0.0);
+
+    frag_color = texture2D(texture, tex);
 
     // Defining Light
     vec4 lightPos1 = vec4(1.0, 1.0, 1.0, 0.0);
@@ -49,7 +57,11 @@ void main () {
             spec = specular * pow(intSpec, shininess);
         }
 
+<<<<<<< HEAD
         color += (intensity * diffuse  + spec)*COLOR; // All
+=======
+        color += max((intensity * diffuse  + spec)*frag_color, ambient); // All
+>>>>>>> bdb320c90a1d7d1224f07db38d098b4472d91104
     }
 
     if(s2 > 0.5) {
@@ -64,7 +76,11 @@ void main () {
             spec = specular * pow(intSpec, shininess);
         }
 
+<<<<<<< HEAD
         color += (intensity * diffuse  + spec)*COLOR;
+=======
+        color += max((intensity * diffuse  + spec)*frag_color, ambient);
+>>>>>>> bdb320c90a1d7d1224f07db38d098b4472d91104
     }
 
     if(s3 > 0.5) {
@@ -94,4 +110,7 @@ void main () {
 
     //vec4 color = intensity * diffuse; // Only Diffuse
     frag_color = color;
+
+    frag_color = texture2D(texture, tex);
+
 }

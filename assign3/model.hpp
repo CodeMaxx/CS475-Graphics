@@ -18,6 +18,8 @@ struct Model
   std::vector<float> pts;
   std::vector<float> color;
   std::vector<float> normal;
+  std::vector<float> texture;
+  int type; //0 ->cylinder 1->cuboid
   int num_vertex;
 public:
   static Model draw_sphere(double radius, int Lats, int Longs);
