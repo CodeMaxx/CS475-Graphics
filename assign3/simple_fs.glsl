@@ -5,14 +5,15 @@ in vec4 eye;
 in vec4 COLOR;
 
 uniform mat4 viewMatrix;
+in vec4 ecPos;
 
 out vec4 frag_color;
 
 in float s1;
 in float s2;
+in float s3;
 
-void main ()
-{
+void main () {
     // Defining Materials
     vec4 diffuse = vec4(0.5, 0.0, 0.0, 1.0);
     vec4 ambient = vec4(0.1, 0.0, 0.0, 1.0);
@@ -41,15 +42,14 @@ void main ()
 
         // Compute specular component only if light falls on vertex
 
-        if(intensity > 0.0)
-        {
-        vec3 e = normalize(vec3(eye));
-        vec3 h = normalize(lightDir1 + e );
-        float intSpec = max(dot(h,n), 0.0);
-        spec = specular * pow(intSpec, shininess);
+        if(intensity > 0.0) {
+            vec3 e = normalize(vec3(eye));
+            vec3 h = normalize(lightDir1 + e );
+            float intSpec = max(dot(h,n), 0.0);
+            spec = specular * pow(intSpec, shininess);
         }
 
-        color += max((intensity * diffuse  + spec)*COLOR, ambient); // All
+        color += (intensity * diffuse  + spec)*COLOR; // All
     }
 
     if(s2 > 0.5) {
@@ -57,16 +57,40 @@ void main ()
         float dotProduct = dot(n, lightDir2);
         float intensity =  max( dotProduct, 0.0);
 
-        if(intensity > 0.0)
-        {
-        vec3 e = normalize(vec3(eye));
-        vec3 h = normalize(lightDir1 + e );
-        float intSpec = max(dot(h,n), 0.0);
-        spec = specular * pow(intSpec, shininess);
+        if(intensity > 0.0) {
+            vec3 e = normalize(vec3(eye));
+            vec3 h = normalize(lightDir1 + e );
+            float intSpec = max(dot(h,n), 0.0);
+            spec = specular * pow(intSpec, shininess);
         }
 
-        color += max((intensity * diffuse  + spec)*COLOR, ambient);
+        color += (intensity * diffuse  + spec)*COLOR;
     }
+
+    if(s3 > 0.5) {
+        vec4 spotlightPos = vec4(0.0, 1.0, 0.0, 1.0);
+        vec3 spotlightDir = vec3(spotlightPos - ecPos);
+        float dist = length(spotlightDir);
+        float dotProduct = dot(n,normalize(spotlightDir));
+        float intensity =  max( dotProduct, 0.0);
+
+        vec3 spotDirection = vec3(0.0, -1.0, 0.0); // Axis of the cone
+
+        if(intensity > 0.2) {
+            vec3 e = normalize(vec3(eye));
+            vec3 h = normalize(spotlightDir + e );
+            float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
+            if(spotEffect > 0.9) {
+                color += spotEffect * (diffuse * intensity + ambient) * COLOR;
+                float intSpec = max(dot(h,n), 0.0);
+                spec = specular * pow(intSpec, shininess);
+                color += spotEffect * spec * COLOR;
+            }
+        }
+    }
+
+    // if(s1 > 0.5 || s2 > 0.5)
+    //     color = max(color, ambient);
 
     //vec4 color = intensity * diffuse; // Only Diffuse
     frag_color = color;

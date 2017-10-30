@@ -7,7 +7,7 @@ extern GLfloat c_xrot,c_yrot,c_zrot;
 extern bool enable_perspective;
 extern node *node1, *curr_node;
 extern std::vector<node*> woody,stretch;
-extern int switch1, switch2;
+extern int switch1, switch2, switch3;
 
 namespace cse
 {
@@ -59,6 +59,10 @@ namespace cse
                               break;
           case GLFW_KEY_O: switch2 = !switch2;
                               break;
+          case GLFW_KEY_U: switch3 = !switch3;
+                              break;
+          case GLFW_KEY_P: enable_perspective = !enable_perspective;
+                              break;
         }
       }
 
@@ -104,8 +108,6 @@ namespace cse
         case GLFW_KEY_PAGE_UP: curr_node->dec_rz();
                             break;
         case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
-                            break;
-        case GLFW_KEY_P: enable_perspective = !enable_perspective;
                             break;
         case GLFW_KEY_A: c_yrot -= 1.0;
                             break;
