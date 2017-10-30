@@ -22,7 +22,7 @@ namespace cse
     //Enable depth testing
     glEnable(GL_DEPTH_TEST);
     //Enable Gourard shading
-    glShadeModel(GL_FLAT);
+    glShadeModel(GL_SMOOTH);
   }
 
   //!GLFW Error Callback

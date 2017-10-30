@@ -99,7 +99,7 @@ void initVertexBufferGL(void)
   //left hand bottom 12
   m = Model::draw_cylinder(0.2,1.4,30);
   node1 = new node(woody[11],m);
-  node1->change_parameters(0.0,0,1.4,0.0,-30.0,0.0);
+  node1->change_parameters(0.0,0,1.4,0.0,0,0.0);
   woody.push_back(node1);
 
   //right hand top 13
@@ -111,7 +111,7 @@ void initVertexBufferGL(void)
   //right hand bottom 14
   m = Model::draw_cylinder(0.2,1.4,30);
   node1 = new node(woody[13],m);
-  node1->change_parameters(0.0,0,1.4,0.0,30.0,0.0);
+  node1->change_parameters(0.0,0,1.4,0.0,0,0.0);
   woody.push_back(node1);
 
   //left hand palm 15

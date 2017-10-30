@@ -89,7 +89,7 @@ void node::render(std::vector<glm::mat4>* matrixStack){
 	normal_matrix = glm::transpose (glm::inverse(glm::mat3(*ms_mult)));
 	glUniformMatrix3fv(normalMatrix, 1, GL_FALSE, glm::value_ptr(normal_matrix));
 	glBindVertexArray (vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, model.pts.size()/4);
+	glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4);
 
 	// for memory
 	delete ms_mult;
@@ -118,11 +118,15 @@ void node::inc_rx(){
 
 void node::inc_ry(){
 	ry+=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		ry=0;
 	update_matrices();
 }
 
 void node::inc_rz(){
 	rz+=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		rz=0;
 	update_matrices();
 }
 
@@ -133,11 +137,15 @@ void node::dec_rx(){
 
 void node::dec_ry(){
 	ry-=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		ry=0;
 	update_matrices();
 }
 
 void node::dec_rz(){
 	rz-=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		rz=0;
 	update_matrices();
 }
 
