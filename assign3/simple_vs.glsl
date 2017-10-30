@@ -22,25 +22,64 @@ void main (void)
   vec4 spec = vec4(0.0);
 
   // Defining Light
-  vec4 lightPos = vec4(1.0, 1.0, 1.0, 0.0);
-  vec3 lightDir = vec3(viewMatrix * lightPos);
-  lightDir = normalize(lightDir);
+  vec4 lightPos1 = vec4(1.0, 0.0, 0.0, 0.0);
+  vec3 lightDir1 = vec3(viewMatrix * lightPos1);
+  lightDir1 = normalize(lightDir1);
+
+  // Defining second light
+  vec4 lightPos2 = vec4(0.0, 0.0, 1.0, 0.0);
+  vec3 lightDir2 = vec3(viewMatrix * lightPos2);
+  lightDir2 = normalize(lightDir2);
+
+  vec4 spotlightPos = vec4(0.0, 1.0, 0.0, 1.0);
+  vec3 spotlightDir = vec3(viewMatrix * spotlightPos);
+  spotlightDir = normalize(spotlightDir);
 
   gl_Position = uModelViewMatrix * vPosition;
 
   vec3 n = normalize(normalMatrix * normalize(vNormal));
-  float dotProduct = dot(n, lightDir);
+  float dotProduct = dot(n, lightDir1);
   float intensity =  max( dotProduct, 0.0);
 
   // Compute specular component only if light falls on vertex
   if(intensity > 0.0)
   {
     vec3 eye = normalize( vec3(-gl_Position));
-    vec3 h = normalize(lightDir + eye );
+    vec3 h = normalize(lightDir1 + eye );
     float intSpec = max(dot(h,n), 0.0);
         spec = specular * pow(intSpec, shininess);
   }
 
   color = max((intensity * diffuse  + spec)*vColor, ambient); // All
+
+  dotProduct = dot(n, lightDir2);
+  intensity =  max( dotProduct, 0.0);
+
+  // Compute specular component only if light falls on vertex
+  if(intensity > 0.0)
+  {
+    vec3 eye = normalize( vec3(-gl_Position));
+    vec3 h = normalize(lightDir2 + eye );
+    float intSpec = max(dot(h,n), 0.0);
+        spec = specular * pow(intSpec, shininess);
+  }
+
+  color += max((intensity * diffuse  + spec)*vColor, ambient);
+
+  // vec3 dir = gl
+
+  // dotProduct = dot(n, spotlightPos);
+  // intensity =  max( dotProduct, 0.0);
+
+  // // Compute specular component only if light falls on vertex
+  // if(intensity > 0.0)
+  // {
+  //   vec3 eye = normalize( vec3(-gl_Position));
+  //   vec3 h = normalize(spotlightDir + eye );
+  //   float intSpec = max(dot(h,n), 0.0);
+  //       spec = specular * pow(intSpec, shininess);
+  // }
+
+  // color += max((intensity * diffuse  + spec)*vColor, ambient);
 
 }
