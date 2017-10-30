@@ -48,11 +48,19 @@ glm::mat4 lookat_matrix;
 glm::mat4 model_matrix;
 glm::mat4 view_matrix;
 
+// Light switches
+GLuint switch1, switch2;
+
 // Woody
 std::vector<node*> woody;
 
+//stretch
+std::vector<node*> stretch;
+
 //global matrix stack for hierarchical modelling
-std::vector<glm::mat4> matrixStack;
+std::vector<glm::mat4> matrixStack1;
+std::vector<glm::mat4> matrixStack2;
+int total_nodes=0;
 
 node* curr_node;
 

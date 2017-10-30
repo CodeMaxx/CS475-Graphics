@@ -6,7 +6,7 @@
 extern GLfloat c_xrot,c_yrot,c_zrot;
 extern bool enable_perspective;
 extern node *node1, *curr_node;
-extern std::vector<node*> woody;
+extern std::vector<node*> woody,stretch;
 
 namespace cse
 {
@@ -22,7 +22,7 @@ namespace cse
     //Enable depth testing
     glEnable(GL_DEPTH_TEST);
     //Enable Gourard shading
-    glShadeModel(GL_FLAT);
+    glShadeModel(GL_SMOOTH);
   }
 
   //!GLFW Error Callback
@@ -145,12 +145,12 @@ namespace cse
       // Woody right foot
       case GLFW_KEY_5: curr_node = woody[18];
                         break;
-      // // Woody left top leg
-      // case GLFW_KEY_6: curr_node = woody[16];
-      //                   break;
-      // // Woody left top leg
-      // case GLFW_KEY_7: curr_node = woody[17];
-      //                   break;
+      // stretch base
+      case GLFW_KEY_6: curr_node = stretch[0];
+                        break;
+      // stretch leg 1
+      case GLFW_KEY_7: curr_node = stretch[1];
+                        break;
       // // Woody left top leg
       // case GLFW_KEY_8: curr_node = woody[18];
       //                   break;

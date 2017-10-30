@@ -1,7 +1,7 @@
 #include "node.hpp"
 
-extern std::vector<glm::mat4> matrixStack;
 extern GLuint vPosition, vColor, vNormal, uModelViewMatrix, normalMatrix;
+extern int total_nodes;
 
 node::node(node* a_parent, Model m ){
 
@@ -44,7 +44,8 @@ node::node(node* a_parent, Model m ){
 		parent = a_parent;
 		parent->add_child(this);
 	}
-
+	node_number =total_nodes;
+	total_nodes++; 
 	//initial parameters are set to 0;
 
 	tx=ty=tz=rx=ry=rz=0;
@@ -79,33 +80,33 @@ void node::change_parameters(GLfloat atx, GLfloat aty, GLfloat atz, GLfloat arx,
 	update_matrices();
 }
 
-void node::render(){
+void node::render(std::vector<glm::mat4>* matrixStack){
 
 	//matrixStack multiply
-	glm::mat4* ms_mult = multiply_stack(matrixStack);
+	glm::mat4* ms_mult = multiply_stack(*matrixStack);
 
 	glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
 	normal_matrix = glm::transpose (glm::inverse(glm::mat3(*ms_mult)));
 	glUniformMatrix3fv(normalMatrix, 1, GL_FALSE, glm::value_ptr(normal_matrix));
 	glBindVertexArray (vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, model.pts.size()/4);
+	glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4);
 
 	// for memory
 	delete ms_mult;
 
 }
 
-void node::render_tree(){
+void node::render_tree(std::vector<glm::mat4>* matrixStack){
 
-	matrixStack.push_back(translation);
-	matrixStack.push_back(rotation);
+	matrixStack->push_back(translation);
+	matrixStack->push_back(rotation);
 
-	render();
+	render(matrixStack);
 	for(int i=0;i<children.size();i++){
-		children[i]->render_tree();
+		children[i]->render_tree(matrixStack);
 	}
-	matrixStack.pop_back();
-	matrixStack.pop_back();
+	matrixStack->pop_back();
+	matrixStack->pop_back();
 
 }
 
@@ -117,11 +118,15 @@ void node::inc_rx(){
 
 void node::inc_ry(){
 	ry+=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		ry=0;
 	update_matrices();
 }
 
 void node::inc_rz(){
 	rz+=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		rz=0;
 	update_matrices();
 }
 
@@ -132,11 +137,15 @@ void node::dec_rx(){
 
 void node::dec_ry(){
 	ry-=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		ry=0;
 	update_matrices();
 }
 
 void node::dec_rz(){
 	rz-=5;
+	if(node_number==3 || node_number==4 || node_number==12 || node_number==14)
+		rz=0;
 	update_matrices();
 }
 
