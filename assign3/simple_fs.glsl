@@ -3,8 +3,11 @@
 in vec3 normal;
 in vec4 eye;
 in vec4 COLOR;
+in vec2 tex;
+uniform int nodeNum;
 
 uniform mat4 viewMatrix;
+uniform sampler2D texture;
 
 out vec4 frag_color;
 
@@ -69,5 +72,9 @@ void main ()
     }
 
     //vec4 color = intensity * diffuse; // Only Diffuse
-    frag_color = color;
+    //frag_color = color;
+
+    //if(nodeNum == 0) {
+    	frag_color = texture2D(texture, tex);
+    //}
 }

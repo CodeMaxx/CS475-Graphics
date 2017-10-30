@@ -16,7 +16,7 @@
 
 
 class node {
-	GLuint vao,vbo;
+	GLuint vao,vbo,tex;
 	Model model;
 	int node_number;
 
@@ -32,7 +32,7 @@ class node {
 	void update_matrices();
 
 	public:
-		node (node*, Model);
+		node (node*, Model,GLuint);
 
 		void add_child(node*);
 		void render(std::vector<glm::mat4>*);

@@ -2,11 +2,13 @@
 
 in vec4 vPosition;
 in vec4 vColor;
+in vec2 texCoord;
 in vec3 vNormal;
 
 out vec3 normal;
 out vec4 eye;
 out vec4 COLOR;
+out vec2 tex;
 
 uniform float switch1;
 uniform float switch2;
@@ -17,6 +19,7 @@ out float s2;
 uniform mat4 uModelViewMatrix;
 uniform mat3 normalMatrix;
 uniform mat4 viewMatrix;
+uniform int nodeNum;
 void main (void)
 {
 
@@ -96,4 +99,5 @@ void main (void)
   COLOR = vColor;
   s1 = switch1;
   s2 = switch2;
+  tex = texCoord;
  }

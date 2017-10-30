@@ -34,7 +34,7 @@ bool solid=true;
 //Enable/Disable perspective view
 bool enable_perspective=false;
 //Shader program attribs
-GLuint vPosition,vColor, vNormal;
+GLuint vPosition,vColor, vNormal, texCoord, nodeNum;
 GLuint uModelViewMatrix, viewMatrix, normalMatrix;
 
 
