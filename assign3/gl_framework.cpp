@@ -50,91 +50,95 @@ namespace cse
       glfwSetWindowShouldClose(window, GL_TRUE);
     }
 
-    if(action == GLFW_PRESS) {
+
+    if(mods % 2 != GLFW_MOD_SHIFT) {
+      if(action == GLFW_PRESS) {
+        switch(key) {
+          // Light switches
+          case GLFW_KEY_I: switch1 = !switch1;
+                              break;
+          case GLFW_KEY_O: switch2 = !switch2;
+                              break;
+        }
+      }
+
       switch(key) {
-        // Light switches
-        case GLFW_KEY_I: switch1 = !switch1;
+        // Woody hip
+        case GLFW_KEY_0: curr_node = woody[0];
+                          break;
+        // Woody left top leg
+        case GLFW_KEY_1: curr_node = woody[1];
+                          break;
+        // Woody right top leg
+        case GLFW_KEY_2: curr_node = woody[2];
+                          break;
+        // Woody left bottom leg
+        case GLFW_KEY_3: curr_node = woody[3];
+                          break;
+        // Woody right bottom leg
+        case GLFW_KEY_4: curr_node = woody[4];
+                          break;
+        // Woody torso
+        case GLFW_KEY_5: curr_node = woody[5];
+                          break;
+        // Woody neck
+        case GLFW_KEY_6: curr_node = woody[7];
+                          break;
+        // Woody head
+        case GLFW_KEY_7: curr_node = woody[8];
+                          break;
+        // Woody left arm top
+        case GLFW_KEY_8: curr_node = woody[11];
+                          break;
+        // Woody right arm top
+        case GLFW_KEY_9: curr_node = woody[12];
+                          break;
+        case GLFW_KEY_LEFT: curr_node->dec_ry();
                             break;
-        case GLFW_KEY_O: switch2 = !switch2;
+        case GLFW_KEY_RIGHT: curr_node->inc_ry();
                             break;
+        case GLFW_KEY_UP: curr_node->dec_rx();
+                            break;
+        case GLFW_KEY_DOWN: curr_node->inc_rx();
+                            break;
+        case GLFW_KEY_PAGE_UP: curr_node->dec_rz();
+                            break;
+        case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
+                            break;
+        case GLFW_KEY_P: enable_perspective = !enable_perspective;
+                            break;
+        case GLFW_KEY_A: c_yrot -= 1.0;
+                            break;
+        case GLFW_KEY_D: c_yrot += 1.0;
+                            break;
+        case GLFW_KEY_W: c_xrot -= 1.0;
+                            break;
+        case GLFW_KEY_S: c_xrot += 1.0;
+                            break;
+        case GLFW_KEY_Q: c_zrot -= 1.0;
+                            break;
+        case GLFW_KEY_E: c_zrot += 1.0;
+                            break;
+
+        // Translation along positive Y, X, Z respectively
+        case GLFW_KEY_KP_2:  st->g_ytrans ++;
+                            break;
+        case GLFW_KEY_KP_5:  st->g_ytrans --;
+                            break;
+        case GLFW_KEY_KP_1:  st->g_xtrans ++;
+                            break;
+        case GLFW_KEY_KP_3:  st->g_xtrans --;
+                            break;
+        case GLFW_KEY_KP_4:  st->g_ztrans ++;
+                            break;
+        case GLFW_KEY_KP_6:  st->g_ztrans --;
+                            break;
+
+        // DEFAULT CASE
+        default: std::cout << "Key not recognised in this mode." << std::endl;
       }
     }
 
-    switch(key) {
-      // Woody hip
-      case GLFW_KEY_0: curr_node = woody[0];
-                        break;
-      // Woody left top leg
-      case GLFW_KEY_1: curr_node = woody[1];
-                        break;
-      // Woody right top leg
-      case GLFW_KEY_2: curr_node = woody[2];
-                        break;
-      // Woody left bottom leg
-      case GLFW_KEY_3: curr_node = woody[3];
-                        break;
-      // Woody right bottom leg
-      case GLFW_KEY_4: curr_node = woody[4];
-                        break;
-      // Woody torso
-      case GLFW_KEY_5: curr_node = woody[5];
-                        break;
-      // Woody neck
-      case GLFW_KEY_6: curr_node = woody[7];
-                        break;
-      // Woody head
-      case GLFW_KEY_7: curr_node = woody[8];
-                        break;
-      // Woody left arm top
-      case GLFW_KEY_8: curr_node = woody[11];
-                        break;
-      // Woody right arm top
-      case GLFW_KEY_9: curr_node = woody[12];
-                        break;
-      case GLFW_KEY_LEFT: curr_node->dec_ry();
-                          break;
-      case GLFW_KEY_RIGHT: curr_node->inc_ry();
-                          break;
-      case GLFW_KEY_UP: curr_node->dec_rx();
-                          break;
-      case GLFW_KEY_DOWN: curr_node->inc_rx();
-                          break;
-      case GLFW_KEY_PAGE_UP: curr_node->dec_rz();
-                          break;
-      case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
-                          break;
-      case GLFW_KEY_P: enable_perspective = !enable_perspective;
-                          break;
-      case GLFW_KEY_A: c_yrot -= 1.0;
-                          break;
-      case GLFW_KEY_D: c_yrot += 1.0;
-                          break;
-      case GLFW_KEY_W: c_xrot -= 1.0;
-                          break;
-      case GLFW_KEY_S: c_xrot += 1.0;
-                          break;
-      case GLFW_KEY_Q: c_zrot -= 1.0;
-                          break;
-      case GLFW_KEY_E: c_zrot += 1.0;
-                          break;
-
-      // Translation along positive Y, X, Z respectively
-      case GLFW_KEY_KP_2:  st->g_ytrans ++;
-                          break;
-      case GLFW_KEY_KP_5:  st->g_ytrans --;
-                          break;
-      case GLFW_KEY_KP_1:  st->g_xtrans ++;
-                          break;
-      case GLFW_KEY_KP_3:  st->g_xtrans --;
-                          break;
-      case GLFW_KEY_KP_4:  st->g_ztrans ++;
-                          break;
-      case GLFW_KEY_KP_6:  st->g_ztrans --;
-                          break;
-
-      // DEFAULT CASE
-      default: std::cout << "Key not recognised in this mode." << std::endl;
-    }
 
     if(mods % 2 == GLFW_MOD_SHIFT) {
       switch(key) {
@@ -157,14 +161,32 @@ namespace cse
       case GLFW_KEY_5: curr_node = woody[18];
                         break;
       // stretch base
-      case GLFW_KEY_6: curr_node = stretch[0];
+      case GLFW_KEY_Q: curr_node = stretch[0];
                         break;
       // stretch leg 1
-      case GLFW_KEY_7: curr_node = stretch[1];
+      case GLFW_KEY_W: curr_node = stretch[1];
                         break;
-      // // Woody left top leg
-      // case GLFW_KEY_8: curr_node = woody[18];
-      //                   break;
+      // stretch leg 2
+      case GLFW_KEY_E: curr_node = stretch[2];
+                        break;
+      // stretch leg 3
+      case GLFW_KEY_R: curr_node = stretch[3];
+                        break;
+      // stretch leg 4
+      case GLFW_KEY_T: curr_node = stretch[4];
+                        break;
+      // stretch leg 5
+      case GLFW_KEY_Y: curr_node = stretch[5];
+                        break;
+      // stretch leg 6
+      case GLFW_KEY_U: curr_node = stretch[6];
+                        break;
+      // stretch leg 7
+      case GLFW_KEY_I: curr_node = stretch[7];
+                        break;
+      // stretch leg 8
+      case GLFW_KEY_O: curr_node = stretch[8];
+                        break;
       // DEFAULT CASE
       default: std::cout << "Key not recognised in this mode." << std::endl;
       }

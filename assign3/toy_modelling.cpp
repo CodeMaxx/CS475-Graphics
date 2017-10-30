@@ -203,7 +203,6 @@ void renderGL(void)
   else
     glUniform1f(SWITCH2, 0.0);
 
-  printf("%d %d %d %d\n", SWITCH1, SWITCH2, switch1, switch2);
   matrixStack1.clear();
   matrixStack2.clear();
 
