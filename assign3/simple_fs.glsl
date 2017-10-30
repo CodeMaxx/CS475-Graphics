@@ -4,14 +4,10 @@ in vec3 normal;
 in vec4 eye;
 in vec4 COLOR;
 in vec2 tex;
-uniform int nodeNum;
 
 uniform mat4 viewMatrix;
-<<<<<<< HEAD
 in vec4 ecPos;
-=======
 uniform sampler2D texture;
->>>>>>> bdb320c90a1d7d1224f07db38d098b4472d91104
 
 out vec4 frag_color;
 
@@ -21,16 +17,16 @@ in float s3;
 
 void main () {
     // Defining Materials
-    vec4 diffuse = vec4(0.5, 0.0, 0.0, 1.0);
-    vec4 ambient = vec4(0.0, 0.0, 0.0, 1.0);
-    vec4 specular = vec4(1.0, 0.5, 0.5, 1.0);
-    float shininess = 10.0;
-    vec4 spec = vec4(0.0);
+    vec4 diffuse = vec4(0.35, 0.35, 0.35, 1.0);
+    vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);
+    vec4 specular = vec4(0.25, 0.25, 0.25, 1.0);
+    float shininess = 1.0;
+    vec4 spec = vec4(0.5);
 
-    frag_color = texture2D(texture, tex);
+    vec4 texImage = texture2D(texture, tex);
 
     // Defining Light
-    vec4 lightPos1 = vec4(1.0, 1.0, 1.0, 0.0);
+    vec4 lightPos1 = vec4(0.0, 1.0, 1.0, 0.0);
     vec3 lightDir1 = vec3(viewMatrix * lightPos1);
     lightDir1 = normalize(lightDir1);
 
@@ -57,11 +53,7 @@ void main () {
             spec = specular * pow(intSpec, shininess);
         }
 
-<<<<<<< HEAD
-        color += (intensity * diffuse  + spec)*COLOR; // All
-=======
-        color += max((intensity * diffuse  + spec)*frag_color, ambient); // All
->>>>>>> bdb320c90a1d7d1224f07db38d098b4472d91104
+        color += (intensity * diffuse  + spec)*texImage; // All
     }
 
     if(s2 > 0.5) {
@@ -71,16 +63,12 @@ void main () {
 
         if(intensity > 0.0) {
             vec3 e = normalize(vec3(eye));
-            vec3 h = normalize(lightDir1 + e );
+            vec3 h = normalize(lightDir2 + e );
             float intSpec = max(dot(h,n), 0.0);
             spec = specular * pow(intSpec, shininess);
         }
 
-<<<<<<< HEAD
-        color += (intensity * diffuse  + spec)*COLOR;
-=======
-        color += max((intensity * diffuse  + spec)*frag_color, ambient);
->>>>>>> bdb320c90a1d7d1224f07db38d098b4472d91104
+        color += (intensity * diffuse  + spec)*texImage;
     }
 
     if(s3 > 0.5) {
@@ -97,20 +85,18 @@ void main () {
             vec3 h = normalize(spotlightDir + e );
             float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
             if(spotEffect > 0.9) {
-                color += spotEffect * (diffuse * intensity + ambient) * COLOR;
+                color += spotEffect * (diffuse * intensity + ambient) * texImage;
                 float intSpec = max(dot(h,n), 0.0);
                 spec = specular * pow(intSpec, shininess);
-                color += spotEffect * spec * COLOR;
+                color += spotEffect * spec * texImage;
             }
         }
     }
 
-    // if(s1 > 0.5 || s2 > 0.5)
-    //     color = max(color, ambient);
+     if(s1 > 0.5 || s2 > 0.5)
+         color = max(color, ambient);
 
     //vec4 color = intensity * diffuse; // Only Diffuse
     frag_color = color;
-
-    frag_color = texture2D(texture, tex);
 
 }

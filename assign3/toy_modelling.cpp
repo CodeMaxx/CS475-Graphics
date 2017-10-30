@@ -25,12 +25,8 @@ void initVertexBufferGL(void)
   vNormal = glGetAttribLocation( shaderProgram, "vNormal" );
   SWITCH1 = glGetUniformLocation( shaderProgram, "switch1" );
   SWITCH2 = glGetUniformLocation( shaderProgram, "switch2" );
-<<<<<<< HEAD
   SWITCH3 = glGetUniformLocation( shaderProgram, "switch3" );
-=======
   texCoord = glGetAttribLocation( shaderProgram, "texCoord" );
-  nodeNum = glGetAttribLocation( shaderProgram, "nodeNum" );
->>>>>>> bdb320c90a1d7d1224f07db38d098b4472d91104
 
   node* node1;
 
