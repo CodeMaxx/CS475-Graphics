@@ -30,9 +30,8 @@ void initVertexBufferGL(void)
 
   node* node1;
 
-  GLuint tex1 = LoadTexture("images/all1.bmp",256,256);
-  GLuint tex2 = LoadTexture("images/lower_leg.bmp",256,256);
-  GLuint tex = LoadTexture("grass.bmp",256,256);
+  GLuint sky = LoadTexture("images/sky.bmp",225,225);
+  GLuint grass = LoadTexture("images/grass.bmp",736,736);
   
   GLuint skin = LoadTexture("images/skin.bmp",1600,1600);
   GLuint jeans = LoadTexture("images/jeans.bmp",256,256);
@@ -204,11 +203,11 @@ void initVertexBufferGL(void)
   stretch.push_back(node1);
 
   m = Model::draw_ground();
-  ground = new node(NULL,m,tex);
+  ground = new node(NULL,m,grass);
   ground->change_parameters(0,-3,0,15,0.0,0.0);
 
   m = Model::draw_sphere(50.0,30,30);
-  dome = new node(NULL,m,tex1);
+  dome = new node(NULL,m,sky);
   dome->change_parameters(0,0,0,0,0.0,0.0);
 }
 
