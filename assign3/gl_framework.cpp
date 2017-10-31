@@ -8,6 +8,7 @@ extern bool enable_perspective;
 extern node *node1, *curr_node;
 extern std::vector<node*> woody,stretch;
 extern int switch1, switch2, switch3;
+extern double w_size;
 
 namespace cse
 {
@@ -62,6 +63,10 @@ namespace cse
           case GLFW_KEY_U: switch3 = !switch3;
                               break;
           case GLFW_KEY_P: enable_perspective = !enable_perspective;
+                              break;
+          case GLFW_KEY_Z: w_size = w_size > 0.5 ? w_size - 0.5 : w_size;
+                              break;
+          case GLFW_KEY_X: w_size = w_size < 10.5 ? w_size + 0.5 : w_size;
                               break;
         }
       }
@@ -136,9 +141,6 @@ namespace cse
                             break;
         case GLFW_KEY_KP_6:  st->g_ztrans --;
                             break;
-
-        // DEFAULT CASE
-        default: std::cout << "Key not recognised in this mode." << std::endl;
       }
     }
 
@@ -190,8 +192,6 @@ namespace cse
       // stretch leg 8
       case GLFW_KEY_O: curr_node = stretch[8];
                         break;
-      // DEFAULT CASE
-      default: std::cout << "Key not recognised in this mode." << std::endl;
       }
     }
   }
