@@ -101,7 +101,7 @@ void node::render(std::vector<glm::mat4>* matrixStack){
 	}
 	else if(model.type==2)
 	{
-		std::cout<<node_number<<std::endl;
+		// std::cout<<node_number<<std::endl;
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4/4);
 		glBindTexture(GL_TEXTURE_2D, tex);

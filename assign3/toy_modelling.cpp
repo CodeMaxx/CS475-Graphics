@@ -34,13 +34,13 @@ void initVertexBufferGL(void)
   GLuint tex2 = LoadTexture("images/lower_leg.bmp",256,256);
   GLuint tex = LoadTexture("grass.bmp",256,256);
   
-  GLuint skin = LoadTexture("images/skin.bmp",256,256);
+  GLuint skin = LoadTexture("images/skin.bmp",1600,1600);
   GLuint jeans = LoadTexture("images/jeans.bmp",256,256);
-  GLuint boot = LoadTexture("images/boot1.bmp",256,256);
+  GLuint boot = LoadTexture("images/boot1.bmp",480,317);
   GLuint face = LoadTexture("images/face.bmp",431,222);
   GLuint shirt = LoadTexture("images/shirt.bmp",256,256);
   GLuint oct_leg = LoadTexture("images/oct_leg.bmp",960,638);
-  GLuint oct_base = LoadTexture("images/stretch_face.bmp",256,256);
+  GLuint oct_base = LoadTexture("images/stretch_face.bmp",287,119);
   //hip 0
   Model m = Model::draw_cuboid(1.0,0.6,0.5);
   node1 = new node(NULL,m,jeans);
@@ -158,7 +158,7 @@ void initVertexBufferGL(void)
 
   //stretch base 19
   m = Model::draw_cylinder(0.8,2.3,30);
-  node1 = new node(NULL,m,oct_leg);
+  node1 = new node(NULL,m,oct_base);
   node1->change_parameters(3.0,0,0.0,90,0.0,0.0);
   stretch.push_back(node1);
 
