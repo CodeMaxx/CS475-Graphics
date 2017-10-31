@@ -19,7 +19,7 @@ GLuint shaderProgram;
 //! State variable passed to GLFW
 state st;
 
-GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 2.0;
+GLfloat c_xpos = 1.5, c_ypos = 0.0, c_zpos = 2.0;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
 
@@ -57,10 +57,14 @@ std::vector<node*> woody;
 
 //stretch
 std::vector<node*> stretch;
+node* ground;
+node* dome;
 
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack1;
 std::vector<glm::mat4> matrixStack2;
+std::vector<glm::mat4> matrixStack3;
+std::vector<glm::mat4> matrixStack4;
 int total_nodes=0;
 
 node* curr_node;

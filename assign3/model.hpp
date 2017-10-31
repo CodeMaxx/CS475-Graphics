@@ -26,6 +26,7 @@ public:
   static Model draw_cylinder(double radius, double height, int Lats);
   static Model draw_frustum(double radius1, double radius2, double height, int Lats);
   static Model draw_cuboid(double xlength, double ylength, double zlength);
+  static Model draw_ground();
   Model()
   {
     num_vertex=0;

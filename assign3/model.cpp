@@ -2,47 +2,50 @@
 
 #define PI 3.14159265
 
-// Model Model::draw_sphere(double radius, int Lats, int Longs)
-// {
-//   Model m;
-//   float lats,longs;
+Model Model::draw_sphere(double radius, int Lats, int Longs)
+{
+  Model m;
+  float lats,longs;
 
-//   float slices=(180/(float(Lats)*10))/2;
-//   float sectors=(180/(float(Longs)*10))/2;
+  float slices=(180/(float(Lats)*10))/2;
+  float sectors=(180/(float(Longs)*10))/2;
 
-//   float l;
+  float l;
 
-//   for (lats = 0.0; lats <= PI; lats+=sectors)
-//   {
-//     for(longs = 0.0; longs <= 2.0*PI; longs+=slices)
-//   	{
-//   	  float x = radius * sin(lats) * cos(longs);
-//   	  float y = radius * sin(lats) * sin(longs);
-//   	  float z = radius * cos(lats);
-//   	  // glm::vec4 pt(x, y, z, 1.0);
+  for (lats = 0.0; lats <= PI; lats+=sectors)
+  {
+    for(longs = 0.0; longs <= 2.0*PI; longs+=slices)
+  	{
+  	  float x = radius * sin(lats) * cos(longs);
+  	  float y = radius * sin(lats) * sin(longs);
+  	  float z = radius * cos(lats);
+  	  // glm::vec4 pt(x, y, z, 1.0);
 
-//   	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
-//   	  m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
-//   	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-//   	  m.num_vertex++;
+  	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
+  	  m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
+  	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
+      m.texture.push_back(0.0);m.texture.push_back(0.0);
+  	  m.num_vertex++;
 
-//   	  if(lats+sectors>PI)
-//   	    l=PI;
-//   	  else
-//   	    l=lats+sectors;
-//   	  x = radius * sin(l) * cos(longs);
-//   	  y = radius * sin(l) * sin(longs);
-//   	  z = radius * cos(l);
+  	  if(lats+sectors>PI)
+  	    l=PI;
+  	  else
+  	    l=lats+sectors;
+  	  x = radius * sin(l) * cos(longs);
+  	  y = radius * sin(l) * sin(longs);
+  	  z = radius * cos(l);
 
 
-//   	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
-//   	  m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
-//   	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-//   	  m.num_vertex++;
-//   	}
-//   }
-//   return m;
-// }
+  	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
+  	  m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
+  	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
+      m.texture.push_back(0.0);m.texture.push_back(0.0);
+  	  m.num_vertex++;
+  	}
+  }
+  m.type=1;
+  return m;
+}
 
 void quad(Model* m, glm::vec4 positions[], glm::vec4 normals[],int face, int a, int b, int c, int d)
 {
@@ -95,6 +98,23 @@ Model Model::draw_cuboid(double xlength, double ylength, double zlength)
   quad(&m,positions,normals,3,2,6,4,8);
   quad(&m,positions,normals,4,1,2,5,6);
   quad(&m,positions,normals,5,3,4,7,8);
+  m.type=1;
+  return m;
+}
+
+Model Model::draw_ground()
+{
+  Model m;
+  glm::vec4 positions[4] = {
+    glm::vec4(-14,-4,-14, 1.0),
+    glm::vec4(14, -4, -14, 1.0),
+    glm::vec4(-14, -4, 14, 1.0),
+    glm::vec4(14, -4,14, 1.0),
+  };
+  glm::vec4 normals[1] = {
+    glm::vec4(0,1.0,0, 1.0),
+  };
+  quad(&m,positions,normals,0,1,2,3,4);
   m.type=1;
   return m;
 }

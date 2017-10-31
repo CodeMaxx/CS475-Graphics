@@ -150,6 +150,7 @@ void initVertexBufferGL(void)
 
   curr_node = woody[0];
 
+  //stretch base 19
   m = Model::draw_cylinder(0.8,2.3,30);
   node1 = new node(NULL,m,tex3);
   node1->change_parameters(3.0,0,0.0,90,0.0,0.0);
@@ -190,10 +191,21 @@ void initVertexBufferGL(void)
   node1->change_parameters(0.8/sqrt(2),-0.8/sqrt(2),2.3,60.0/sqrt(2),60.0/sqrt(2),0.0);
   stretch.push_back(node1);
 
+  //27
   m = Model::draw_cylinder(0.2,2,30);
   node1 = new node(stretch[0],m,tex);
   node1->change_parameters(-0.8/sqrt(2),-0.8/sqrt(2),2.3,60.0/sqrt(2),-60.0/sqrt(2),0.0);
   stretch.push_back(node1);
+
+  m = Model::draw_ground();
+  ground = new node(NULL,m,tex);
+  ground->change_parameters(0,0,0,60,0.0,0.0);
+
+  m = Model::draw_sphere(5.0,30,30);
+  dome = new node(NULL,m,tex);
+  dome->change_parameters(0,0,0,60,0.0,0.0);
+
+
 }
 
 void renderGL(void)
@@ -217,6 +229,8 @@ void renderGL(void)
 
   matrixStack1.clear();
   matrixStack2.clear();
+  matrixStack3.clear();
+  matrixStack4.clear();
 
   //Creating the lookat and the up vectors for the camera
   c_rotation_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(c_xrot), glm::vec3(1.0f,0.0f,0.0f));
@@ -226,7 +240,7 @@ void renderGL(void)
   glm::vec4 c_pos = glm::vec4(c_xpos,c_ypos,c_zpos, 1.0)*c_rotation_matrix;
   glm::vec4 c_up = glm::vec4(c_up_x,c_up_y,c_up_z, 1.0)*c_rotation_matrix;
   //Creating the lookat matrix
-  lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(0.0),glm::vec3(c_up));
+  lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(1.5,0,0),glm::vec3(c_up));
 
   //creating the projection matrix
   if(enable_perspective)
@@ -253,10 +267,15 @@ void renderGL(void)
 
   matrixStack1.push_back(view_matrix);
   matrixStack2.push_back(view_matrix);
+  matrixStack3.push_back(view_matrix);
+  matrixStack4.push_back(view_matrix);
 
   woody[0]->render_tree(&matrixStack1);
 
   stretch[0]->render_tree(&matrixStack2);
+
+  ground->render_tree(&matrixStack3);
+  dome->render_tree(&matrixStack4);
 
 }
 

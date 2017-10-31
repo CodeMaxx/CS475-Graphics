@@ -23,7 +23,7 @@ node::node(node* a_parent, Model m, GLuint texture ){
 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
 
 	// if(node_number==0){
-		glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float) + m.texture.size() * sizeof(float), NULL, GL_STATIC_DRAW);
+		glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float) + m.normal.size() * sizeof(float), NULL, GL_STATIC_DRAW);
 	    glBufferSubData( GL_ARRAY_BUFFER, 0, m.pts.size() * sizeof (float), &m.pts[0] );
 	    glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float), m.texture.size() * sizeof (float), &m.texture[0] );
  		glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float), m.normal.size() * sizeof(float), &m.normal[0] );
