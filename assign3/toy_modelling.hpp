@@ -59,12 +59,14 @@ std::vector<node*> woody;
 std::vector<node*> stretch;
 node* ground;
 node* dome;
+node* slight;
 
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack1;
 std::vector<glm::mat4> matrixStack2;
 std::vector<glm::mat4> matrixStack3;
 std::vector<glm::mat4> matrixStack4;
+std::vector<glm::mat4> matrixStack5;
 int total_nodes=0;
 
 node* curr_node;

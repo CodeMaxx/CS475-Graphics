@@ -25,6 +25,7 @@ void loadWoody()
   //hip 0
   Model m = Model::draw_cuboid(1.0,0.6,0.5);
   node1 = new node(NULL,m,jeans);
+  node1->change_parameters(0.0,0.0,-32.0,0.0,0.0,0.0);
   woody.push_back(node1);
 
   //left leg top 1
@@ -147,7 +148,7 @@ void loadStretch()
   //stretch base 19
   Model m = Model::draw_cylinder(0.8,2.3,30);
   node1 = new node(NULL,m,oct_base);
-  node1->change_parameters(3.0,0,0.0,90,0.0,-110.0);
+  node1->change_parameters(3.0,-0.6,-32.0,90,0.0,-110.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
@@ -209,6 +210,7 @@ void initVertexBufferGL(void)
 
 
   GLuint sky = LoadTexture("images/sky.bmp",960,540);
+  GLuint splight = LoadTexture("images/all1.bmp",256,256);
   GLuint grass = LoadTexture("images/grass.bmp",736,736);
   
   loadWoody();
@@ -221,6 +223,10 @@ void initVertexBufferGL(void)
   m = Model::draw_sphere(50.0,30,30);
   dome = new node(NULL,m,sky);
   dome->change_parameters(0,0,0,0,0.0,0.0);
+
+  m = Model::draw_frustum(0.2,0.4,0.5,30);
+  slight = new node(NULL,m,splight);
+  slight->change_parameters(0,0,0,0,0.0,0.0);
 }
 
 void renderGL(void)
@@ -246,6 +252,7 @@ void renderGL(void)
   matrixStack2.clear();
   matrixStack3.clear();
   matrixStack4.clear();
+  matrixStack5.clear();
 
   //Creating the lookat and the up vectors for the camera
   c_rotation_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(c_xrot), glm::vec3(1.0f,0.0f,0.0f));
@@ -284,6 +291,7 @@ void renderGL(void)
   matrixStack2.push_back(view_matrix);
   matrixStack3.push_back(view_matrix);
   matrixStack4.push_back(view_matrix);
+  matrixStack5.push_back(view_matrix);
 
   woody[0]->render_tree(&matrixStack1);
 
@@ -291,6 +299,7 @@ void renderGL(void)
 
   ground->render_tree(&matrixStack3);
   dome->render_tree(&matrixStack4);
+  slight->render_tree(&matrixStack5);
 
 }
 
