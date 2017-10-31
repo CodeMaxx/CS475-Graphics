@@ -9,6 +9,7 @@ node::node(node* a_parent, Model m, GLuint texture ){
 	node_number =total_nodes;
 	total_nodes++;
 	tex=texture;
+	// std::cout<<"node texture"<<tex<<" "<<node_number<<std::endl;
 	// initialize vao and vbo of the object;
 
 
@@ -20,7 +21,6 @@ node::node(node* a_parent, Model m, GLuint texture ){
 	//bind them
 	glBindVertexArray (vao);
 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
-	glUniform1i(nodeNum, node_number);
 
 	// if(node_number==0){
 		glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float) + m.texture.size() * sizeof(float), NULL, GL_STATIC_DRAW);
@@ -91,19 +91,22 @@ void node::render(std::vector<glm::mat4>* matrixStack){
 	normal_matrix = glm::transpose (glm::inverse(glm::mat3(*ms_mult)));
 	glUniformMatrix3fv(normalMatrix, 1, GL_FALSE, glm::value_ptr(normal_matrix));
 	glBindVertexArray (vao);
+
+	// std::cout<<"node texture"<<tex<<" "<<node_number<<std::endl;
+
 	if(model.type==1)
 	{
-		glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4);
 		glBindTexture(GL_TEXTURE_2D, tex);
+		glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4);
 	}
 	else
 	{
+		glBindTexture(GL_TEXTURE_2D, tex);
 		glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4/4);
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glDrawArrays(GL_TRIANGLES, model.pts.size()/4/4, model.pts.size()/4/2);
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glDrawArrays(GL_TRIANGLES, model.pts.size()*3/4/4, model.pts.size()/4/4);
-		glBindTexture(GL_TEXTURE_2D, tex);
 	}
 	
 
