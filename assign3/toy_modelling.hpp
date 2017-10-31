@@ -16,16 +16,15 @@
 GLFWwindow* window;
 GLuint shaderProgram;
 
-//! State variable passed to GLFW
-state st;
-
 GLfloat c_xpos = 1.5, c_ypos = 0.0, c_zpos = 5.0;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
 
 //! Global translation
 int g_xtrans = 0, g_ytrans = 0, g_ztrans = 0;
-float trans_factor = 0.05;
+float trans_factor = 0.2;
+int g_xtheta=0, g_ytheta=0, g_ztheta=0;
+float rot_factor = 0.1;
 
 double w_size = 7.0;
 

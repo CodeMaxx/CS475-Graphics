@@ -9,25 +9,6 @@
 
 #define BUFFER_OFFSET( offset )  ((GLvoid*) (offset))
 
-struct state
-{
-  int g_xtheta, g_ytheta, g_ztheta; //number of clicks
-  int g_xtrans, g_ytrans, g_ztrans;
-  float trans_factor;
-  float rot_factor;
-
-  //for drawing x,y,z axis
-  std::vector<float> axis_pts;
-  std::vector<float> axis_color;
-
-  state() {
-    g_xtheta = g_ytheta = g_ztheta = 0;
-    g_xtrans = g_ztrans = 0;
-    g_ytrans = 0;
-    trans_factor = 0.05;
-    rot_factor = 0.1;
-  }
-};
 
 namespace cse
 {

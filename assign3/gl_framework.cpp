@@ -9,6 +9,8 @@ extern node *node1, *curr_node;
 extern std::vector<node*> woody,stretch;
 extern int switch1, switch2, switch3;
 extern double w_size;
+extern int g_xtrans, g_ytrans, g_ztrans, g_xtheta, g_ytheta, g_ztheta;
+extern float  trans_factor,rot_factor;
 
 namespace cse
 {
@@ -43,8 +45,6 @@ namespace cse
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
   {
-    state *st;
-    st = (state*)glfwGetWindowUserPointer(window);
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE){
       // Close window
@@ -115,31 +115,31 @@ namespace cse
         case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
                             break;
         // Rotation about X, Y, Z respectively
-        case GLFW_KEY_D:  st->g_ytheta --;
+        case GLFW_KEY_D:  g_ytheta --;
                             break;
-        case GLFW_KEY_A:  st->g_ytheta ++;
+        case GLFW_KEY_A:  g_ytheta ++;
                             break;
-        case GLFW_KEY_W:  st->g_xtheta ++;
+        case GLFW_KEY_W:  g_xtheta ++;
                             break;
-        case GLFW_KEY_S:  st->g_xtheta --;
+        case GLFW_KEY_S:  g_xtheta --;
                             break;
-        case GLFW_KEY_E:  st->g_ztheta --;
+        case GLFW_KEY_E:  g_ztheta --;
                             break;
-        case GLFW_KEY_Q:  st->g_ztheta ++;
+        case GLFW_KEY_Q:  g_ztheta ++;
                             break;
 
         // Translation along positive Y, X, Z respectively
-        case GLFW_KEY_KP_2:  st->g_ytrans ++;
+        case GLFW_KEY_KP_2:  g_ytrans ++;
                             break;
-        case GLFW_KEY_KP_5:  st->g_ytrans --;
+        case GLFW_KEY_KP_5:  g_ytrans --;
                             break;
-        case GLFW_KEY_KP_1:  st->g_xtrans ++;
+        case GLFW_KEY_KP_1:  g_xtrans ++;
                             break;
-        case GLFW_KEY_KP_3:  st->g_xtrans --;
+        case GLFW_KEY_KP_3:  g_xtrans --;
                             break;
-        case GLFW_KEY_KP_4:  st->g_ztrans ++;
+        case GLFW_KEY_KP_4:  g_ztrans ++;
                             break;
-        case GLFW_KEY_KP_6:  st->g_ztrans --;
+        case GLFW_KEY_KP_6:  g_ztrans --;
                             break;
       }
     }

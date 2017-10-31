@@ -275,12 +275,12 @@ void renderGL(void)
 
     //! Preparing global rotation matrix
   glm::mat4 xrot, yrot, zrot;
-  xrot = glm::rotate(id, st.g_xtheta*st.rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
-  yrot = glm::rotate(id, st.g_ytheta*st.rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
-  zrot = glm::rotate(id, st.g_ztheta*st.rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
+  xrot = glm::rotate(id, g_xtheta*rot_factor, glm::vec3(1.0f, 0.0f, 0.0f));
+  yrot = glm::rotate(id, g_ytheta*rot_factor, glm::vec3(0.0f, 1.0f, 0.0f));
+  zrot = glm::rotate(id, g_ztheta*rot_factor, glm::vec3(0.0f, 0.0f, 1.0f));
   global_rotation_matrix = xrot * yrot * zrot;
 
-  glm::vec3 translation_amt(st.g_xtrans*st.trans_factor,st.g_ytrans*st.trans_factor,st.g_ztrans*st.trans_factor);
+  glm::vec3 translation_amt(g_xtrans*trans_factor,g_ytrans*trans_factor,g_ztrans*trans_factor);
   global_translation_matrix = glm::translate(id, translation_amt);
 
   view_matrix = projection_matrix*lookat_matrix*global_rotation_matrix*global_translation_matrix;
@@ -354,8 +354,6 @@ int main(int argc, char** argv)
 
   // Ensure we can capture the escape key being pressed below
   glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-  glfwSetWindowUserPointer(window, &st);
-  // glfwSetMouseButtonCallback(window, cse::mouse_button_callback);
 
   //Initialize GL state
   cse::initGL();
