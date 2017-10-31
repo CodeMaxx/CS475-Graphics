@@ -19,7 +19,7 @@ GLuint shaderProgram;
 //! State variable passed to GLFW
 state st;
 
-GLfloat c_xpos = 1.5, c_ypos = 0.0, c_zpos = 2.0;
+GLfloat c_xpos = 1.5, c_ypos = 0.0, c_zpos = 5.0;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
 

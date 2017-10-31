@@ -17,9 +17,9 @@ in float s3;
 
 void main () {
     // Defining Materials
-    vec4 diffuse = vec4(0.35, 0.35, 0.35, 1.0);
+    vec4 diffuse = vec4(2.0, 2.0, 2.0, 1.0);
     vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);
-    vec4 specular = vec4(0.25, 0.25, 0.25, 1.0);
+    vec4 specular = vec4(0.5, 0.5, 0.5, 1.0);
     float shininess = 1.0;
     vec4 spec = vec4(0.5);
 
@@ -27,12 +27,12 @@ void main () {
     vec4 texImage = texture(texture1, tex);
 
     // Defining Light
-    vec4 lightPos1 = vec4(1.0, 1.0, 1.0, 0.0);
+    vec4 lightPos1 = vec4(150.0, 0.0, 1000.0, 0.0);
     vec3 lightDir1 = vec3(viewMatrix * lightPos1);
     lightDir1 = normalize(lightDir1);
 
     // Defining second light
-    vec4 lightPos2 = vec4(-1.0, 1.0, 1.0, 0.0);
+    vec4 lightPos2 = vec4(-150.0, 0.0, 1000.0, 0.0);
     vec3 lightDir2 = vec3(viewMatrix * lightPos2);
     lightDir2 = normalize(lightDir2);
 
@@ -73,19 +73,19 @@ void main () {
     }
 
     if(s3 > 0.5) {
-        vec4 spotlightPos = vec4(0.0, 2.0, 0.0, 1.0);
+        vec4 spotlightPos = viewMatrix * vec4(0.0, 2.0, 0.0, 1.0);
         vec3 spotlightDir = vec3(spotlightPos - ecPos);
         float dist = length(spotlightDir);
         float dotProduct = dot(n,normalize(spotlightDir));
         float intensity =  max( dotProduct, 0.0);
 
-        vec3 spotDirection = vec3(0.0, -1.0, 0.3); // Axis of the cone
+        vec3 spotDirection = vec3(0.0, -1.0, 0.0); // Axis of the cone
 
         if(intensity > 0.2) {
             vec3 e = normalize(vec3(eye));
             vec3 h = normalize(spotlightDir + e );
             float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
-            if(spotEffect > 0.96) {
+            if(spotEffect > 0.9) {
                 color += spotEffect * (diffuse * intensity + ambient) * texImage;
                 float intSpec = max(dot(h,n), 0.0);
                 spec = specular * pow(intSpec, shininess);
@@ -94,8 +94,7 @@ void main () {
         }
     }
 
-     if(s1 > 0.5 || s2 > 0.5)
-         color = max(color, ambient);
+    color = max(color, ambient*texImage);
 
     //vec4 color = intensity * diffuse; // Only Diffuse
     frag_color = color;

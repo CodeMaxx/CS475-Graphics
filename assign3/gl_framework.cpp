@@ -109,17 +109,18 @@ namespace cse
                             break;
         case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
                             break;
-        case GLFW_KEY_A: c_yrot -= 1.0;
+        // Rotation about X, Y, Z respectively
+        case GLFW_KEY_D:  st->g_ytheta --;
                             break;
-        case GLFW_KEY_D: c_yrot += 1.0;
+        case GLFW_KEY_A:  st->g_ytheta ++;
                             break;
-        case GLFW_KEY_W: c_xrot -= 1.0;
+        case GLFW_KEY_W:  st->g_xtheta ++;
                             break;
-        case GLFW_KEY_S: c_xrot += 1.0;
+        case GLFW_KEY_S:  st->g_xtheta --;
                             break;
-        case GLFW_KEY_Q: c_zrot -= 1.0;
+        case GLFW_KEY_E:  st->g_ztheta --;
                             break;
-        case GLFW_KEY_E: c_zrot += 1.0;
+        case GLFW_KEY_Q:  st->g_ztheta ++;
                             break;
 
         // Translation along positive Y, X, Z respectively
@@ -134,19 +135,6 @@ namespace cse
         case GLFW_KEY_KP_4:  st->g_ztrans ++;
                             break;
         case GLFW_KEY_KP_6:  st->g_ztrans --;
-                            break;
-        // Rotation about X, Y, Z respectively
-        case GLFW_KEY_KP_8:  st->g_xtheta ++;
-                            break;
-        case GLFW_KEY_KP_DIVIDE:  st->g_xtheta --;
-                            break;
-        case GLFW_KEY_KP_7:  st->g_ytheta ++;
-                            break;
-        case GLFW_KEY_KP_9:  st->g_ytheta --;
-                            break;
-        case GLFW_KEY_KP_MULTIPLY:  st->g_ztheta ++;
-                            break;
-        case GLFW_KEY_KP_SUBTRACT:  st->g_ztheta --;
                             break;
 
         // DEFAULT CASE

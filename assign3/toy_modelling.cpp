@@ -37,10 +37,10 @@ void initVertexBufferGL(void)
   GLuint skin = LoadTexture("images/skin.bmp",256,256);
   GLuint jeans = LoadTexture("images/jeans.bmp",256,256);
   GLuint boot = LoadTexture("images/boot1.bmp",256,256);
-  GLuint face = LoadTexture("images/face.bmp",256,256);
+  GLuint face = LoadTexture("images/face.bmp",431,222);
   GLuint shirt = LoadTexture("images/shirt.bmp",256,256);
-  GLuint oct_leg = LoadTexture("images/oct_leg.bmp",256,256);
-
+  GLuint oct_leg = LoadTexture("images/oct_leg.bmp",960,638);
+  GLuint oct_base = LoadTexture("images/stretch_face.bmp",256,256);
   //hip 0
   Model m = Model::draw_cuboid(1.0,0.6,0.5);
   node1 = new node(NULL,m,jeans);
@@ -91,7 +91,7 @@ void initVertexBufferGL(void)
   //head 8
   m = Model::draw_cylinder(0.5,1.8,30);
   node1 = new node(woody[7],m,face);
-  node1->change_parameters(0,0,0.3,0,0.0,0.0);
+  node1->change_parameters(0,0,0.3,0,0.0,75.0);
   woody.push_back(node1);
 
   //hat bottom 9
@@ -158,48 +158,48 @@ void initVertexBufferGL(void)
 
   //stretch base 19
   m = Model::draw_cylinder(0.8,2.3,30);
-  node1 = new node(NULL,m,skin);
+  node1 = new node(NULL,m,oct_leg);
   node1->change_parameters(3.0,0,0.0,90,0.0,0.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex1);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(0.8,0,2.3,0,60.0,0.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex1);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(-0.8,0,2.3,0,-60.0,0.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex1);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(0,0.8,2.3,-60.0,0.0,0.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex1);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(0,-0.8,2.3,60.0,0,0.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex1);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(0.8/sqrt(2),0.8/sqrt(2),2.3,-60.0/sqrt(2),60.0/sqrt(2),0.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex1);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(-0.8/sqrt(2),0.8/sqrt(2),2.3,-60.0/sqrt(2),-60.0/sqrt(2),0.0);
   stretch.push_back(node1);
 
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex1);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(0.8/sqrt(2),-0.8/sqrt(2),2.3,60.0/sqrt(2),60.0/sqrt(2),0.0);
   stretch.push_back(node1);
 
   //27
   m = Model::draw_cylinder(0.2,2,30);
-  node1 = new node(stretch[0],m,tex);
+  node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(-0.8/sqrt(2),-0.8/sqrt(2),2.3,60.0/sqrt(2),-60.0/sqrt(2),0.0);
   stretch.push_back(node1);
 
@@ -248,10 +248,10 @@ void renderGL(void)
 
   //creating the projection matrix
   if(enable_perspective)
-    projection_matrix = glm::frustum(-6.0, 6.0, -6.0, 6.0, 1.0, 7000.0);
+    projection_matrix = glm::frustum(-7.0, 7.0, -7.0, 7.0, 1.0, 7000.0);
     //projection_matrix = glm::perspective(glm::radians(90.0),1.0,0.1,5.0);
   else
-    projection_matrix = glm::ortho(-7.0, 7.0, -7.0, 7.0, -5.0, 5.0);
+    projection_matrix = glm::ortho(-9.0, 9.0, -9.0, 9.0, -5.0, 500.0);
 
   glm::mat4 id = glm::mat4(1.0f);
 
