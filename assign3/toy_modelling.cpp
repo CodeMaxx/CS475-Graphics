@@ -199,11 +199,11 @@ void initVertexBufferGL(void)
 
   m = Model::draw_ground();
   ground = new node(NULL,m,tex);
-  ground->change_parameters(0,0,0,60,0.0,0.0);
+  ground->change_parameters(0,0,0,5,0.0,0.0);
 
-  m = Model::draw_sphere(5.0,30,30);
+  // m = Model::draw_sphere(5.0,30,30);
   dome = new node(NULL,m,tex);
-  dome->change_parameters(0,0,0,60,0.0,0.0);
+  dome->change_parameters(0,0,0,0,0.0,0.0);
 
 
 }
@@ -244,10 +244,10 @@ void renderGL(void)
 
   //creating the projection matrix
   if(enable_perspective)
-    projection_matrix = glm::frustum(-6.0, 6.0, -6.0, 6.0, 1.0, 7000.0);
+    projection_matrix = glm::frustum(-7.0, 7.0, -7.0, 7.0, 1.0, 7000.0);
     //projection_matrix = glm::perspective(glm::radians(90.0),1.0,0.1,5.0);
   else
-    projection_matrix = glm::ortho(-7.0, 7.0, -7.0, 7.0, -5.0, 5.0);
+    projection_matrix = glm::ortho(-9.0, 9.0, -9.0, 9.0, -5.0, 500.0);
 
   glm::mat4 id = glm::mat4(1.0f);
 
@@ -275,7 +275,7 @@ void renderGL(void)
   stretch[0]->render_tree(&matrixStack2);
 
   ground->render_tree(&matrixStack3);
-  dome->render_tree(&matrixStack4);
+  // dome->render_tree(&matrixStack4);
 
 }
 

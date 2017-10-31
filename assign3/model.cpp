@@ -106,10 +106,10 @@ Model Model::draw_ground()
 {
   Model m;
   glm::vec4 positions[4] = {
-    glm::vec4(-14,-4,-14, 1.0),
-    glm::vec4(14, -4, -14, 1.0),
-    glm::vec4(-14, -4, 14, 1.0),
-    glm::vec4(14, -4,14, 1.0),
+    glm::vec4(-20,-4.5,-20, 1.0),
+    glm::vec4(20, -4.5, -20, 1.0),
+    glm::vec4(-20, -4.5, 20, 1.0),
+    glm::vec4(20, -4.5,20, 1.0),
   };
   glm::vec4 normals[1] = {
     glm::vec4(0,1.0,0, 1.0),
