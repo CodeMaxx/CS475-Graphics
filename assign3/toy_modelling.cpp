@@ -216,7 +216,7 @@ void initVertexBufferGL(void)
 
   Model m = Model::draw_ground();
   ground = new node(NULL,m,grass);
-  ground->change_parameters(0,-6,-12,15,45,0.0);
+  ground->change_parameters(0,-12,-12,15,45,0.0);
 
   m = Model::draw_sphere(50.0,30,30);
   dome = new node(NULL,m,sky);
