@@ -27,12 +27,12 @@ void main () {
     vec4 texImage = texture(texture1, tex);
 
     // Defining Light
-    vec4 lightPos1 = vec4(0.0, 0.0, 1000.0, 0.0);
+    vec4 lightPos1 = vec4(150.0, 0.0, 1000.0, 0.0);
     vec3 lightDir1 = vec3(viewMatrix * lightPos1);
     lightDir1 = normalize(lightDir1);
 
     // Defining second light
-    vec4 lightPos2 = vec4(0.0, 1000.0, 1000.0, 0.0);
+    vec4 lightPos2 = vec4(-150.0, 0.0, 1000.0, 0.0);
     vec3 lightDir2 = vec3(viewMatrix * lightPos2);
     lightDir2 = normalize(lightDir2);
 
@@ -78,7 +78,7 @@ void main () {
         float dotProduct = dot(n,normalize(spotlightDir));
         float intensity =  max( dotProduct, 0.0);
 
-        vec3 spotDirection = (-(viewMatrix * vec4(0.0, 0.0, 0.0, 0.0)) + spotlightPos).xyz; // Axis of the cone
+        vec3 spotDirection = ((viewMatrix * vec4(0.0, 0.0, 0.0, 0.0)) - spotlightPos).xyz; // Axis of the cone
 
         if(intensity > 0.2) {
             vec3 e = normalize(vec3(eye));
