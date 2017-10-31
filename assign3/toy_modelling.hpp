@@ -27,6 +27,8 @@ GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
 int g_xtrans = 0, g_ytrans = 0, g_ztrans = 0;
 float trans_factor = 0.05;
 
+double w_size = 7.0;
+
 //Running variable to toggle culling on/off
 bool enable_culling=true;
 //Running variable to toggle wireframe/solid modelling
