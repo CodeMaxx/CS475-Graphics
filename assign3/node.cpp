@@ -22,21 +22,20 @@ node::node(node* a_parent, Model m, GLuint texture ){
 	glBindVertexArray (vao);
 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
 
-	// if(node_number==0){
-		glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float) + m.normal.size() * sizeof(float), NULL, GL_STATIC_DRAW);
-	    glBufferSubData( GL_ARRAY_BUFFER, 0, m.pts.size() * sizeof (float), &m.pts[0] );
-	    glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float), m.texture.size() * sizeof (float), &m.texture[0] );
- 		glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float), m.normal.size() * sizeof(float), &m.normal[0] );
+	glBufferData (GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float) + m.normal.size() * sizeof(float), NULL, GL_STATIC_DRAW);
+	glBufferSubData( GL_ARRAY_BUFFER, 0, m.pts.size() * sizeof (float), &m.pts[0] );
+	glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float), m.texture.size() * sizeof (float), &m.texture[0] );
+	glBufferSubData( GL_ARRAY_BUFFER, m.pts.size() * sizeof (float) + m.texture.size() * sizeof (float), m.normal.size() * sizeof(float), &m.normal[0] );
 
-	    //setup the vertex array as per the shader
- 		glEnableVertexAttribArray( vPosition );
- 		glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+	//setup the vertex array as per the shader
+	glEnableVertexAttribArray( vPosition );
+	glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
 
- 		glEnableVertexAttribArray( texCoord );
- 		glVertexAttribPointer( texCoord, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float)));
+	glEnableVertexAttribArray( texCoord );
+	glVertexAttribPointer( texCoord, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float)));
 
- 		glEnableVertexAttribArray( vNormal );
- 	  	glVertexAttribPointer( vNormal, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float) + m.texture.size()*sizeof(float)) );
+	glEnableVertexAttribArray( vNormal );
+  	glVertexAttribPointer( vNormal, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m.pts.size()*sizeof(float) + m.texture.size()*sizeof(float)) );
 
 
 	// set parent
@@ -91,8 +90,6 @@ void node::render(std::vector<glm::mat4>* matrixStack){
 	normal_matrix = glm::transpose (glm::inverse(glm::mat3(*ms_mult)));
 	glUniformMatrix3fv(normalMatrix, 1, GL_FALSE, glm::value_ptr(normal_matrix));
 	glBindVertexArray (vao);
-
-	// std::cout<<"node texture"<<tex<<" "<<node_number<<std::endl;
 
 	if(model.type==1)
 	{

@@ -22,7 +22,8 @@ struct state
 
   state() {
     g_xtheta = g_ytheta = g_ztheta = 0;
-    g_xtrans = g_ytrans = g_ztrans = 0;
+    g_xtrans = g_ztrans = 0;
+    g_ytrans = 0;
     trans_factor = 0.05;
     rot_factor = 0.1;
   }

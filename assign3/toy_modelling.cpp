@@ -14,32 +14,14 @@ void initShadersGL(void)
 
 }
 
-void initVertexBufferGL(void)
+void loadWoody()
 {
-  // getting the attributes from the shader program
-  normalMatrix =  glGetUniformLocation( shaderProgram, "normalMatrix");
-  uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
-  viewMatrix = glGetUniformLocation( shaderProgram, "viewMatrix");
-  vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
-  vColor = glGetAttribLocation( shaderProgram, "vColor" );
-  vNormal = glGetAttribLocation( shaderProgram, "vNormal" );
-  SWITCH1 = glGetUniformLocation( shaderProgram, "switch1" );
-  SWITCH2 = glGetUniformLocation( shaderProgram, "switch2" );
-  SWITCH3 = glGetUniformLocation( shaderProgram, "switch3" );
-  texCoord = glGetAttribLocation( shaderProgram, "texCoord" );
-
   node* node1;
-
-  GLuint sky = LoadTexture("images/sky.bmp",960,240);
-  GLuint grass = LoadTexture("images/grass.bmp",736,736);
-  
   GLuint skin = LoadTexture("images/skin.bmp",1600,1600);
   GLuint jeans = LoadTexture("images/jeans.bmp",256,256);
   GLuint boot = LoadTexture("images/boot1.bmp",480,317);
   GLuint face = LoadTexture("images/face.bmp",431,222);
   GLuint shirt = LoadTexture("images/shirt.bmp",256,256);
-  GLuint oct_leg = LoadTexture("images/oct_leg.bmp",960,638);
-  GLuint oct_base = LoadTexture("images/stretch_base.bmp",672,295);
   //hip 0
   Model m = Model::draw_cuboid(1.0,0.6,0.5);
   node1 = new node(NULL,m,jeans);
@@ -154,9 +136,16 @@ void initVertexBufferGL(void)
   woody.push_back(node1);
 
   curr_node = woody[0];
+}
+
+void loadStretch()
+{
+  node* node1;
+  GLuint oct_leg = LoadTexture("images/oct_leg.bmp",960,638);
+  GLuint oct_base = LoadTexture("images/stretch_base.bmp",672,295);
 
   //stretch base 19
-  m = Model::draw_cylinder(0.8,2.3,30);
+  Model m = Model::draw_cylinder(0.8,2.3,30);
   node1 = new node(NULL,m,oct_base);
   node1->change_parameters(3.0,0,0.0,90,0.0,-110.0);
   stretch.push_back(node1);
@@ -201,10 +190,33 @@ void initVertexBufferGL(void)
   node1 = new node(stretch[0],m,oct_leg);
   node1->change_parameters(-0.8/sqrt(2),-0.8/sqrt(2),2.3,60.0/sqrt(2),-60.0/sqrt(2),0.0);
   stretch.push_back(node1);
+}
 
-  m = Model::draw_ground();
+void initVertexBufferGL(void)
+{
+  // getting the attributes from the shader program
+  normalMatrix =  glGetUniformLocation( shaderProgram, "normalMatrix");
+  uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
+  viewMatrix = glGetUniformLocation( shaderProgram, "viewMatrix");
+  vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
+  vColor = glGetAttribLocation( shaderProgram, "vColor" );
+  vNormal = glGetAttribLocation( shaderProgram, "vNormal" );
+  SWITCH1 = glGetUniformLocation( shaderProgram, "switch1" );
+  SWITCH2 = glGetUniformLocation( shaderProgram, "switch2" );
+  SWITCH3 = glGetUniformLocation( shaderProgram, "switch3" );
+  texCoord = glGetAttribLocation( shaderProgram, "texCoord" );
+
+
+
+  GLuint sky = LoadTexture("images/sky.bmp",960,540);
+  GLuint grass = LoadTexture("images/grass.bmp",736,736);
+  
+  loadWoody();
+  loadStretch();
+
+  Model m = Model::draw_ground();
   ground = new node(NULL,m,grass);
-  ground->change_parameters(0,-6,0,15,45,0.0);
+  ground->change_parameters(0,-6,-12,15,45,0.0);
 
   m = Model::draw_sphere(50.0,30,30);
   dome = new node(NULL,m,sky);

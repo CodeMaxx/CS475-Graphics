@@ -24,8 +24,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
 
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
-      m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(100*last_lat1/PI);m.texture.push_back(100*last_long/(2*PI));
+      m.texture.push_back(20*last_lat1/PI);m.texture.push_back(20*last_long/(2*PI));
       m.num_vertex++;
 
       //last 2
@@ -35,8 +34,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
 
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
-      m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(100*last_lat2/PI);m.texture.push_back(100*last_long/(2*PI));
+      m.texture.push_back(20*last_lat2/PI);m.texture.push_back(20*last_long/(2*PI));
       m.num_vertex++;
 
       // now 3
@@ -46,8 +44,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
 
   	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	  m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
-  	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(100*lats/PI);m.texture.push_back(100*longs/(2*PI));
+      m.texture.push_back(20*lats/PI);m.texture.push_back(20*longs/(2*PI));
   	  m.num_vertex++;
 
       //last 2
@@ -57,8 +54,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
 
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
-      m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(100*last_lat2/PI);m.texture.push_back(100*last_long/(2*PI));
+      m.texture.push_back(20*last_lat2/PI);m.texture.push_back(20*last_long/(2*PI));
       m.num_vertex++;
 
       x = radius * sin(lats) * cos(longs);
@@ -67,8 +63,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
 
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
-      m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(100*lats/PI);m.texture.push_back(100*longs/(2*PI));
+      m.texture.push_back(20*lats/PI);m.texture.push_back(20*longs/(2*PI));
       m.num_vertex++;
       last_lat1 = lats;
       last_long = longs;
@@ -84,8 +79,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
 
   	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	  m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
-  	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(100*l/PI);m.texture.push_back(100*longs/(2*PI));
+      m.texture.push_back(20*l/PI);m.texture.push_back(20*longs/(2*PI));
   	  m.num_vertex++;
       last_lat2 = l;
   	}
@@ -111,7 +105,6 @@ void quad(Model* m, glm::vec4 positions[], glm::vec4 normals[],int face, int a, 
   m->texture.push_back(4.0);m->texture.push_back(4.0);
   for(int i=0;i<6;i++){
      m->normal.push_back(normals[face][0]);m->normal.push_back(normals[face][1]);m->normal.push_back(normals[face][2]);m->normal.push_back(normals[face][3]);
-     m->color.push_back(0.5);m->color.push_back(0.0);m->color.push_back(0.5);m->color.push_back(1.0);
   }
   m->num_vertex+=6;
 }
@@ -153,10 +146,10 @@ Model Model::draw_ground()
 {
   Model m;
   glm::vec4 positions[4] = {
-    glm::vec4(-40,-4.5,-40, 1.0),
-    glm::vec4(40, -4.5, -40, 1.0),
-    glm::vec4(-40, -4.5, 40, 1.0),
-    glm::vec4(40, -4.5,40, 1.0),
+    glm::vec4(-50,2.0, -50.0, 1.0),
+    glm::vec4(50, 2.0, -50.0, 1.0),
+    glm::vec4(-50, 2.0, 50, 1.0),
+    glm::vec4(50, 2.0,50, 1.0),
 
   };
   glm::vec4 normals[1] = {
@@ -183,7 +176,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
     float z = 0.0;
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(-height);m.normal.push_back(1.0);
-    m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5);m.texture.push_back(0.5);
     m.num_vertex++;
 
@@ -193,7 +185,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(-height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(lats));m.texture.push_back(0.5+0.5*sin(lats));
     m.num_vertex++;
 
@@ -208,7 +199,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(-height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(l));m.texture.push_back(0.5+0.5*sin(l));
     m.num_vertex++;   
 
@@ -226,7 +216,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
   	m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
-  	m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(lats/(2*PI));m.texture.push_back(0);
   	m.num_vertex++;
 
@@ -241,7 +230,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
   	m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(z);m.normal.push_back(1.0);
-  	m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(l/(2*PI));m.texture.push_back(0);
   	m.num_vertex++; 
 
@@ -251,7 +239,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
   	m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(0);m.normal.push_back(1.0);
-  	m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(lats/(2*PI));m.texture.push_back(1);
   	m.num_vertex++;
 
@@ -266,7 +253,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(0);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(l/(2*PI));m.texture.push_back(0);
     m.num_vertex++; 
 
@@ -276,7 +262,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(0);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(lats/(2*PI));m.texture.push_back(1);
     m.num_vertex++;
 
@@ -291,7 +276,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
   	m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(0);m.normal.push_back(1.0);
-  	m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(l/(2*PI));m.texture.push_back(1);
   	m.num_vertex++;
 
@@ -304,7 +288,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
     float z = height;
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(height);m.normal.push_back(1.0);
-    m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5);m.texture.push_back(0.5);
     m.num_vertex++;
 
@@ -314,7 +297,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(lats));m.texture.push_back(0.5+0.5*sin(lats));
     m.num_vertex++;
 
@@ -329,7 +311,6 @@ Model Model::draw_cylinder(double radius, double height, int Lats)
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(l));m.texture.push_back(0.5+0.5*sin(l));
     m.num_vertex++;   
 
@@ -355,7 +336,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
     float z = 0.0;
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(-height);m.normal.push_back(1.0);
-    m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5);m.texture.push_back(0.5);
     m.num_vertex++;
 
@@ -365,7 +345,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(-height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(lats));m.texture.push_back(0.5+0.5*sin(lats));
     m.num_vertex++;
 
@@ -380,7 +359,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(-height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(l));m.texture.push_back(0.5+0.5*sin(l));
     m.num_vertex++;   
 
@@ -398,7 +376,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(radius2*(radius2-radius1)/height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(lats/(2*PI));m.texture.push_back(0);
     m.num_vertex++;
 
@@ -413,7 +390,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(radius2*(radius2-radius1)/height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(l/(2*PI));m.texture.push_back(0);
     m.num_vertex++; 
 
@@ -423,7 +399,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(radius2*(radius2-radius1)/height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(lats/(2*PI));m.texture.push_back(1);
     m.num_vertex++;
 
@@ -438,7 +413,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(radius2*(radius2-radius1)/height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(l/(2*PI));m.texture.push_back(0);
     m.num_vertex++; 
 
@@ -448,7 +422,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(radius2*(radius2-radius1)/height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(lats/(2*PI));m.texture.push_back(1);
     m.num_vertex++;
 
@@ -463,7 +436,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(x);m.normal.push_back(y);m.normal.push_back(radius2*(radius2-radius1)/height);m.normal.push_back(1.0);
-    m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(l/(2*PI));m.texture.push_back(1);
     m.num_vertex++; 
 
@@ -477,7 +449,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
     float z = height;
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(height);m.normal.push_back(1.0);
-    m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5);m.texture.push_back(0.5);
     m.num_vertex++;
 
@@ -487,7 +458,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(lats));m.texture.push_back(0.5+0.5*sin(lats));
     m.num_vertex++;
 
@@ -502,7 +472,6 @@ Model Model::draw_frustum(double radius1, double radius2, double height, int Lat
 
     m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
     m.normal.push_back(0);m.normal.push_back(0);m.normal.push_back(height);m.normal.push_back(1.0);
-    m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(0.5);m.color.push_back(1.0);
     m.texture.push_back(0.5+0.5*cos(l));m.texture.push_back(0.5+0.5*sin(l));
     m.num_vertex++;
 
