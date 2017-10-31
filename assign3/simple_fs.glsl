@@ -73,19 +73,18 @@ void main () {
     }
 
     if(s3 > 0.5) {
-        vec4 spotlightPos = viewMatrix * vec4(0.0, 2.0, 0.0, 1.0);
+        vec4 spotlightPos = viewMatrix * vec4(0.0, 6.0, 0.0, 1.0);
         vec3 spotlightDir = vec3(spotlightPos - ecPos);
-        float dist = length(spotlightDir);
         float dotProduct = dot(n,normalize(spotlightDir));
         float intensity =  max( dotProduct, 0.0);
 
-        vec3 spotDirection = vec3(0.0, -1.0, 0.0); // Axis of the cone
+        vec3 spotDirection = ((viewMatrix * vec4(0.0, 0.0, 0.0, 0.0)) - spotlightPos).xyz; // Axis of the cone
 
         if(intensity > 0.2) {
             vec3 e = normalize(vec3(eye));
             vec3 h = normalize(spotlightDir + e );
             float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
-            if(spotEffect > 0.9) {
+            if(spotEffect > 0.4) {
                 color += spotEffect * (diffuse * intensity + ambient) * texImage;
                 float intSpec = max(dot(h,n), 0.0);
                 spec = specular * pow(intSpec, shininess);
