@@ -153,10 +153,10 @@ Model Model::draw_ground()
 {
   Model m;
   glm::vec4 positions[4] = {
-    glm::vec4(-40,-4.5,-40, 1.0),
-    glm::vec4(40, -4.5, -40, 1.0),
-    glm::vec4(-40, -4.5, 40, 1.0),
-    glm::vec4(40, -4.5,40, 1.0),
+    glm::vec4(-50,2.0, -50.0, 1.0),
+    glm::vec4(50, 2.0, -50.0, 1.0),
+    glm::vec4(-50, 2.0, 50, 1.0),
+    glm::vec4(50, 2.0,50, 1.0),
 
   };
   glm::vec4 normals[1] = {

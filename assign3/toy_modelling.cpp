@@ -30,7 +30,7 @@ void initVertexBufferGL(void)
 
   node* node1;
 
-  GLuint sky = LoadTexture("images/sky.bmp",225,225);
+  GLuint sky = LoadTexture("images/sky.bmp",960,540);
   GLuint grass = LoadTexture("images/grass.bmp",736,736);
   
   GLuint skin = LoadTexture("images/skin.bmp",1600,1600);
@@ -204,7 +204,7 @@ void initVertexBufferGL(void)
 
   m = Model::draw_ground();
   ground = new node(NULL,m,grass);
-  ground->change_parameters(0,-6,0,15,45,0.0);
+  ground->change_parameters(0,-6,-12,15,45,0.0);
 
   m = Model::draw_sphere(50.0,30,30);
   dome = new node(NULL,m,sky);
