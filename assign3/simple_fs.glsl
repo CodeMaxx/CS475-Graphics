@@ -7,7 +7,7 @@ in vec2 tex;
 
 uniform mat4 viewMatrix;
 in vec4 ecPos;
-uniform sampler2D texture;
+uniform sampler2D texture1;
 
 out vec4 frag_color;
 
@@ -23,10 +23,10 @@ void main () {
     float shininess = 1.0;
     vec4 spec = vec4(0.5);
 
-    vec4 texImage = texture2D(texture, tex);
+    vec4 texImage = texture(texture1, tex);
 
     // Defining Light
-    vec4 lightPos1 = vec4(0.0, 1.0, 1.0, 0.0);
+    vec4 lightPos1 = vec4(1.0, 1.0, 1.0, 0.0);
     vec3 lightDir1 = vec3(viewMatrix * lightPos1);
     lightDir1 = normalize(lightDir1);
 
@@ -72,7 +72,7 @@ void main () {
     }
 
     if(s3 > 0.5) {
-        vec4 spotlightPos = vec4(0.0, 1.0, 0.0, 1.0);
+        vec4 spotlightPos = vec4(0.0, 2.0, 0.0, 1.0);
         vec3 spotlightDir = vec3(spotlightPos - ecPos);
         float dist = length(spotlightDir);
         float dotProduct = dot(n,normalize(spotlightDir));
