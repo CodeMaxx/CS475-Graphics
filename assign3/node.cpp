@@ -99,7 +99,7 @@ void node::render(std::vector<glm::mat4>* matrixStack){
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4);
 	}
-	else
+	else if(model.type==2)
 	{
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glDrawArrays(GL_TRIANGLES, 0, model.pts.size()/4/4);
@@ -107,6 +107,14 @@ void node::render(std::vector<glm::mat4>* matrixStack){
 		glDrawArrays(GL_TRIANGLES, model.pts.size()/4/4, model.pts.size()/4/2);
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glDrawArrays(GL_TRIANGLES, model.pts.size()*3/4/4, model.pts.size()/4/4);
+	}
+	else if(model.type==3)
+	{
+		for(int i=0;i<6;i++){
+			glBindTexture(GL_TEXTURE_2D, tex);
+			glDrawArrays(GL_TRIANGLES, i*model.pts.size()/6/4, model.pts.size()/6/4);
+		}
+
 	}
 
 
