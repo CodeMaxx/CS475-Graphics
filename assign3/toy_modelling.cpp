@@ -205,11 +205,11 @@ void initVertexBufferGL(void)
 
   m = Model::draw_ground();
   ground = new node(NULL,m,tex);
-  ground->change_parameters(0,0,0,15,0.0,0.0);
+  ground->change_parameters(0,-3,0,15,0.0,0.0);
 
-  m = Model::draw_sphere(24.0,30,30);
+  m = Model::draw_sphere(50.0,30,30);
   dome = new node(NULL,m,tex1);
-  dome->change_parameters(0,0,21,0,0.0,0.0);
+  dome->change_parameters(0,0,0,0,0.0,0.0);
 }
 
 void renderGL(void)
@@ -279,7 +279,7 @@ void renderGL(void)
   stretch[0]->render_tree(&matrixStack2);
 
   ground->render_tree(&matrixStack3);
-  // dome->render_tree(&matrixStack4);
+  dome->render_tree(&matrixStack4);
 
 }
 
