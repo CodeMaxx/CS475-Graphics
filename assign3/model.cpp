@@ -104,11 +104,11 @@ void quad(Model* m, glm::vec4 positions[], glm::vec4 normals[],int face, int a, 
   m->pts.push_back(positions[c][0]);m->pts.push_back(positions[c][1]);m->pts.push_back(positions[c][2]);m->pts.push_back(positions[c][3]);
   m->pts.push_back(positions[d][0]);m->pts.push_back(positions[d][1]);m->pts.push_back(positions[d][2]);m->pts.push_back(positions[d][3]);
   m->texture.push_back(0.0);m->texture.push_back(0.0);
-  m->texture.push_back(1.0);m->texture.push_back(0.0);
-  m->texture.push_back(0.0);m->texture.push_back(1.0);
-  m->texture.push_back(1.0);m->texture.push_back(0.0);
-  m->texture.push_back(0.0);m->texture.push_back(1.0);
-  m->texture.push_back(1.0);m->texture.push_back(1.0);
+  m->texture.push_back(4.0);m->texture.push_back(0.0);
+  m->texture.push_back(0.0);m->texture.push_back(4.0);
+  m->texture.push_back(4.0);m->texture.push_back(0.0);
+  m->texture.push_back(0.0);m->texture.push_back(4.0);
+  m->texture.push_back(4.0);m->texture.push_back(4.0);
   for(int i=0;i<6;i++){
      m->normal.push_back(normals[face][0]);m->normal.push_back(normals[face][1]);m->normal.push_back(normals[face][2]);m->normal.push_back(normals[face][3]);
      m->color.push_back(0.5);m->color.push_back(0.0);m->color.push_back(0.5);m->color.push_back(1.0);
