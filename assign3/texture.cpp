@@ -12,9 +12,9 @@ GLuint LoadTexture( const char * filename, int width, int height )
     unsigned int size; //w*h*3
     unsigned char * data; // Data in RGB FORMAT
     FILE * file;
-    
-    file = fopen( filename, "rb" ); 
-    if ( file == NULL ) return 0;  // if file is empty 
+
+    file = fopen( filename, "rb" );
+    if ( file == NULL ) return 0;  // if file is empty
     if (fread(header,1,54,file)!=54)
       {
 	printf("Incorrect BMP file\n");
@@ -28,7 +28,7 @@ GLuint LoadTexture( const char * filename, int width, int height )
     h = *(int*)&(header[0x16]);
 
     //Just in case metadata is missing
-    if(size == 0) 
+    if(size == 0)
       size = w*h*3;
     if(pos == 0)
       pos = 54;
@@ -41,15 +41,15 @@ GLuint LoadTexture( const char * filename, int width, int height )
 
     glGenTextures( 1, &texture );
     glBindTexture( GL_TEXTURE_2D, texture );
-    
+
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-   
+
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-    
+
     free( data );
     return texture;// return the texture id
 }
