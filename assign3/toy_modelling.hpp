@@ -21,7 +21,7 @@ GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
 
 //! Global translation
-int g_xtrans = 0, g_ytrans = 0, g_ztrans = 0;
+int g_xtrans = 0, g_ytrans = 0, g_ztrans = -160;
 float trans_factor = 0.2;
 int g_xtheta=0, g_ytheta=0, g_ztheta=0;
 float rot_factor = 0.1;

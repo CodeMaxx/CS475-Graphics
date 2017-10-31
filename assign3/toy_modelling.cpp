@@ -226,7 +226,7 @@ void initVertexBufferGL(void)
 
   m = Model::draw_frustum(0.2,0.4,0.5,30);
   slight = new node(NULL,m,splight);
-  slight->change_parameters(0,0,0,0,0.0,0.0);
+  slight->change_parameters(1.0, 15.0 - 17.0 * 0.2, -13.0 -19.0*0.2,0,0.0,0.0);
 }
 
 void renderGL(void)
@@ -262,7 +262,7 @@ void renderGL(void)
   glm::vec4 c_pos = glm::vec4(c_xpos,c_ypos,c_zpos, 1.0)*c_rotation_matrix;
   glm::vec4 c_up = glm::vec4(c_up_x,c_up_y,c_up_z, 1.0)*c_rotation_matrix;
   //Creating the lookat matrix
-  lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(1.5,0,0),glm::vec3(c_up));
+  lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(1.5,0,-32.0),glm::vec3(c_up));
 
   //creating the projection matrix
   if(enable_perspective)

@@ -73,7 +73,7 @@ void main () {
     }
 
     if(s3 > 0.5) {
-        vec4 spotlightPos = viewMatrix * vec4(1.0, 15.0, -27.0, 1.0);
+        vec4 spotlightPos = viewMatrix * vec4(1.0, 15.0, -13.0, 1.0);
         vec3 spotlightDir = vec3(spotlightPos - ecPos);
         float dotProduct = dot(n,normalize(spotlightDir));
         float intensity =  max( dotProduct, 0.0);
@@ -84,11 +84,11 @@ void main () {
             vec3 e = normalize(vec3(eye));
             vec3 h = normalize(spotlightDir + e );
             float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
-            if(spotEffect > 0.8) {
+            if(spotEffect > 0.4) {
                 color += spotEffect * (diffuse * intensity + ambient) * texImage;
                 float intSpec = max(dot(h,n), 0.0);
                 spec = specular * pow(intSpec, shininess);
-                color += 5 * spotEffect * spec * texImage;
+                color += spotEffect * spec * texImage;
             }
         }
     }
