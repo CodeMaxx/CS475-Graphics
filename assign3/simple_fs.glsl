@@ -23,6 +23,7 @@ void main () {
     float shininess = 1.0;
     vec4 spec = vec4(0.5);
 
+    // vec4 texImage = texture2D(texture1, tex);
     vec4 texImage = texture(texture1, tex);
 
     // Defining Light
