@@ -17,9 +17,9 @@ in float s3;
 
 void main () {
     // Defining Materials
-    vec4 diffuse = vec4(2.0, 2.0, 2.0, 1.0);
+    vec4 diffuse = vec4(0.45, 0.45, 0.45, 1.0);
     vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);
-    vec4 specular = vec4(0.5, 0.5, 0.5, 1.0);
+    vec4 specular = vec4(0.2, 0.2, 0.2, 1.0);
     float shininess = 1.0;
     vec4 spec = vec4(0.5);
 
@@ -73,7 +73,7 @@ void main () {
     }
 
     if(s3 > 0.5) {
-        vec4 spotlightPos = viewMatrix * vec4(1.0, 10.0, 0.0, 1.0);
+        vec4 spotlightPos = viewMatrix * vec4(1.0, 10.0, -2.0, 1.0);
         vec3 spotlightDir = vec3(spotlightPos - ecPos);
         float dotProduct = dot(n,normalize(spotlightDir));
         float intensity =  max( dotProduct, 0.0);

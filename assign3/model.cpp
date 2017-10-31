@@ -25,7 +25,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
       m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(last_lat1/PI);m.texture.push_back(last_long/(2*PI));
+      m.texture.push_back(100*last_lat1/PI);m.texture.push_back(100*last_long/(2*PI));
       m.num_vertex++;
 
       //last 2
@@ -36,7 +36,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
       m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(last_lat2/PI);m.texture.push_back(last_long/(2*PI));
+      m.texture.push_back(100*last_lat2/PI);m.texture.push_back(100*last_long/(2*PI));
       m.num_vertex++;
 
       // now 3
@@ -47,7 +47,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
   	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	  m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
   	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(lats/PI);m.texture.push_back(longs/(2*PI));
+      m.texture.push_back(100*lats/PI);m.texture.push_back(100*longs/(2*PI));
   	  m.num_vertex++;
 
       //last 2
@@ -58,7 +58,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
       m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(last_lat2/PI);m.texture.push_back(last_long/(2*PI));
+      m.texture.push_back(100*last_lat2/PI);m.texture.push_back(100*last_long/(2*PI));
       m.num_vertex++;
 
       x = radius * sin(lats) * cos(longs);
@@ -68,7 +68,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
       m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
       m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
       m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(lats/PI);m.texture.push_back(longs/(2*PI));
+      m.texture.push_back(100*lats/PI);m.texture.push_back(100*longs/(2*PI));
       m.num_vertex++;
       last_lat1 = lats;
       last_long = longs;
@@ -85,7 +85,7 @@ Model Model::draw_sphere(double radius, int Lats, int Longs)
   	  m.pts.push_back(x);m.pts.push_back(y);m.pts.push_back(z);m.pts.push_back(1.0);
   	  m.normal.push_back(-x);m.normal.push_back(-y);m.normal.push_back(-z);m.normal.push_back(1.0);
   	  m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);m.color.push_back(1.0);
-      m.texture.push_back(l/PI);m.texture.push_back(longs/(2*PI));
+      m.texture.push_back(100*l/PI);m.texture.push_back(100*longs/(2*PI));
   	  m.num_vertex++;
       last_lat2 = l;
   	}

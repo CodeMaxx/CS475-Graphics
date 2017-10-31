@@ -204,7 +204,7 @@ void initVertexBufferGL(void)
 
   m = Model::draw_ground();
   ground = new node(NULL,m,grass);
-  ground->change_parameters(0,-3,0,15,0.0,0.0);
+  ground->change_parameters(0,-6,0,15,45,0.0);
 
   m = Model::draw_sphere(50.0,30,30);
   dome = new node(NULL,m,sky);
@@ -250,7 +250,7 @@ void renderGL(void)
     projection_matrix = glm::frustum(-7.0, 7.0, -7.0, 7.0, 1.0, 7000.0);
     //projection_matrix = glm::perspective(glm::radians(90.0),1.0,0.1,5.0);
   else
-    projection_matrix = glm::ortho(-12.0, 12.0, -12.0, 12.0, -5.0, 10.0);
+    projection_matrix = glm::ortho(-12.0, 12.0, -12.0, 12.0, -5.0, 100.0);
 
   glm::mat4 id = glm::mat4(1.0f);
 
