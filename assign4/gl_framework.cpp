@@ -156,31 +156,31 @@ namespace cse
                             break;
 
         // Rotation about X, Y, Z respectively
-        case GLFW_KEY_D:  g_ytheta -= 10;
+        case GLFW_KEY_D:  g_ytheta -= 100;
                             break;
-        case GLFW_KEY_A:  g_ytheta += 10;
+        case GLFW_KEY_A:  g_ytheta += 100;
                             break;
-        case GLFW_KEY_W:  g_xtheta += 10;
+        case GLFW_KEY_W:  g_xtheta += 100;
                             break;
-        case GLFW_KEY_S:  g_xtheta -= 10;
+        case GLFW_KEY_S:  g_xtheta -= 100;
                             break;
-        case GLFW_KEY_E:  g_ztheta -= 10;
+        case GLFW_KEY_E:  g_ztheta -= 100;
                             break;
-        case GLFW_KEY_Q:  g_ztheta += 10;
+        case GLFW_KEY_Q:  g_ztheta += 100;
                             break;
 
         // Translation along positive Y, X, Z respectively
-        case GLFW_KEY_C:  g_ytrans += 10;
+        case GLFW_KEY_C:  g_ytrans += 100;
                             break;
-        case GLFW_KEY_V:  g_ytrans -= 10;
+        case GLFW_KEY_V:  g_ytrans -= 100;
                             break;
-        case GLFW_KEY_B:  g_xtrans += 10;
+        case GLFW_KEY_B:  g_xtrans += 100;
                             break;
-        case GLFW_KEY_N:  g_xtrans -= 10;
+        case GLFW_KEY_N:  g_xtrans -= 100;
                             break;
-        case GLFW_KEY_M:  g_ztrans += 10;
+        case GLFW_KEY_M:  g_ztrans += 100;
                             break;
-        case GLFW_KEY_COMMA:  g_ztrans -= 10;
+        case GLFW_KEY_COMMA:  g_ztrans -= 100;
                             break;
       }
     }

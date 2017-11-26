@@ -57,21 +57,27 @@ void dumpFrame() {
 std::vector<std::vector<double>> interpolate_two_frames(int t){
   std::vector<std::vector<double>> i_frames;
 
-  for(int k = 0; k < 3; k++) {
-    for(int i=0;i<24;i++){
-      std::vector<double> frame;
-      for(int j=0;j<keyframes[t].size() - 6;j++){
-        frame.push_back((keyframes[t+k][j]*(24-i)+keyframes[t+k+1][j]*i)/24);
-      }
-      for(int j = keyframes[t].size() - 6; j < keyframes[t]; j++) {
+  // for(int k = 0; k < 3; k++) {
+  //   for(int i=0;i<24;i++){
+  //     std::vector<double> frame;
+  //     for(int j=0;j<keyframes[t].size() - 6;j++){
+  //       frame.push_back((keyframes[t+k][j]*(24-i)+keyframes[t+k+1][j]*i)/24);
+  //     }
+  //     for(int j = keyframes[t].size() - 6; j < keyframes[t]; j++) {
 
-        double t1 = ((72-(i + k*24))/72.0);
-        double t2 = (i+k*24)/72.0;
-        frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
-      }
-      i_frames.push_back(frame);
-      frame.clear();
+  //       double t1 = ((72-(i + k*24))/72.0);
+  //       double t2 = (i+k*24)/72.0;
+  //       frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
+  //     }
+  //     i_frames.push_back(frame);
+  //     frame.clear();
+  //   }
+  for(int i=0;i<24;i++){
+    std::vector<double> frame;
+    for(int j=0;j<keyframes[t].size();j++){
+      frame.push_back((keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
     }
+    i_frames.push_back(frame);
   }
 
   return i_frames;
