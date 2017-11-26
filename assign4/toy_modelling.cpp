@@ -2,6 +2,7 @@
 #include "texture.hpp"
 #include <fstream>
 #include <sstream>
+#include <string>
 
 void initShadersGL(void)
 {
@@ -17,9 +18,9 @@ void initShadersGL(void)
 }
 
 void dumpFrame() {
-  ofstream frame_records;
-  frame_records.open("frame_records", ios::app);
-  frame_records << "blabla";
+  std::ofstream frame_records;
+  frame_records.open("frame_records", std::ios::app);
+  frame_records << std::to_string(switch1) + " " + std::to_string(switch2) + " " + std::to_string(switch3) + " " + std::to_string(enable_perspective);
 }
 
 void loadWoody()

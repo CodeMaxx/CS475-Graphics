@@ -28,12 +28,8 @@ float rot_factor = 0.1;
 
 double w_size = 7.0;
 
-//Running variable to toggle culling on/off
-bool enable_culling=true;
-//Running variable to toggle wireframe/solid modelling
-bool solid=true;
 //Enable/Disable perspective view
-bool enable_perspective=false;
+bool enable_perspective=false, enable_playback = false;
 //Shader program attribs
 GLuint vPosition,vColor, vNormal, texCoord, nodeNum;
 GLuint uModelViewMatrix, viewMatrix, normalMatrix;

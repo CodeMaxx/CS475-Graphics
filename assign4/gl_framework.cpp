@@ -1,6 +1,6 @@
 #include "gl_framework.hpp"
 #include "node.hpp"
-#include "toy_modelling.hpp"
+// #include "toy_modelling.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -164,7 +164,7 @@ namespace cse
         // Toggle between recording and playback mode
         case GLFW_KEY_R: enable_playback = !enable_playback;
                             break;
-        case GLFW_KEY_T: dumpFrame();
+        // case GLFW_KEY_T: dumpFrame();
                             break;
       }
     }
