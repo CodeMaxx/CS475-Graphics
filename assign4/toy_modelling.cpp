@@ -60,7 +60,10 @@ std::vector<std::vector<double>> interpolate_two_frames(int t){
     std::vector<double> frame;
     for(int j=0;j<keyframes[t].size();j++){
       frame.push_back((keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
+     if(t == 4)
+      printf("%lf ", (keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
     }
+    printf("\n");
     i_frames.push_back(frame);
   }
   return i_frames;
@@ -516,7 +519,7 @@ int main(int argc, char** argv)
     {
       if(enable_playback && glfwGetTime()>num_frames*timer){
         // std::cout<<fps<<std::endl;
-        std::cout<<glfwGetTime()<<std::endl;
+        // std::cout<<glfwGetTime()<<std::endl;
         applyFrame(num_frames);
         // capture_frame(num_frames);
         num_frames++;
