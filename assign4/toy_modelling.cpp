@@ -158,7 +158,7 @@ void capture_frame(unsigned int framenum)
   std::ofstream out(filename, std::ios::out);
   out<<"P6"<<std::endl;
   out<<SCREEN_WIDTH<<" "<<SCREEN_HEIGHT<<" 255"<<std::endl;
-  out.write(reinterpret_cast<char const *>(pRGB), (3 * (SCREEN_WIDTH+1) * (SCREEN_HEIGHT + 1)));
+  out.write(reinterpret_cast<char const *>(pRGB), (3 * (SCREEN_WIDTH+1) * (SCREEN_HEIGHT + 1)) * sizeof(int));
   out.close();
 
   //function to store pRGB in a file named count
