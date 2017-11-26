@@ -94,6 +94,7 @@ namespace cse
         }
       }
 
+      if(action == GLFW_PRESS) {
       switch(key) {
         // Woody hip
         case GLFW_KEY_0: curr_node = woody[0];
@@ -183,6 +184,7 @@ namespace cse
                             break;
       }
     }
+  }
 
 
     if(mods % 2 == GLFW_MOD_SHIFT) {
