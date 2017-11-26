@@ -60,10 +60,11 @@ std::vector<std::vector<double>> interpolate_two_frames(int t){
     std::vector<double> frame;
     for(int j=0;j<keyframes[t].size();j++){
       frame.push_back((keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
-     if(t == 4)
+     if(i%12==0 && i/12>0 && t==9)
       printf("%lf ", (keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
+     if(i%12==0 && i/12>0 && t==9 && j==177) 
+      printf("\n");
     }
-    printf("\n");
     i_frames.push_back(frame);
   }
   return i_frames;
