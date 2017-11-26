@@ -29,7 +29,7 @@ float rot_factor = 0.1;
 double w_size = 7.0;
 
 //Enable/Disable perspective view
-bool enable_perspective=false, enable_playback = false;
+bool enable_perspective=true, enable_playback = false;
 //Shader program attribs
 GLuint vPosition,vColor, vNormal, texCoord, nodeNum;
 GLuint uModelViewMatrix, viewMatrix, normalMatrix;
