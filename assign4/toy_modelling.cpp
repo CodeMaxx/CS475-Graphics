@@ -547,7 +547,7 @@ int main(int argc, char** argv)
         // std::cout<<fps<<std::endl;
         // std::cout<<glfwGetTime()<<std::endl;
         applyFrame(num_frames);
-        // capture_frame(num_frames);
+        capture_frame(num_frames);
         num_frames++;
         if(num_frames == allframes.size())
             enable_playback = 0;
