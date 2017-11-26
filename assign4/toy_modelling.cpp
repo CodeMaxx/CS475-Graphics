@@ -56,21 +56,37 @@ void dumpFrame() {
 
 std::vector<std::vector<double>> interpolate_two_frames(int t){
   std::vector<std::vector<double>> i_frames;
-  for(int i=0;i<24;i++){
-    std::vector<double> frame;
-    for(int j=0;j<keyframes[t].size();j++){
-      frame.push_back((keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
-     if(t == 4)
-      printf("%lf ", (keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
+
+  for(int k = 0; k < 3; k++) {
+    for(int i=0;i<24;i++){
+      std::vector<double> frame;
+      for(int j=0;j<keyframes[t].size() - 6;j++){
+        frame.push_back((keyframes[t+k][j]*(24-i)+keyframes[t+k+1][j]*i)/24);
+      }
+      for(int j = keyframes[t].size() - 6; j < keyframes[t]; j++) {
+
+        double t1 = ((72-(i + k*24))/72.0);
+        double t2 = (i+k*24)/72.0;
+        frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
+      }
+      i_frames.push_back(frame);
+      frame.clear();
     }
-    printf("\n");
-    i_frames.push_back(frame);
   }
+
   return i_frames;
 }
 
+// void interpolate_all_frames(){
+//   for(int i=0;i<keyframes.size()-1;i++){
+//     std::vector<std::vector<double>> frames = interpolate_two_frames(i);
+//     allframes.insert(allframes.end(),frames.begin(),frames.end());
+//   }
+//   allframes.push_back(keyframes[keyframes.size()-1]);
+// }
+
 void interpolate_all_frames(){
-  for(int i=0;i<keyframes.size()-1;i++){
+  for(int i=0;i<keyframes.size()-3;i+=3){
     std::vector<std::vector<double>> frames = interpolate_two_frames(i);
     allframes.insert(allframes.end(),frames.begin(),frames.end());
   }
