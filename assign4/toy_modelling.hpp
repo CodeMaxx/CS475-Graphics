@@ -72,4 +72,6 @@ int total_nodes=0;
 
 node* curr_node;
 
+void dumpFrame();
+
 #endif

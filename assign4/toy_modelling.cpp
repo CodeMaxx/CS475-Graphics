@@ -1,5 +1,7 @@
 #include "toy_modelling.hpp"
 #include "texture.hpp"
+#include <fstream>
+#include <sstream>
 
 void initShadersGL(void)
 {
@@ -12,6 +14,12 @@ void initShadersGL(void)
 
   shaderProgram = cse::CreateProgramGL(shaderList);
 
+}
+
+void dumpFrame() {
+  ofstream frame_records;
+  frame_records.open("frame_records", ios::app);
+  frame_records << "blabla";
 }
 
 void loadWoody()
