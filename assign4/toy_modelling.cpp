@@ -94,7 +94,10 @@ void read_keyframes() {
     frame_records.close();
     interpolate_all_frames();
   }
-  else std::cout << "Unable to open keyframes.txt file";
+  else {
+    enable_playback = 0;
+    std::cout << "Unable to open keyframes.txt file";
+  }
 }
 
 
@@ -134,6 +137,34 @@ void applyFrame(int kf_num) {
   g_ytrans = frame[j++];
   g_ztrans = frame[j++];
 }
+
+
+void capture_frame(unsigned int framenum)
+{
+  //global pointer float *pRGB
+  pRGB = new unsigned char [3 * (SCREEN_WIDTH+1) * (SCREEN_HEIGHT + 1) ];
+
+
+  // set the framebuffer to read
+  //default for double buffered
+  glReadBuffer(GL_BACK);
+
+  glPixelStoref(GL_PACK_ALIGNMENT,1);//for word allignment
+
+  glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pRGB);
+  if (GL_NO_ERROR != glGetError()) throw "Error: Unable to read pixels.";
+  char filename[200];
+  sprintf(filename,"frame_%04d.ppm",framenum);
+  std::ofstream out(filename, std::ios::out);
+  out<<"P6"<<std::endl;
+  out<<SCREEN_WIDTH<<" "<<SCREEN_HEIGHT<<" 255"<<std::endl;
+  out.write(reinterpret_cast<char const *>(pRGB), (3 * (SCREEN_WIDTH+1) * (SCREEN_HEIGHT + 1)));
+  out.close();
+
+  //function to store pRGB in a file named count
+  delete pRGB;
+}
+
 
 void loadWoody()
 {
@@ -442,7 +473,7 @@ int main(int argc, char** argv)
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   //! Create a windowed mode window and its OpenGL context
-  window = glfwCreateWindow(640, 480, "CS475/CS675 OpenGL Framework", NULL, NULL);
+  window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "CS475/CS675 OpenGL Framework", NULL, NULL);
   if (!window)
     {
       glfwTerminate();
@@ -488,7 +519,10 @@ int main(int argc, char** argv)
         // std::cout<<fps<<std::endl;
         std::cout<<glfwGetTime()<<std::endl;
         applyFrame(num_frames);
+        capture_frame(num_frames);
         num_frames++;
+        if(num_frames == allframes.size())
+            enable_playback = 0;
       }
       // Render here
       renderGL();

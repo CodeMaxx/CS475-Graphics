@@ -72,6 +72,10 @@ node* curr_node;
 int num_frames = 0;
 double timer = 1.0/24;
 
+int SCREEN_WIDTH=640;
+int SCREEN_HEIGHT=480;
+unsigned char *pRGB;
+
 std::vector<std::vector<double>> keyframes;
 std::vector<std::vector<double>> allframes;
 

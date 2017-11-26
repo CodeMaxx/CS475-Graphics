@@ -2,6 +2,7 @@
 #include "node.hpp"
 #include <fstream>
 #include <sstream>
+#include <cstdio>
 
 extern GLfloat c_xrot,c_yrot,c_zrot;
 extern bool enable_perspective;
@@ -86,6 +87,9 @@ namespace cse
                               glfwSetTime(0.0);
                               num_frames=0;
                             }
+                              break;
+          // Delete keyframe.txt
+          case GLFW_KEY_Y: remove("keyframes.txt");
                               break;
         }
       }
