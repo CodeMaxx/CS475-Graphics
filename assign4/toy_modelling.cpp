@@ -361,8 +361,14 @@ int main(int argc, char** argv)
   initVertexBufferGL();
 
   // Loop until the user closes the window
+  GLfloat timer = 1.0;
+  int num_frames=1;
   while (glfwWindowShouldClose(window) == 0)
     {
+      if(glfwGetTime()>num_frames*timer){
+        num_frames++;
+        std::cout<<glfwGetTime()<<std::endl;
+      }
       // Render here
       renderGL();
 
