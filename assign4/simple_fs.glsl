@@ -84,7 +84,7 @@ void main () {
             vec3 e = normalize(vec3(eye));
             vec3 h = normalize(spotlightDir + e );
             float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
-            if(spotEffect > 0.4) {
+            if(spotEffect > 0.8) {
                 color += spotEffect * (diffuse * intensity + ambient) * texImage;
                 float intSpec = max(dot(h,n), 0.0);
                 spec = specular * pow(intSpec, shininess);

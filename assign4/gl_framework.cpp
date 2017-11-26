@@ -1,10 +1,12 @@
 #include "gl_framework.hpp"
 #include "node.hpp"
+#include "toy_modelling.hpp"
 #include <fstream>
 #include <sstream>
 
 extern GLfloat c_xrot,c_yrot,c_zrot;
 extern bool enable_perspective;
+extern bool enable_playback;
 extern node *node1, *curr_node;
 extern std::vector<node*> woody,stretch;
 extern int switch1, switch2, switch3;
@@ -159,7 +161,11 @@ namespace cse
         case GLFW_KEY_KP_6:  g_ztrans --;
                             break;
 
-
+        // Toggle between recording and playback mode
+        case GLFW_KEY_R: enable_playback = !enable_playback;
+                            break;
+        case GLFW_KEY_T: dumpFrame();
+                            break;
       }
     }
 
