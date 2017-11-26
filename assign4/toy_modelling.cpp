@@ -29,10 +29,14 @@ std::string itos(bool k) {
   return std::to_string(k) + " ";
 }
 
+double stodb(std::string s) {
+  return std::stod(s);
+}
+
 void dumpFrame() {
   std::ofstream frame_records;
   frame_records.open("keyframes.txt", std::ios::app);
-  frame_records << itos(switch1) + itos(switch2) + itos(switch3) + itos(enable_perspective) + itos(w_size);
+  frame_records << itos(switch1) + itos(switch2) + itos(switch3) + itos(w_size);
 
   for(auto k: woody) {
     frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
@@ -47,6 +51,64 @@ void dumpFrame() {
   frame_records << "\n";
 
   frame_records.close();
+}
+
+std::vector<double> parse_frame(std::string s) {
+  std::vector<double> frame;
+  std::istringstream is(s);
+  std::string part;
+  while(getline(is, part, ' ')) {
+    frame.push_back(stodb(part));
+  }
+  return frame;
+}
+
+void read_keyframes() {
+  std::string frame;
+  std::ifstream frame_records("keyframes.txt");
+  if(frame_records.is_open()) {
+    while(getline(frame_records, frame)) {
+      keyframes.push_back(parse_frame(frame));
+    }
+    frame_records.close();
+  }
+  else std::cout << "Unable to open keyframes.txt file";
+}
+
+
+void applyFrame(int kf_num) {
+  std::vector<double> frame = allframes[kf_num];
+  int j = 0;
+  switch1 = frame[j++] > 0.5 ? 1 : 0;
+  switch2 = frame[j++] > 0.5 ? 1 : 0;
+  switch3 = frame[j++] > 0.5 ? 1 : 0;
+
+  w_size = frame[j++];
+
+  for(auto k: woody) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+  }
+
+  for(auto k: stretch) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+  }
+
+  g_xtheta = frame[j++];
+  g_ytheta = frame[j++];
+  g_ztheta = frame[j++];
+  g_xtrans = frame[j++];
+  g_ytrans = frame[j++];
+  g_ztrans = frame[j++];
 }
 
 void loadWoody()

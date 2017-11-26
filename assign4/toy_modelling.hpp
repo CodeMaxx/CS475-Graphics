@@ -69,8 +69,11 @@ int total_nodes=0;
 
 node* curr_node;
 
-int num_frames=1;
+int num_frames = 0;
 GLfloat timer = 1.0;
+
+std::vector<std::vector<double>> keyframes;
+std::vector<std::vector<double>> allframes;
 
 void dumpFrame();
 std::vector<std::vector<double>> interpolate_two_frames(std::vector<double>, std::vector<double>);
