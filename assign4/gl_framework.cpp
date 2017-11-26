@@ -1,6 +1,5 @@
 #include "gl_framework.hpp"
 #include "node.hpp"
-// #include "toy_modelling.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -13,6 +12,7 @@ extern int switch1, switch2, switch3;
 extern double w_size;
 extern int g_xtrans, g_ytrans, g_ztrans, g_xtheta, g_ytheta, g_ztheta;
 extern float  trans_factor,rot_factor;
+extern void dumpFrame();
 
 namespace cse
 {
@@ -164,7 +164,7 @@ namespace cse
         // Toggle between recording and playback mode
         case GLFW_KEY_R: enable_playback = !enable_playback;
                             break;
-        // case GLFW_KEY_T: dumpFrame();
+        case GLFW_KEY_T: dumpFrame();
                             break;
       }
     }

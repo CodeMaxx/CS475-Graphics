@@ -17,10 +17,36 @@ void initShadersGL(void)
 
 }
 
+std::string itos(int k) {
+  return std::to_string(k) + " ";
+}
+
+std::string itos(double k) {
+  return std::to_string(k) + " ";
+}
+
+std::string itos(bool k) {
+  return std::to_string(k) + " ";
+}
+
 void dumpFrame() {
   std::ofstream frame_records;
   frame_records.open("frame_records", std::ios::app);
-  frame_records << std::to_string(switch1) + " " + std::to_string(switch2) + " " + std::to_string(switch3) + " " + std::to_string(enable_perspective);
+  frame_records << itos(switch1) + itos(switch2) + itos(switch3) + itos(enable_perspective) + itos(w_size);
+
+  for(auto k: woody) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+
+  for(auto k: stretch) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+
+  frame_records << itos(g_xtheta) + itos(g_ytheta) + itos(g_ztheta) + itos(g_xtrans) + itos(g_ytrans) + itos(g_ztrans);
+
+  frame_records << "\n";
+
+  frame_records.close();
 }
 
 void loadWoody()

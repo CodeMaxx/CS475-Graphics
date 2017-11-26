@@ -20,7 +20,6 @@ class node {
 	Model model;
 	int node_number;
 
-	GLfloat tx,ty,tz,rx,ry,rz;
 	glm::mat4 rotation;
 	glm::mat4 translation;
 
@@ -32,6 +31,7 @@ class node {
 	void update_matrices();
 
 	public:
+		GLfloat tx,ty,tz,rx,ry,rz;
 		node (node*, Model,GLuint);
 
 		void add_child(node*);
