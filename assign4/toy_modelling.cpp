@@ -396,11 +396,18 @@ int main(int argc, char** argv)
   initVertexBufferGL();
 
   // Loop until the user closes the window
+  int fps=0;
   while (glfwWindowShouldClose(window) == 0)
     {
+      if(glfwGetTime()>num_frames*timer){
+        num_frames++;
+        std::cout<<fps<<std::endl;
+        fps=0;
+        std::cout<<glfwGetTime()<<std::endl;
+      }
       // Render here
       renderGL();
-
+      fps++;
       // Swap front and back buffers
       glfwSwapBuffers(window);
 

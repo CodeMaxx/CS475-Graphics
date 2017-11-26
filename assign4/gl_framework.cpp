@@ -13,6 +13,7 @@ extern double w_size;
 extern int g_xtrans, g_ytrans, g_ztrans, g_xtheta, g_ytheta, g_ztheta;
 extern float  trans_factor,rot_factor;
 extern void dumpFrame();
+extern int num_frames;
 
 namespace cse
 {
@@ -163,6 +164,9 @@ namespace cse
 
         // Toggle between recording and playback mode
         case GLFW_KEY_R: enable_playback = !enable_playback;
+                          if(enable_playback)
+                            glfwSetTime(0.0);
+                            num_frames=1;
                             break;
         case GLFW_KEY_T: dumpFrame();
                             break;
