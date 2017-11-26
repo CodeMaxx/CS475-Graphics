@@ -71,6 +71,15 @@ namespace cse
                               break;
           case GLFW_KEY_X: w_size = w_size < 10.5 ? w_size + 0.5 : w_size;
                               break;
+          // Dump frame to file
+          case GLFW_KEY_T: dumpFrame();
+                            break;
+          // Toggle between recording and playback mode
+          case GLFW_KEY_R: enable_playback = !enable_playback;
+                            if(enable_playback)
+                              glfwSetTime(0.0);
+                              num_frames=1;
+                              break;
         }
       }
 
@@ -160,15 +169,6 @@ namespace cse
         case GLFW_KEY_KP_4:  g_ztrans ++;
                             break;
         case GLFW_KEY_KP_6:  g_ztrans --;
-                            break;
-
-        // Toggle between recording and playback mode
-        case GLFW_KEY_R: enable_playback = !enable_playback;
-                          if(enable_playback)
-                            glfwSetTime(0.0);
-                            num_frames=1;
-                            break;
-        case GLFW_KEY_T: dumpFrame();
                             break;
       }
     }

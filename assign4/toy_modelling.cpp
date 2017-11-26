@@ -31,7 +31,7 @@ std::string itos(bool k) {
 
 void dumpFrame() {
   std::ofstream frame_records;
-  frame_records.open("frame_records", std::ios::app);
+  frame_records.open("keyframes.txt", std::ios::app);
   frame_records << itos(switch1) + itos(switch2) + itos(switch3) + itos(enable_perspective) + itos(w_size);
 
   for(auto k: woody) {
