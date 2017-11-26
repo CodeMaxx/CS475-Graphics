@@ -152,7 +152,6 @@ void capture_frame(unsigned int framenum)
   glPixelStoref(GL_PACK_ALIGNMENT,1);//for word allignment
 
   glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pRGB);
-  if (GL_NO_ERROR != glGetError()) throw "Error: Unable to read pixels.";
   char filename[200];
   sprintf(filename,"frame_%04d.ppm",framenum);
   std::ofstream out(filename, std::ios::out);
