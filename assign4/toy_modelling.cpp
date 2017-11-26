@@ -49,6 +49,27 @@ void dumpFrame() {
   frame_records.close();
 }
 
+std::vector<std::vector<double>> interpolate_two_frames(std::vector<double> start, std::vector<double> end){
+  std::vector<std::vector<double>> i_frames;
+  for(int i=0;i<24;i++){
+    std::vector<double> frame;
+    for(int j=0;j<start.size();j++){
+      frame.push_back((start[j]*(24-i)+end[j]*i)/24);
+    }
+    i_frames.push_back(frame);
+  }
+  return i_frames;
+}
+
+std::vector<std::vector<double>> interpolate_all_frames(std::vector<std::vector<double>> keyframes){
+  std::vector<std::vector<double>> i_frames;
+  for(int i=0;i<keyframes.size()-1;i++){
+    std::vector<std::vector<double>> frames = interpolate_two_frames(keyframes[i],keyframes[i+1]);
+    i_frames.insert(i_frames.end(),frames.begin(),frames.end());
+  }
+  return i_frames;
+}
+
 void loadWoody()
 {
   node* node1;
