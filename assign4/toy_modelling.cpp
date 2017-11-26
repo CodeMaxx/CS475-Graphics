@@ -29,10 +29,14 @@ std::string itos(bool k) {
   return std::to_string(k) + " ";
 }
 
+double stodb(std::string s) {
+  return std::stod(s);
+}
+
 void dumpFrame() {
   std::ofstream frame_records;
   frame_records.open("keyframes.txt", std::ios::app);
-  frame_records << itos(switch1) + itos(switch2) + itos(switch3) + itos(enable_perspective) + itos(w_size);
+  frame_records << itos(switch1) + itos(switch2) + itos(switch3) + itos(w_size);
 
   for(auto k: woody) {
     frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
@@ -49,25 +53,86 @@ void dumpFrame() {
   frame_records.close();
 }
 
-std::vector<std::vector<double>> interpolate_two_frames(std::vector<double> start, std::vector<double> end){
+
+std::vector<std::vector<double>> interpolate_two_frames(int t){
   std::vector<std::vector<double>> i_frames;
   for(int i=0;i<24;i++){
     std::vector<double> frame;
-    for(int j=0;j<start.size();j++){
-      frame.push_back((start[j]*(24-i)+end[j]*i)/24);
+    for(int j=0;j<keyframes[t].size();j++){
+      frame.push_back((keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
     }
     i_frames.push_back(frame);
   }
   return i_frames;
 }
 
-std::vector<std::vector<double>> interpolate_all_frames(std::vector<std::vector<double>> keyframes){
-  std::vector<std::vector<double>> i_frames;
+void interpolate_all_frames(){
   for(int i=0;i<keyframes.size()-1;i++){
-    std::vector<std::vector<double>> frames = interpolate_two_frames(keyframes[i],keyframes[i+1]);
-    i_frames.insert(i_frames.end(),frames.begin(),frames.end());
+    std::vector<std::vector<double>> frames = interpolate_two_frames(i);
+    allframes.insert(allframes.end(),frames.begin(),frames.end());
   }
-  return i_frames;
+  allframes.push_back(keyframes[keyframes.size()-1]);
+}
+
+std::vector<double> parse_frame(std::string s) {
+  std::vector<double> frame;
+  std::istringstream is(s);
+  std::string part;
+  while(getline(is, part, ' ')) {
+    frame.push_back(stodb(part));
+  }
+  return frame;
+}
+
+void read_keyframes() {
+  std::string frame;
+  std::ifstream frame_records("keyframes.txt");
+  if(frame_records.is_open()) {
+    while(getline(frame_records, frame)) {
+      keyframes.push_back(parse_frame(frame));
+    }
+    frame_records.close();
+    interpolate_all_frames();
+  }
+  else std::cout << "Unable to open keyframes.txt file";
+}
+
+
+void applyFrame(int kf_num) {
+  std::vector<double> frame = allframes[kf_num];
+  int j = 0;
+  switch1 = frame[j++] > 0.5 ? 1 : 0;
+  switch2 = frame[j++] > 0.5 ? 1 : 0;
+  switch3 = frame[j++] > 0.5 ? 1 : 0;
+
+  w_size = frame[j++];
+
+  for(auto k: woody) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
+
+  for(auto k: stretch) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
+
+  g_xtheta = frame[j++];
+  g_ytheta = frame[j++];
+  g_ztheta = frame[j++];
+  g_xtrans = frame[j++];
+  g_ytrans = frame[j++];
+  g_ztrans = frame[j++];
 }
 
 void loadWoody()
@@ -417,18 +482,17 @@ int main(int argc, char** argv)
   initVertexBufferGL();
 
   // Loop until the user closes the window
-  int fps=0;
   while (glfwWindowShouldClose(window) == 0)
     {
-      if(glfwGetTime()>num_frames*timer){
-        num_frames++;
-        std::cout<<fps<<std::endl;
-        fps=0;
+      if(enable_playback && glfwGetTime()>num_frames*timer){
+        // std::cout<<fps<<std::endl;
         std::cout<<glfwGetTime()<<std::endl;
+        applyFrame(num_frames);
+        num_frames++;
       }
       // Render here
       renderGL();
-      fps++;
+      // fps++;
       // Swap front and back buffers
       glfwSwapBuffers(window);
 

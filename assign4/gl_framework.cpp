@@ -14,6 +14,8 @@ extern int g_xtrans, g_ytrans, g_ztrans, g_xtheta, g_ytheta, g_ztheta;
 extern float  trans_factor,rot_factor;
 extern void dumpFrame();
 extern int num_frames;
+extern std::vector<std::vector<double>> keyframes,allframes;
+extern void read_keyframes();
 
 namespace cse
 {
@@ -76,9 +78,14 @@ namespace cse
                             break;
           // Toggle between recording and playback mode
           case GLFW_KEY_R: enable_playback = !enable_playback;
-                            if(enable_playback)
+
+                            if(enable_playback){
+                              keyframes.clear();
+                              allframes.clear();
+                              read_keyframes();
                               glfwSetTime(0.0);
-                              num_frames=1;
+                              num_frames=0;
+                            }
                               break;
         }
       }

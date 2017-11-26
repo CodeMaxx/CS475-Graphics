@@ -28,9 +28,9 @@ class node {
 	std::vector<node*> children;
 	node* parent;
 
-	void update_matrices();
 
 	public:
+		void update_matrices();
 		GLfloat tx,ty,tz,rx,ry,rz;
 		node (node*, Model,GLuint);
 
