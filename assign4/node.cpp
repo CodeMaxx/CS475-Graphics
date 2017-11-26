@@ -174,6 +174,45 @@ void node::dec_rz(){
 }
 
 
+void node::inc_tx(){
+	if(node_number == 0 || node_number == 19)
+		tx += 1;
+	update_matrices();
+}
+
+
+void node::inc_ty(){
+	if(node_number == 0 || node_number == 19)
+		ty += 1;
+
+	update_matrices();
+}
+
+void node::inc_tz(){
+	if(node_number == 0 || node_number == 19)
+		tz += 1;
+	update_matrices();
+}
+
+void node::dec_tx(){
+	if(node_number == 0 || node_number == 19)
+		tx -= 1;
+	update_matrices();
+}
+
+void node::dec_ty(){
+	if(node_number == 0 || node_number == 19)
+		ty -= 1;
+	update_matrices();
+}
+
+void node::dec_tz(){
+	if(node_number == 0 || node_number == 19)
+		tz -= 1;
+	update_matrices();
+}
+
+
 glm::mat4* multiply_stack(std::vector<glm::mat4> matStack){
 	glm::mat4* mult;
 	mult = new glm::mat4(1.0f);

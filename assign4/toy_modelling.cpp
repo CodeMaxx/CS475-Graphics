@@ -128,7 +128,7 @@ void loadWoody()
   m = Model::draw_cuboid(0.5,0.7,0.2);
   node1 = new node(woody[3],m,boot);
   node1->change_parameters(0,0,2,0,0.0,0.0);
-  woody.push_back(node1); 
+  woody.push_back(node1);
 
   //right leg foot 18
   m = Model::draw_cuboid(0.5,0.7,0.2);
@@ -212,7 +212,7 @@ void initVertexBufferGL(void)
   GLuint sky = LoadTexture("images/sky.bmp",960,540);
   GLuint splight = LoadTexture("images/all1.bmp",256,256);
   GLuint grass = LoadTexture("images/grass.bmp",736,736);
-  
+
   loadWoody();
   loadStretch();
 

@@ -44,6 +44,12 @@ class node {
 		void dec_rx();
 		void dec_ry();
 		void dec_rz();
+		void inc_tx();
+		void inc_ty();
+		void inc_tz();
+		void dec_tx();
+		void dec_ty();
+		void dec_tz();
 };
 
 glm::mat4* multiply_stack(std::vector <glm::mat4> );

@@ -102,6 +102,8 @@ namespace cse
         // Woody right arm top
         case GLFW_KEY_9: curr_node = woody[12];
                           break;
+
+        // Character rotation
         case GLFW_KEY_LEFT: curr_node->dec_ry();
                             break;
         case GLFW_KEY_RIGHT: curr_node->inc_ry();
@@ -114,6 +116,21 @@ namespace cse
                             break;
         case GLFW_KEY_PAGE_DOWN: curr_node->inc_rz();
                             break;
+
+        // Character translation
+        case GLFW_KEY_F: curr_node->dec_ty();
+                            break;
+        case GLFW_KEY_G: curr_node->inc_ty();
+                            break;
+        case GLFW_KEY_H: curr_node->dec_tx();
+                            break;
+        case GLFW_KEY_J: curr_node->inc_tx();
+                            break;
+        case GLFW_KEY_K: curr_node->dec_tz();
+                            break;
+        case GLFW_KEY_L: curr_node->inc_tz();
+                            break;
+
         // Rotation about X, Y, Z respectively
         case GLFW_KEY_D:  g_ytheta --;
                             break;
@@ -141,6 +158,8 @@ namespace cse
                             break;
         case GLFW_KEY_KP_6:  g_ztrans --;
                             break;
+
+
       }
     }
 
