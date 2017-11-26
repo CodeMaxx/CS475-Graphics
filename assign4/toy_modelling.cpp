@@ -18,9 +18,9 @@ void initShadersGL(void)
 }
 
 void dumpFrame() {
-  std::ofstream frame_records;
-  frame_records.open("frame_records", std::ios::app);
-  frame_records << std::to_string(switch1) + " " + std::to_string(switch2) + " " + std::to_string(switch3) + " " + std::to_string(enable_perspective);
+  // std::ofstream frame_records;
+  // frame_records.open("frame_records", std::ios::app);
+  // frame_records << std::to_string(switch1) + " " + std::to_string(switch2) + " " + std::to_string(switch3) + " " + std::to_string(enable_perspective);
 }
 
 void loadWoody()
@@ -370,17 +370,18 @@ int main(int argc, char** argv)
   initVertexBufferGL();
 
   // Loop until the user closes the window
-  GLfloat timer = 1.0;
-  int num_frames=1;
+  int fps=0;
   while (glfwWindowShouldClose(window) == 0)
     {
       if(glfwGetTime()>num_frames*timer){
         num_frames++;
+        std::cout<<fps<<std::endl;
+        fps=0;
         std::cout<<glfwGetTime()<<std::endl;
       }
       // Render here
       renderGL();
-
+      fps++;
       // Swap front and back buffers
       glfwSwapBuffers(window);
 

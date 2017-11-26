@@ -68,6 +68,9 @@ int total_nodes=0;
 
 node* curr_node;
 
+int num_frames=1;
+GLfloat timer = 1.0;
+
 void dumpFrame();
 
 #endif
